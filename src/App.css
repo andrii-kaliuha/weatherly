@@ -1,0 +1,17 @@
+body {
+  background-color: #222;
+}
+
+main {
+  display: grid;
+  gap: 12px;
+  margin: 12px;
+  width: 100%;
+  max-width: 1280px;
+  grid-template-columns: repeat(2, 1fr); /* створить 4 рівні колонки */
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
