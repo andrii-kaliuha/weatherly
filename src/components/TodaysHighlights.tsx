@@ -62,7 +62,7 @@ const WeatherConditions = () => {
 
 const TodaysHighlights = () => {
   return (
-    <section className="bg-[#1d1c1f] text-[#dddae5] w-max p-6 rounded-3xl">
+    <section className="today-highlights-section bg-[#1d1c1f] text-[#dddae5] w-max p-6 rounded-3xl">
       <WeatherConditions />
     </section>
   );

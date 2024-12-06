@@ -1,17 +1,58 @@
-body {
-  background-color: #222;
+* {
+  box-sizing: border-box;
 }
 
-main {
-  display: grid;
-  gap: 12px;
-  margin: 12px;
-  width: 100%;
-  max-width: 1280px;
-  grid-template-columns: repeat(2, 1fr); /* створить 4 рівні колонки */
+body {
+  background-color: #222;
 }
 
 .wrapper {
   display: flex;
   justify-content: center;
 }
+
+main {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  width: 100%;
+  max-width: 1280px;
+  /* grid-template-columns: repeat(2, 1fr); */
+  /* grid-template-rows: repeat(3, 1fr); */
+  /* grid-template-areas:
+    "current-weather today-highlights today-highlights"
+    "weekly-forecast astronomy-information geography-information"
+    "day-in-history AQI AQIPopup"; */
+}
+/* 
+.current-weather-section {
+  grid-area: current-weather;
+}
+
+.today-highlights-section {
+  grid-area: today-highlights;
+}
+
+.weekly-forecast-section {
+  grid-area: weekly-forecast;
+}
+
+.astronomy-information-section {
+  grid-area: astronomy-information;
+}
+
+.geography-information-section {
+  grid-area: geography-information;
+}
+
+.day-in-history-section {
+  grid-area: day-in-history;
+}
+
+.AQI-section {
+  grid-area: AQI;
+}
+
+.AQIPopup-section {
+  grid-area: AQIPopup;
+} */

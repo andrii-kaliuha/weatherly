@@ -10,7 +10,7 @@ const information = [
 
 const GeographyInfo = () => {
   return (
-    <section className="bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl w-max">
+    <section className="geography-information-section bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl w-max">
       <ul className="flex flex-col gap-3">
         {information.map((item, index) => (
           <li key={index} className="flex items-center gap-6">

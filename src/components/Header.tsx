@@ -2,7 +2,7 @@ function Header() {
   return (
     <>
       <header className="flex justify-center bg-[#111]">
-        <nav className="flex items-center justify-between max-w-screen-xl w-full h-[90px] px-4">
+        <nav className="flex items-center justify-between max-w-screen-xl w-full h-[90px] px-3">
           <a href="">
             <img src="images/logo.png" alt="logo" className="w-[200px]" />
           </a>

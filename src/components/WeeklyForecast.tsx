@@ -10,7 +10,7 @@ const forecast = [
 
 const WeeklyForecast = () => {
   return (
-    <section className="bg-[#1d1c1f] text-[#dddae5] max-w-[388px] p-6 rounded-3xl">
+    <section className="weekly-forecast-section bg-[#1d1c1f] text-[#dddae5] max-w-[388px] p-6 rounded-3xl">
       <h2 className="text-xl font-bold mb-6">Weekly Forecast</h2>
       <ul className="flex flex-col gap-6">
         {forecast.map((item, index) => (

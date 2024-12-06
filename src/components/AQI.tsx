@@ -1,6 +1,6 @@
 const AQI = () => {
   return (
-    <section className="relative bg-[#1d1c1f] text-[#dddae5] w-96 rounded-3xl p-6">
+    <section className="AQI-section relative bg-[#1d1c1f] text-[#dddae5] w-96 rounded-3xl p-6">
       <h2 className="text-center leading-6">Якість повітря в Києві</h2>
       <div className="flex flex-col items-center gap-2.5 py-2.5">
         <div className="flex flex-col items-center justify-center border-4 border-[#ffe601] rounded-full h-28 w-28">
