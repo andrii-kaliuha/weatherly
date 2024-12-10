@@ -64,7 +64,20 @@ const TodaysHighlights = () => {
   return (
     <section className="today-highlights-section bg-[#1d1c1f] text-[#dddae5] w-max p-6 rounded-3xl">
       <WeatherConditions />
+      <WeatherLineChart />
     </section>
+  );
+};
+
+const WeatherLineChart = () => {
+  return (
+    <div className="flex">
+      <ul className="w-10 bg-black"></ul>
+      <div>
+        <div className="h-10 w-10 bg-black"></div>
+        <ul className="w-10 bg-black"></ul>
+      </div>
+    </div>
   );
 };
 

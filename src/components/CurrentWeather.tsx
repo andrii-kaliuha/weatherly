@@ -4,7 +4,7 @@ import CurrentWeatherStore from "../store/CurrentWeatherStore";
 
 const CurrentWeather = observer(() => {
   useEffect(() => {
-    CurrentWeatherStore.getWeather("Kyiv");
+    CurrentWeatherStore.getWeather("Ternopil");
   }, []);
 
   return (
@@ -16,11 +16,16 @@ const CurrentWeather = observer(() => {
       <span className="text-[12px]">Прогноз на найближчу годину</span>
       <div className="leading-none grid grid-cols-2 justify-items-center text-center gap-3 my-3">
         <b className="text-[64px]">{CurrentWeatherStore.temperature}°</b>
-
+        <img src={CurrentWeatherStore.icon} alt="Weather Icon" className="h-16" />
         <p className="leading-tight">Відчувається як {CurrentWeatherStore.feelsLike}°</p>
         <p>{CurrentWeatherStore.description}</p>
       </div>
-      <p>{CurrentWeatherStore.description}</p>
+      {/* <p>{CurrentWeatherStore.description}</p> */}
+      <p>
+        {
+          "Погода у Тернополі обіцяє бути хмарною, але вечірнє небо стане ясним. Залишаємо парасольки вдома. Опадів не передбачається. Варто готуватися до холодів."
+        }
+      </p>
     </section>
   );
 });
