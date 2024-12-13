@@ -8,23 +8,23 @@ import { GeographyInfo } from "./components/GeographyInfo";
 import { DayInHistory } from "./components/DayInHistory";
 import { AQI } from "./components/AQI";
 import { AQIPopup } from "./components/AQIPopup";
+import { SunAndMoonInfo } from "./components/SunAndMoon";
 
 const App = () => {
   return (
     <>
       <Header />
-      <div className="wrapper">
-        <main>
-          <CurrentWeather />
-          <TodaysHighlights />
-          <WeeklyForecast />
-          <AstronomyInfo />
-          <GeographyInfo />
+      <main>
+        <CurrentWeather />
+        <AstronomyInfo />
+        <AQI />
+        <AQIPopup />
+        {/* <TodaysHighlights /> */}
+        {/* <WeeklyForecast /> */}
+        {/* <GeographyInfo />
           <DayInHistory />
-          <AQI />
-          <AQIPopup />
-        </main>
-      </div>
+          <SunAndMoonInfo /> */}
+      </main>
     </>
   );
 };

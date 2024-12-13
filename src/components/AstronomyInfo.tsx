@@ -24,7 +24,7 @@ const AstronomyInfo = () => {
   const phaseMoonIcon: string = "🌓";
 
   return (
-    <section className="astronomy-information-section flex flex-col items-center bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl w-max">
+    <section className="astronomy-information-section flex flex-col items-center bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl w-[100%]">
       <span className="text-sm">Місцевий час {localTime}</span>
       <p className="text-4xl font-bold">{currentTime}</p>
 
@@ -38,7 +38,7 @@ const AstronomyInfo = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between w-64 ">
+      <div className="flex items-center justify-between w-[100%] ">
         <Icon icon="images/sunrise.svg" status="Схід" time={sunriseTime} />
         <img src="images/earth.svg" alt="" />
         <Icon icon="images/sunset.svg" status="Захід" time={sunsetTime} />
