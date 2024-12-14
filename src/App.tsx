@@ -18,11 +18,12 @@ const App = () => {
         <CurrentWeather />
         <AstronomyInfo />
         <AQI />
-        <AQIPopup />
+        <DayInHistory />
+
+        {/* <AQIPopup /> this feature is currently delayed*/}
         {/* <TodaysHighlights /> */}
         {/* <WeeklyForecast /> */}
         {/* <GeographyInfo />
-          <DayInHistory />
           <SunAndMoonInfo /> */}
       </main>
     </>

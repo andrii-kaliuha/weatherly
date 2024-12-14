@@ -18,9 +18,9 @@ const AQI = () => {
             </svg>
             <b className="text-[32px]">1</b>
           </div>
-          <div className="flex items-center leading-none">
-            <p className="text-[20px]">AQI</p>
-            <span className="text-[20px] material-symbols-outlined">info</span>
+          <div className="flex items-center leading-none gap-1">
+            <p className="text-[16px]">AQI</p>
+            <span className="text-[16px] material-symbols-outlined">info</span>
           </div>
         </div>
         <ul className="flex justify-around w-full">

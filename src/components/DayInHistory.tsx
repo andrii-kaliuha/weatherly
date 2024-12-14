@@ -11,16 +11,16 @@ const DayInHistory = () => {
   const maxWindGustsDate: number = 2021;
 
   return (
-    <section className="day-in-history-section relative bg-[#1d1c1f] text-[#dddae5] w-96 rounded-3xl p-6">
-      <div className="flex justify-between pb-6 leading-6">
+    <section className="day-in-history-section relative bg-[#1d1c1f] text-[#dddae5] text-[14px] max-w-[296px] rounded-3xl p-6">
+      <div className="flex justify-between pb-3">
         <div>
-          <h3 className="font-bold text-lg">День в історії</h3>
+          <h3 className="font-bold text-[16px]">День в історії</h3>
           <p>{day}</p>
         </div>
         <img src="images/day-in-history.svg" alt="Іконка День в історії" className="h-12" />
       </div>
       <div className="border-t border-[#dddae5]/20"></div>
-      <div className="flex flex-col gap-6 mt-6">
+      <div className="flex flex-col gap-3 mt-3">
         <p>
           Максимальна температура повітря в місті {city} цього дня за останні 75 років спостережень становить {maxTemperature}°C, була
           зафіксована в {maxTemperatureDate} році.
