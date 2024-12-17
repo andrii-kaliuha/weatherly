@@ -38,7 +38,7 @@ const AstronomyInfo = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between w-[100%] ">
+      <div className="flex items-center justify-between w-[100%] max-w-[248px]">
         <Icon icon="images/sunrise.svg" status="Схід" time={sunriseTime} />
         <img src="images/earth.svg" alt="" />
         <Icon icon="images/sunset.svg" status="Захід" time={sunsetTime} />

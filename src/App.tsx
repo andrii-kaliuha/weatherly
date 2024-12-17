@@ -9,6 +9,7 @@ import { DayInHistory } from "./components/DayInHistory";
 import { AQI } from "./components/AQI";
 import { AQIPopup } from "./components/AQIPopup";
 import { SunAndMoonInfo } from "./components/SunAndMoon";
+import { Footer } from "./components/Footer";
 
 const App = () => {
   return (
@@ -19,13 +20,14 @@ const App = () => {
         <AstronomyInfo />
         <AQI />
         <DayInHistory />
+        <WeeklyForecast />
 
         {/* <AQIPopup /> this feature is currently delayed*/}
-        {/* <TodaysHighlights /> */}
-        {/* <WeeklyForecast /> */}
+        {/* <TodaysHighlights /> this feature  */}
         {/* <GeographyInfo />
           <SunAndMoonInfo /> */}
       </main>
+      <Footer />
     </>
   );
 };

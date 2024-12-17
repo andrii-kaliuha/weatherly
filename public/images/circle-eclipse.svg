@@ -1,20 +1,18 @@
-   <svg
-                id="svgCode"
-                class="day-circle__ellipse"
-                width="222"
-                height="85"
-                viewBox="0 0 222 85"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-              
-
-                <path
-                  d="M220.423 84.0002C214.677 57.6807 199.676 34.8203 179.002 19.0002C168.751 11.1556 157.105 5.042 144.5 1.09619M1.57764 84.0002C7.32384 57.6807 22.3243 34.8203 42.998 19.0002C53.2494 11.1556 64.8957 5.042 77.5004 1.09619"
-                  stroke="#C2D2DA"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-dasharray="4 8"
-                >
-                </path>
-              </svg>
+<svg
+  id="svgCode"
+  class="day-circle__ellipse"
+  width="212"
+  height="88"
+  viewBox="0 0 212 88"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M210.42 88C204.81 60.35 189.89 36.4 169.73 19.88C159.96 11.69 148.98 5.29 136.99 1.1M1.58 88C7.19 60.35 22.11 36.4 42.27 19.88C52.04 11.69 63.02 5.29 75.01 1.1"
+    stroke="#C2D2DA"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-dasharray="4 8"
+  >
+  </path>
+</svg>
