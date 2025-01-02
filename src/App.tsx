@@ -27,7 +27,7 @@ const App = () => {
         {/* <GeographyInfo />
           <SunAndMoonInfo /> */}
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

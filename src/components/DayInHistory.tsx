@@ -11,7 +11,7 @@ const DayInHistory = () => {
   const maxWindGustsDate: number = 2021;
 
   return (
-    <section className="day-in-history-section relative bg-[#1d1c1f] text-[#dddae5] text-[14px] max-w-[296px] rounded-3xl p-6">
+    <section className="day-in-history-section relative bg-[#1d1c1f] text-[#dddae5] text-[14px] w-full max-w-full rounded-3xl p-6">
       <div className="flex justify-between pb-3">
         <div>
           <h3 className="font-bold text-[16px]">День в історії</h3>
