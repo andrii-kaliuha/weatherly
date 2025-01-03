@@ -1,41 +1,28 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
+import SharedWeatherStore from "./SharedWeatherStore";
+import { getCity } from "../request";
 
 class WeeklyForecastStore {
-  data: any = null;
-  loading: boolean = false;
-  error: string | null = null;
-
   constructor() {
     makeAutoObservable(this);
   }
 
-  async getWeatherData() {
-    this.loading = true;
-    try {
-      const response = await fetch(
-        "https://api.openweathermap.org/data/3.0/onecall?lat=50.4333&lon=30.5167&units=metric&appid=ada53a53546a12851a13875d932b485b"
-      );
-      const result = await response.json();
+  get weatherData() {
+    return SharedWeatherStore.weatherData;
+  }
 
-      runInAction(() => {
-        this.data = result;
-        this.error = null;
-      });
-    } catch (e) {
-      runInAction(() => {
-        this.error = "Failed to fetch data";
-        this.data = null;
-      });
-    } finally {
-      runInAction(() => {
-        this.loading = false;
-      });
-    }
+  get loading() {
+    return SharedWeatherStore.loading;
+  }
+
+  get error() {
+    return SharedWeatherStore.error;
   }
 
   get formattedForecast() {
-    if (!this.data?.daily) return [];
-    return this.data.daily.map((item: any) => ({
+    if (!this.weatherData || !this.weatherData.daily) return [];
+
+    return this.weatherData.daily.map((item: any) => ({
       date: new Date(item.dt * 1000).toLocaleDateString("en-US", {
         weekday: "long",
         day: "numeric",
@@ -46,6 +33,19 @@ class WeeklyForecastStore {
       tempMin: Math.round(item.temp.min),
     }));
   }
+
+  fetchCityWeather = async (cityName: string) => {
+    SharedWeatherStore.setLoading(true);
+    SharedWeatherStore.setError(null);
+    try {
+      await getCity(cityName);
+    } catch (e: any) {
+      SharedWeatherStore.setError(e.message || "Failed to fetch data");
+      SharedWeatherStore.setWeatherData(null);
+    } finally {
+      SharedWeatherStore.setLoading(false);
+    }
+  };
 }
 
 export default new WeeklyForecastStore();

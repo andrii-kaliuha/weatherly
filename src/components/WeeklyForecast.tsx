@@ -1,12 +1,7 @@
-import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import WeeklyForecastStore from "../store/WeeklyForecastStore.ts";
 
 const WeeklyForecast = observer(() => {
-  useEffect(() => {
-    WeeklyForecastStore.getWeatherData();
-  }, []);
-
   const { loading, error, formattedForecast } = WeeklyForecastStore;
 
   if (loading) return <p>Loading...</p>;

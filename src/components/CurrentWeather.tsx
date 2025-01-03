@@ -1,31 +1,30 @@
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
-import CurrentWeatherStore from "../store/CurrentWeatherStore";
+import WeatherStore from "../store/WeatherStore";
 
 const CurrentWeather = observer(() => {
-  // useEffect(() => {
-  //   CurrentWeatherStore.getWeather("Kyiv");
-  // }, []);
+  const { loading, error } = WeatherStore;
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <section className="current-weather-section bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 flex flex-col w-full max-w-full">
       <h2 className="text-[14px] font-bold">
-        Погода {CurrentWeatherStore.city},<br />
-        <span>{CurrentWeatherStore.date}</span>
+        Погода {WeatherStore.city},<br />
+        <span>{WeatherStore.date}</span>
       </h2>
       <span className="text-[12px]">Прогноз на найближчу годину</span>
       <div className="leading-none grid grid-cols-2 justify-items-center text-center gap-3 my-3">
-        <b className="text-[64px]">{CurrentWeatherStore.temperature}°</b>
-        <img src={CurrentWeatherStore.icon} alt="Weather Icon" className="h-16" />
-        <p className="leading-tight">Відчувається як {CurrentWeatherStore.feelsLike}°</p>
-        <p>{CurrentWeatherStore.description}</p>
+        <b className="text-[64px]">{WeatherStore.temperature}°</b>
+        <img src={WeatherStore.icon} alt="Weather Icon" className="h-16" />
+        <p className="leading-tight">Відчувається як {WeatherStore.feelsLike}°</p>
+        <p>{WeatherStore.description}</p>
       </div>
-      {/* <p>{CurrentWeatherStore.description}</p> */}
-      <p>
+      {/* <p>
         {
           "Погода у Тернополі обіцяє бути хмарною, але вечірнє небо стане ясним. Залишаємо парасольки вдома. Опадів не передбачається. Варто готуватися до холодів."
         }
-      </p>
+      </p> */}
     </section>
   );
 });

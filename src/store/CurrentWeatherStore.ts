@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx";
+import SharedWeatherStore from "./SharedWeatherStore";
+import { getCity } from "../request";
 
 class CurrentWeatherStore {
   city: string | null = null;

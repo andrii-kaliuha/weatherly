@@ -1,11 +1,22 @@
-import { getCity } from "./request.ts";
+// import { getCity } from "../request.ts";
+import { useEffect } from "react";
 
-// Викликаємо функцію для міста Тернопіль
-getCity("Ternopil");
+import WeatherStore from "../store/WeatherStore.ts";
 
 const Header = () => {
+  // useEffect(() => {
+  //   // Викликаємо функцію для міста Тернопіль при завантаженні компонента
+  //   getCity("Ternopil");
+  // }, []);
+
+  useEffect(() => {
+    // Викликаємо функцію getWeather для міста Тернопіль при завантаженні компонента
+    WeatherStore.getWeather("Ternopil").then(() => {});
+  }, []);
+
   return (
     <header className="flex justify-center">
+      <p>{WeatherStore.city}</p>
       <nav className="flex items-center justify-between max-w-screen-xl w-full m-3 gap-3">
         {/* <a href="">
           <img src="images/logo.png" alt="logo" className="w-[200px]" />
