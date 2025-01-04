@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import WeatherStore from "../store/WeatherStore";
 
 const CurrentWeather = observer(() => {
-  const { loading, error } = WeatherStore;
+  const { loading, error, hourlyForecast } = WeatherStore;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -20,6 +20,16 @@ const CurrentWeather = observer(() => {
         <p className="leading-tight">Відчувається як {WeatherStore.feelsLike}°</p>
         <p>{WeatherStore.description}</p>
       </div>
+
+      {/* <ul className="hourly-forecast">
+        {hourlyForecast.map((item: any, index: any) => (
+          <li key={index} className="flex justify-between items-center">
+            <p>{item.dt}</p>
+            <img src={`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`} alt="Weather Icon" />
+          </li>
+        ))}
+      </ul> */}
+
       {/* <p>
         {
           "Погода у Тернополі обіцяє бути хмарною, але вечірнє небо стане ясним. Залишаємо парасольки вдома. Опадів не передбачається. Варто готуватися до холодів."
