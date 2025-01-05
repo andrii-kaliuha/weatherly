@@ -11,6 +11,11 @@ class WeatherStore {
   error: string | null = null;
   dailyForecast: any;
   hourlyForecast: any;
+  humidity: string | null = null;
+  pressure: string | null = null;
+  uv: string | null = null;
+  windSpeed: string | null = null;
+  chanceOfprecipitation: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -25,11 +30,11 @@ class WeatherStore {
   }
 
   setCity(data: any) {
-    this.city = data[0].local_names.uk;
+    this.city = data[0].local_names.en;
   }
 
   updateWeatherData(data: any) {
-    this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-En", {
+    this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-US", {
       day: "numeric",
       month: "long",
       weekday: "long",
@@ -40,9 +45,11 @@ class WeatherStore {
     this.icon = `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
     this.dailyForecast = data.daily;
     this.hourlyForecast = data.hourly;
-
-    console.log(data.hourly);
-    console.log(data.hourly[0].dt);
+    this.humidity = data.current.humidity;
+    this.pressure = data.current.pressure;
+    this.uv = data.current.uvi;
+    this.windSpeed = data.current.wind_speed;
+    this.chanceOfprecipitation = data.current.pop;
   }
 
   async getWeather(cityName: string): Promise<void> {

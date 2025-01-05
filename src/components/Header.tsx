@@ -8,9 +8,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="flex justify-center">
-      <p>{WeatherStore.city}</p>
-      <nav className="flex items-center justify-between max-w-screen-xl w-full m-3 gap-3">
+    <header className="flex justify-center m-3">
+      <nav className="flex items-center justify-between max-w-screen-xl w-[1000px] gap-3">
         {/* <a href="">
           <img src="images/logo.png" alt="logo" className="w-[200px]" />
         </a> */}
