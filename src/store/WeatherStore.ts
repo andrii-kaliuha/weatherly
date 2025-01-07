@@ -52,59 +52,108 @@ class WeatherStore {
     this.chanceOfprecipitation = data.current.pop;
   }
 
-  async getWeather(location: string | { lat: number; lon: number }): Promise<void> {
+  async getCityCoordinates(cityName: string) {
     this.setLoading(true);
     this.setError(null);
-
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
+      const coordinatesResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
+      const coordinates = await coordinatesResponse.json();
 
-      let lat, lon;
-      if (typeof location === "string") {
-        const coordinatesResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`);
-
-        if (!coordinatesResponse.ok) {
-          throw new Error("Не вдалося отримати координати міста");
-        }
-
-        const coordinates = await coordinatesResponse.json();
-        if (coordinates.length === 0) {
-          throw new Error("Місто не знайдено");
-        }
-
-        this.setCity(coordinates);
-        lat = coordinates[0].lat;
-        lon = coordinates[0].lon;
-      } else {
-        lat = location.lat;
-        lon = location.lon;
+      if (!coordinates || coordinates.length === 0) {
+        throw new Error("City not found");
       }
-
-      const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-      );
-
-      if (!forecastResponse.ok) {
-        throw new Error("Не вдалося отримати дані погоди");
-      }
-
-      const forecastData = await forecastResponse.json();
-      this.updateWeatherData(forecastData);
-    } catch (err: any) {
-      this.setError(err.message || "Не вдалося отримати дані");
+      this.city = coordinates[0].local_names.en;
+      // this.setCity(coordinates);
+      const { lat, lon } = coordinates[0];
+      this.getWeatherForecast(lat, lon);
+    } catch (error: any) {
+      this.setError(error.message || "Error getting city coordinates");
     } finally {
       this.setLoading(false);
     }
   }
+
+  getCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+
+          console.log(latitude, longitude);
+
+          this.getWeatherForecast(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error with geolocation:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  async getWeatherForecast(lat: number, lon: number) {
+    this.setLoading(true);
+    this.setError(null);
+    try {
+      const API_KEY = "ada53a53546a12851a13875d932b485b";
+      const forecastResponse = await fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+      );
+      const forecast = await forecastResponse.json();
+
+      if (!forecastResponse.ok) {
+        throw new Error("Failed to retrieve weather data");
+      }
+
+      this.updateWeatherData(forecast);
+      console.log(forecast);
+    } catch (error: any) {
+      this.setError(error.message || "Error when receiving data");
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  // async getWeather(cityName: string): Promise<void> {
+  //   this.setLoading(true);
+  //   this.setError(null);
+  //   try {
+  //     const API_KEY = "ada53a53546a12851a13875d932b485b";
+  //     const coordinatesResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
+
+  //     if (!coordinatesResponse.ok) {
+  //       throw new Error("Не вдалося отримати координати міста");
+  //     }
+
+  //     const coordinates = await coordinatesResponse.json();
+  //     if (coordinates.length === 0) {
+  //       throw new Error("Місто не знайдено");
+  //     }
+
+  //     this.setCity(coordinates);
+  //     const lat = coordinates[0].lat;
+  //     const lon = coordinates[0].lon;
+
+  //     const forecastResponse = await fetch(
+  //       `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+  //     );
+
+  //     if (!forecastResponse.ok) {
+  //       throw new Error("Не вдалося отримати дані погоди");
+  //     }
+
+  //     const forecastData = await forecastResponse.json();
+  //     this.updateWeatherData(forecastData);
+
+  //     console.log(forecastData);
+  //   } catch (err: any) {
+  //     this.setError(err.message || "Не вдалося отримати дані");
+  //   } finally {
+  //     this.setLoading(false);
+  //   }
+  // }
 }
 
 export default new WeatherStore();
-
-// завдання на завтра - виправити помилку та додати функцію яка буде шукати введене місто
-// hook.js:608 Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`. Error Component Stack
-// at input (<anonymous>)
-// at form (<anonymous>)
-// at nav (<anonymous>)
-// at header (<anonymous>)
-// at Header (Header.tsx:5:3)
-// at App (<anonymous>)

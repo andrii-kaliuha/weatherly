@@ -8,7 +8,7 @@ import { WeeklyForecast } from "./components/WeeklyForecast";
 
 const App = () => {
   return (
-    <>
+    <div className="wrapper">
       <Header />
       <main>
         <CurrentWeather />
@@ -17,7 +17,7 @@ const App = () => {
         <DayInHistory />
         <WeeklyForecast />
       </main>
-    </>
+    </div>
   );
 };
 
