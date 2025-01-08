@@ -15,7 +15,6 @@ class WeatherStore {
   pressure: string | null = null;
   uv: string | null = null;
   windSpeed: string | null = null;
-  chanceOfprecipitation: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -27,10 +26,6 @@ class WeatherStore {
 
   setError(error: string | null) {
     this.error = error;
-  }
-
-  setCity(data: any) {
-    this.city = data[0].local_names.en;
   }
 
   updateWeatherData(data: any) {
@@ -49,7 +44,6 @@ class WeatherStore {
     this.pressure = data.current.pressure;
     this.uv = data.current.uvi;
     this.windSpeed = data.current.wind_speed;
-    this.chanceOfprecipitation = data.current.pop;
   }
 
   async getCityCoordinates(cityName: string) {
@@ -64,7 +58,6 @@ class WeatherStore {
         throw new Error("City not found");
       }
       this.city = coordinates[0].local_names.en;
-      // this.setCity(coordinates);
       const { lat, lon } = coordinates[0];
       this.getWeatherForecast(lat, lon);
     } catch (error: any) {
@@ -74,22 +67,38 @@ class WeatherStore {
     }
   }
 
+  getCityFromCoordinates = (lat: number, lon: number) => {
+    const API_KEY = "ada53a53546a12851a13875d932b485b";
+    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          this.city = data[0].name;
+        } else {
+          console.error("Не вдалося знайти місто за цими координатами.");
+        }
+      })
+      .catch((error) => {
+        console.error("Помилка при отриманні даних:", error);
+      });
+  };
+
   getCurrentLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-
-          console.log(latitude, longitude);
-
+          this.getCityFromCoordinates(latitude, longitude);
           this.getWeatherForecast(latitude, longitude);
         },
         (error) => {
-          console.error("Error with geolocation:", error);
+          console.error("Помилка геолокації:", error);
         }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      console.error("Невідома помилка геолокації.");
     }
   };
 
@@ -115,45 +124,6 @@ class WeatherStore {
       this.setLoading(false);
     }
   }
-
-  // async getWeather(cityName: string): Promise<void> {
-  //   this.setLoading(true);
-  //   this.setError(null);
-  //   try {
-  //     const API_KEY = "ada53a53546a12851a13875d932b485b";
-  //     const coordinatesResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
-
-  //     if (!coordinatesResponse.ok) {
-  //       throw new Error("Не вдалося отримати координати міста");
-  //     }
-
-  //     const coordinates = await coordinatesResponse.json();
-  //     if (coordinates.length === 0) {
-  //       throw new Error("Місто не знайдено");
-  //     }
-
-  //     this.setCity(coordinates);
-  //     const lat = coordinates[0].lat;
-  //     const lon = coordinates[0].lon;
-
-  //     const forecastResponse = await fetch(
-  //       `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-  //     );
-
-  //     if (!forecastResponse.ok) {
-  //       throw new Error("Не вдалося отримати дані погоди");
-  //     }
-
-  //     const forecastData = await forecastResponse.json();
-  //     this.updateWeatherData(forecastData);
-
-  //     console.log(forecastData);
-  //   } catch (err: any) {
-  //     this.setError(err.message || "Не вдалося отримати дані");
-  //   } finally {
-  //     this.setLoading(false);
-  //   }
-  // }
 }
 
 export default new WeatherStore();

@@ -17,7 +17,7 @@ const DayInHistory = () => {
           <h3 className="font-bold text-[16px]">День в історії</h3>
           <p>{day}</p>
         </div>
-        <img src="images/day-in-history.svg" alt="Іконка День в історії" className="h-12" />
+        <img src="./src/assets/images/day-in-history.svg" alt="Іконка День в історії" className="h-12" />
       </div>
       <div className="border-t border-[#dddae5]/20"></div>
       <div className="flex flex-col gap-3 mt-3">

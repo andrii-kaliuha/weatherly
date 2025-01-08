@@ -14,7 +14,7 @@ const AQI = () => {
           {/* text-[#ffe601] text-[#a2d043] */}
           <div className="flex text-[#ffe601] leading-none">
             <svg className="w-8 h-8">
-              <use xlinkHref="icons/air-quality-index.svg#example-icon"></use>
+              <use xlinkHref="./src/assets/icons/air-quality-index.svg#example-icon"></use>
             </svg>
             <b className="text-[32px]">1</b>
           </div>

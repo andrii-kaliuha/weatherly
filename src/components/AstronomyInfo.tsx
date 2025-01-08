@@ -30,7 +30,7 @@ const AstronomyInfo = () => {
 
       <div className="relative flex flex-col items-center mt-[30px]">
         <span className="icon-sun text-[#ffe601] text-[32px] absolute -top-5"></span>
-        <img src="images/circle-eclipse.svg" alt="" />
+        <img src="./src/assets/images/circle-eclipse.svg" alt="" />
 
         <div className="absolute bottom-0 flex flex-col items-center">
           <span>Тривалість дня</span>
@@ -39,9 +39,9 @@ const AstronomyInfo = () => {
       </div>
 
       <div className="flex items-center justify-between w-[100%] max-w-[248px]">
-        <Icon icon="images/sunrise.svg" status="Схід" time={sunriseTime} />
-        <img src="images/earth.svg" alt="" />
-        <Icon icon="images/sunset.svg" status="Захід" time={sunsetTime} />
+        <Icon icon="./src/assets/images/sunrise.svg" status="Схід" time={sunriseTime} />
+        <img src="./src/assets/images/earth.svg" alt="" />
+        <Icon icon="./src/assets/images/sunset.svg" status="Захід" time={sunsetTime} />
       </div>
 
       <div className="flex flex-col items-center">

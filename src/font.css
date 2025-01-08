@@ -3,7 +3,7 @@
   font-family: "meteoprogicons";
   font-style: normal;
   font-weight: normal;
-  src: url("/woff/meteoprog-icons.woff");
+  src: url("/src/assets/woff/meteoprog-icons.woff");
 }
 
 [class*="icon-"]:before {
@@ -333,7 +333,7 @@
   font-family: "qwerty";
   font-style: normal;
   font-weight: normal;
-  src: url("/woff/weather-icon-pack-1.woff") format("woff");
+  src: url("/src/assets/woff/weather-icon-pack-1.woff") format("woff");
 }
 
 [class*="icon-f"]:before {

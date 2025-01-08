@@ -34,11 +34,11 @@ const weatherConditions = [
     condition: "60 mm",
     description: "Вологість",
   },
-  // {
-  //   icon: "icon-waves",
-  //   condition: "60 mm",
-  //   description: "УФ-індекс",
-  // },
+  {
+    icon: "icon-waves",
+    condition: "60 mm",
+    description: "УФ-індекс",
+  },
   {
     icon: "icon-rain-drops",
     condition: "68 %",
