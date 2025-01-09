@@ -15,6 +15,7 @@ class WeatherStore {
   pressure: string | null = null;
   uv: string | null = null;
   windSpeed: string | null = null;
+  visibility: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -44,6 +45,7 @@ class WeatherStore {
     this.pressure = data.current.pressure;
     this.uv = data.current.uvi;
     this.windSpeed = data.current.wind_speed;
+    this.visibility = data.current.visibility;
   }
 
   async getCityCoordinates(cityName: string) {

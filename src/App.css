@@ -14,4 +14,41 @@ main {
   gap: 12px;
   margin: 12px;
   max-width: 1024px;
+  /* grid-template-areas:
+    "a a a b"
+    "c c d d"; */
 }
+
+.shimmer-loading {
+  background: linear-gradient(to right, #1f1e22 0%, #2b2a2f 20%, #1f1e22 40%, #1f1e22 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  width: 100%; /* або змінюйте під ваш дизайн */
+  height: 20px; /* висота скелетону */
+  border-radius: 8px; /* заокруглення */
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* .current-weather-section {
+  grid-area: a;
+}
+
+.day-in-history-section {
+  grid-area: b;
+}
+
+.astronomy-information-section {
+  grid-area: c;
+}
+
+.AQI-section {
+  grid-area: d;
+} */
