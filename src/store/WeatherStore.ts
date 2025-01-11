@@ -63,7 +63,7 @@ class WeatherStore {
       this.city = coordinates[0].local_names.en;
       const { lat, lon } = coordinates[0];
       this.getWeatherForecast(lat, lon);
-      this.getAirQualityIndex(lat, lon);
+      this.getAirQuality(lat, lon);
     } catch (error: any) {
       this.setError(error.message || "Error getting city coordinates");
     } finally {
@@ -96,7 +96,7 @@ class WeatherStore {
           const { latitude, longitude } = position.coords;
           this.getCityFromCoordinates(latitude, longitude);
           this.getWeatherForecast(latitude, longitude);
-          this.getAirQualityIndex(latitude, longitude);
+          this.getAirQuality(latitude, longitude);
         },
         (error) => {
           console.error("Помилка геолокації:", error);
@@ -131,7 +131,7 @@ class WeatherStore {
     }
   }
 
-  async getAirQualityIndex(lat: number, lon: number) {
+  async getAirQuality(lat: number, lon: number) {
     this.setLoading(true);
     this.setError(null);
     try {
