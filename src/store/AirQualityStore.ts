@@ -14,7 +14,7 @@ class AirQualityStore {
   }
 
   updateAirQuality(data: any) {
-    this.city = WeatherStore.city; //Проблема з відображенням в компоненті, місто не відображається
+    this.city = WeatherStore.city;
     this.aqi = data.list[0].main.aqi;
 
     const airQualityData = [

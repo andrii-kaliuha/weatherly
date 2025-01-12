@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import AirQualityStore from "./AirQualityStore";
 
 class WeatherStore {
   city: string | null = null;
@@ -63,7 +64,7 @@ class WeatherStore {
       this.city = coordinates[0].local_names.en;
       const { lat, lon } = coordinates[0];
       this.getWeatherForecast(lat, lon);
-      this.getAirQuality(lat, lon);
+      AirQualityStore.getAirQuality(lat, lon);
     } catch (error: any) {
       this.setError(error.message || "Error getting city coordinates");
     } finally {
@@ -97,7 +98,7 @@ class WeatherStore {
           const { latitude, longitude } = position.coords;
           this.getCityFromCoordinates(latitude, longitude);
           this.getWeatherForecast(latitude, longitude);
-          this.getAirQuality(latitude, longitude);
+          AirQualityStore.getAirQuality(latitude, longitude);
         },
         (error) => {
           console.error("Помилка геолокації:", error);
@@ -127,23 +128,6 @@ class WeatherStore {
       console.log(forecast);
     } catch (error: any) {
       this.setError(error.message || "Error when receiving data");
-    } finally {
-      this.setLoading(false);
-    }
-  }
-
-  async getAirQuality(lat: number, lon: number) {
-    this.setLoading(true);
-    this.setError(null);
-    try {
-      const API_KEY = "ada53a53546a12851a13875d932b485b";
-      const AQIResponse = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-      const AQI = await AQIResponse.json();
-      console.log(AQI);
-
-      this.airQualityIndex = AQI;
-    } catch (error: any) {
-      this.setError(error.message || "Error when receiving data about air quality");
     } finally {
       this.setLoading(false);
     }

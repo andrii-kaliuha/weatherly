@@ -1,13 +1,8 @@
-import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import AirQualityStore from "../store/AirQualityStore";
 
 const AQI = observer(() => {
   const { airPollutants } = AirQualityStore;
-
-  useEffect(() => {
-    AirQualityStore.getAirQuality(49.9935, 36.2304);
-  }, []);
 
   return (
     <section className="aqi__section relative bg-[#1d1c1f] text-[#dddae5] rounded-3xl p-6">
@@ -30,7 +25,7 @@ const AQI = observer(() => {
           {airPollutants && airPollutants.length > 0 ? (
             airPollutants.map((item, index) => (
               <li key={index} className="flex flex-col items-center">
-                <span className={`${item.iconClassName} text-[${AirQualityStore.color}]`}></span>
+                <span className={item.iconClassName} style={{ color: AirQualityStore.color || "inherit" }}></span>
                 <p>{item.value}</p>
                 <span>{item.label}</span>
               </li>
@@ -49,6 +44,3 @@ const AQI = observer(() => {
 });
 
 export { AQI };
-
-// Task for Tomorow:
-// Виправити проблему на 17 рядку в компоненті AirQualityStore.ts, щоб місто відображалося в компоненті
