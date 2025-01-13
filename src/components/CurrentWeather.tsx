@@ -101,7 +101,6 @@ export { CurrentWeather };
 
 // Task for Tomorow:
 
-// округлити значення забруднювачів в компоненті AQI.tsx
 // виправити вертикальне вирівнювання іконок в WeatherCondition
 // виправити відображення годин в hourlyForecast
 // виправити відображення дати в CurrentWeather

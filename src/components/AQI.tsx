@@ -36,8 +36,8 @@ const AQI = observer(() => {
         </ul>
       </div>
       <div>
-        <h3 style={{ color: AirQualityStore.color || "inherit" }}>{AirQualityStore.airStatusTitle}</h3>
-        <p className="text-sm">{AirQualityStore.airStatusDescription}</p>
+        <h3 style={{ color: AirQualityStore.color || "inherit" }}>{AirQualityStore.title}</h3>
+        <p className="text-sm">{AirQualityStore.description}</p>
       </div>
     </section>
   );

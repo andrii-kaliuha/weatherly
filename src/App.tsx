@@ -5,6 +5,7 @@ import { AstronomyInfo } from "./components/AstronomyInfo";
 import { AQI } from "./components/AQI";
 import { DayInHistory } from "./components/DayInHistory";
 import { WeeklyForecast } from "./components/WeeklyForecast";
+import { AQIPopup } from "./components/AQIPopup";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <DayInHistory />
         <WeeklyForecast />
       </main>
+      <AQIPopup />
     </div>
   );
 };
