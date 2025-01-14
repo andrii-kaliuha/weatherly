@@ -6,19 +6,18 @@ import { AQI } from "./components/AQI";
 import { DayInHistory } from "./components/DayInHistory";
 import { WeeklyForecast } from "./components/WeeklyForecast";
 import { AQIPopup } from "./components/AQIPopup";
+import { WeatherForecast } from "./components/WeatherForecast";
 
 const App = () => {
   return (
     <div className="wrapper">
       <Header />
       <main>
-        <CurrentWeather />
+        {/* <CurrentWeather /> */}
+        <WeeklyForecast />
         <AstronomyInfo />
         <AQI />
-        <DayInHistory />
-        <WeeklyForecast />
       </main>
-      <AQIPopup />
     </div>
   );
 };
