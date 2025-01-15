@@ -15,6 +15,7 @@ class WeatherStore {
   humidity: string | null = null;
   pressure: string | null = null;
   uv: string | null = null;
+  summary: string | null = null;
   windSpeed: string | null = null;
   visibility: string | null = null;
   airQualityIndex: any;
@@ -48,6 +49,7 @@ class WeatherStore {
     this.uv = data.current.uvi;
     this.windSpeed = data.current.wind_speed;
     this.visibility = data.current.visibility;
+    this.summary = data.daily[0].summary;
   }
 
   async getCityCoordinates(cityName: string) {
