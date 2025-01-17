@@ -11,8 +11,10 @@ const App = () => {
       <Header />
       <main>
         <CurrentWeather />
-        <AstronomyInfo />
-        <AQI />
+        <div className="flex flex-col md:flex-row gap-3">
+          <AstronomyInfo />
+          <AQI />
+        </div>
         <WeeklyForecast />
       </main>
     </div>
@@ -20,3 +22,8 @@ const App = () => {
 };
 
 export default App;
+
+// Add a start screen
+// Add Error notification
+// Add Sun and Moon section
+// Transfer data from the weekly forecast to the storage

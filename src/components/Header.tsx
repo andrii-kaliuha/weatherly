@@ -10,8 +10,8 @@ const Header = () => {
   };
 
   return (
-    <header className="flex max-w-[1024px] w-full">
-      <nav className="flex items-center justify-between max-w-[1024px] w-full m-3 gap-3">
+    <header className="sticky top-0 z-10 bg-[#131214] max-w-[1024px]">
+      <nav className="flex items-center justify-between m-3 gap-3">
         <button className="flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent ">
           <span className="material-symbols-outlined"> menu </span>
         </button>
