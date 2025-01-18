@@ -3,7 +3,7 @@ import WeatherStore from "../store/WeatherStore";
 
 // const CurrentWeather = observer(() => {
 //   return (
-//     <section className="current-weather-section bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 flex-shrink-0">
+//     <section className="current-weather-section bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 flex-1">
 //       <h2 className="text-[14px] font-bold">
 //         Now in {WeatherStore.city}, {WeatherStore.date}
 //       </h2>
@@ -49,15 +49,15 @@ const CurrentWeather = observer(() => {
       <p>{WeatherStore.summary}</p>
       <ul className="weather-condition flex justify-between w-full p-3 bg-[#ffffff1a] rounded-lg">
         {/* <li>Тиск: {WeatherStore.pressure} мм</li> опис картинки або опис погоди короткий
-        <li>Вологість: {WeatherStore.humidity} %</li> має бути максимальна та мінімальна температура 
+        <li>Вологість: {WeatherStore.humidity} %</li> має бути максимальна та мінімальна температура
         <li>Вітер: {WeatherStore.windSpeed} м/с</li>  відчувається як */}
         {data.map((item, index) => (
           <li key={index}>
-            <div className="flex flex-col">
-              <span>{item.label}</span>
+            <span>{item.label}</span>
+            <div>
               <span className={item.iconClassName}></span>
+              <p className="flex items-end">{item.value}</p>{" "}
             </div>
-            <p className="flex items-end">{item.value}</p>
           </li>
         ))}
       </ul>

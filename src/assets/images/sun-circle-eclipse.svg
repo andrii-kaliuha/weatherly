@@ -2,14 +2,14 @@
   id="svgCode"
   class="day-circle__ellipse"
   width="212"
-  height="88"
-  viewBox="0 0 212 88"
+  height="54"
+  viewBox="0 2 212 54"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
     d="M210.42 88C204.81 60.35 189.89 36.4 169.73 19.88C159.96 11.69 148.98 5.29 136.99 1.1M1.58 88C7.19 60.35 22.11 36.4 42.27 19.88C52.04 11.69 63.02 5.29 75.01 1.1"
-    stroke="#C2D2DA"
+    stroke="#FCCF2E"
     stroke-width="2"
     stroke-linecap="round"
     stroke-dasharray="4 8"

@@ -4,15 +4,19 @@ import { CurrentWeather } from "./components/CurrentWeather";
 import { AstronomyInfo } from "./components/AstronomyInfo";
 import { AQI } from "./components/AQI";
 import { WeeklyForecast } from "./components/WeeklyForecast";
+import { SunAndMoon } from "./components/SunAndMoon";
 
 const App = () => {
   return (
     <div className="wrapper">
       <Header />
       <main>
-        <CurrentWeather />
         <div className="flex flex-col md:flex-row gap-3">
-          <AstronomyInfo />
+          {/* <AstronomyInfo /> */}
+          <div className="flex flex-col gap-3">
+            <CurrentWeather />
+            <SunAndMoon />
+          </div>
           <AQI />
         </div>
         <WeeklyForecast />

@@ -83,7 +83,6 @@ class WeatherStore {
       .then((data) => {
         if (data.length > 0) {
           this.city = data[0].name;
-          console.log("Місто 123:", this.city);
         } else {
           console.error("Не вдалося знайти місто за цими координатами.");
         }

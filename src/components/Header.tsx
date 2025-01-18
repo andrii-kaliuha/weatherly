@@ -19,6 +19,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search city..."
+            name="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             className="text-[#dddae5] bg-[#1d1c1f] pl-3 rounded-[24px] h-[48px] w-full outline-transparent border-transparent"
