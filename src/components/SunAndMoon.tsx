@@ -8,8 +8,8 @@ const SunAndMoon = () => {
 
   return (
     <section className="sun-and-moon bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl flex-1">
-      <h2 className="hidden">Сонце та Місяць</h2>
-      <div className="flex gap-6">
+      <h2>Сонце та Місяць</h2>
+      <div className="flex flex-col sm:flex-row justify-around gap-3">
         <div className="relative flex flex-col items-center mt-6">
           <img className="absolute -top-5" src="./src/assets/images/sun.svg" alt="" />
           <img src="./src/assets/images/sun-circle-eclipse.svg" alt="" />
@@ -22,6 +22,7 @@ const SunAndMoon = () => {
             <Icon icon="./src/assets/images/sunset.svg" status="Захід" time={sunsetTime} />
           </div>
         </div>
+        <div className="border-b-2 border-[#131214] sm:hidden"></div>
         <div className="relative flex flex-col items-center mt-6 ">
           <img className="absolute -top-5" src="./src/assets/images/moon.svg" alt="" />
           <img src="./src/assets/images/moon-circle-eclipse.svg" alt="" />

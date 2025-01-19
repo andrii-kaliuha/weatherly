@@ -11,14 +11,14 @@ const App = () => {
     <div className="wrapper">
       <Header />
       <main>
-        <div className="flex flex-col md:flex-row gap-3">
-          {/* <AstronomyInfo /> */}
+        <div className="flex flex-col lg:flex-row gap-3">
+          <CurrentWeather />
           <div className="flex flex-col gap-3">
-            <CurrentWeather />
             <SunAndMoon />
+            <AQI />
           </div>
-          <AQI />
         </div>
+
         <WeeklyForecast />
       </main>
     </div>

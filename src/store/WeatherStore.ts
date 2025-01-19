@@ -19,6 +19,8 @@ class WeatherStore {
   windSpeed: string | null = null;
   visibility: string | null = null;
   airQualityIndex: any;
+  maxTempDay: number | null = null;
+  minTempDay: number | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -33,6 +35,25 @@ class WeatherStore {
   }
 
   updateWeatherData(data: any) {
+    // const date = new Date(data.current.dt * 1000);
+
+    // // Кастомна мапа для днів тижня у називному відмінку
+    // const weekdays = ["неділя", "понеділок", "вівторок", "середа", "четвер", "п’ятниця", "субота"];
+
+    // // Кастомна мапа для місяців у називному відмінку
+    // const months = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+
+    // // Отримуємо складові дати
+    // const day = date.getDate(); // число
+    // const month = months[date.getMonth()]; // місяць
+    // const weekday = weekdays[date.getDay()]; // день тижня
+
+    // // Форматуємо дату
+    // const formattedDate = `${day} ${month} ${weekday}`;
+
+    // console.log(formattedDate);
+    // this.date = formattedDate;
+
     this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-US", {
       day: "numeric",
       month: "long",
@@ -50,6 +71,8 @@ class WeatherStore {
     this.windSpeed = data.current.wind_speed;
     this.visibility = data.current.visibility;
     this.summary = data.daily[0].summary;
+    this.maxTempDay = Math.round(data.daily[0].temp.max);
+    this.minTempDay = Math.round(data.daily[0].temp.min);
   }
 
   async getCityCoordinates(cityName: string) {

@@ -6,7 +6,7 @@ const WeeklyForecast = observer(() => {
 
   return (
     <section className="weekly-forecast-section bg-[#1d1c1f] text-[#dddae5] rounded-3xl">
-      <h2 className="text-xl font-bold mx-6 mt-6 mb-3">Weekly Forecast</h2>
+      <h2 className="text-[16px] mx-6 mt-6 mb-3">Weekly Forecast</h2>
       <ul className="flex flex-col">
         {dailyForecast && dailyForecast.length > 0 ? (
           dailyForecast.map((item: any, index: number) => (
