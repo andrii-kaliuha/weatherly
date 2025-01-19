@@ -1,10 +1,9 @@
 import "./App.css";
 import { Header } from "./components/Header";
 import { CurrentWeather } from "./components/CurrentWeather";
-import { AstronomyInfo } from "./components/AstronomyInfo";
+import { SunAndMoon } from "./components/SunAndMoon";
 import { AQI } from "./components/AQI";
 import { WeeklyForecast } from "./components/WeeklyForecast";
-import { SunAndMoon } from "./components/SunAndMoon";
 
 const App = () => {
   return (
@@ -18,7 +17,6 @@ const App = () => {
             <AQI />
           </div>
         </div>
-
         <WeeklyForecast />
       </main>
     </div>
@@ -26,8 +24,3 @@ const App = () => {
 };
 
 export default App;
-
-// Add a start screen
-// Add Error notification
-// Add Sun and Moon section
-// Transfer data from the weekly forecast to the storage
