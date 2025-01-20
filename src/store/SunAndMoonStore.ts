@@ -15,3 +15,5 @@ class SunAndMoonStore {
 
   updateSunAndMoonInfo() {}
 }
+
+export default new SunAndMoonStore();

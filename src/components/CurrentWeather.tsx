@@ -1,60 +1,35 @@
 import { observer } from "mobx-react-lite";
 import WeatherStore from "../store/WeatherStore";
 
-// const CurrentWeather = observer(() => {
-//   return (
-//     <section className="current-weather-section bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 flex-1">
-//       <h2 className="text-[14px] font-bold">
-//         Now in {WeatherStore.city}, {WeatherStore.date}
-//       </h2>
-//       <div className="flex gap-3">
-//         <div className="flex items-center">
-//           <p className="text-[56px] leading-none">{WeatherStore.temperature}°</p>
-//           <img src={WeatherStore.icon} alt="Weather Icon" className="h-16" />
-//         </div>
-//         <ul>
-//           <li>Тиск: {WeatherStore.pressure} мм</li>
-//           <li>Вологість: {WeatherStore.humidity} %</li>
-//           <li>Вітер: {WeatherStore.windSpeed} м/с</li>
-//         </ul>
-//       </div>
-//       <p>Відчувається як {WeatherStore.feelsLike}°</p>
-//       <p>{WeatherStore.summary}</p>
-//     </section>
-//   );
-// });
-
-export { CurrentWeather };
-
 const CurrentWeather = observer(() => {
   return (
-    <section className="current-weather-section bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 flex-1 ">
-      <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
-      <p>
-        Погода {WeatherStore.city}, {WeatherStore.date}
-      </p>
-      <div className="flex gap-3 justify-between ">
+    <section className=" bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 lg:max-w-[296px] flex-shrink flex flex-col justify-between gap-3">
+      <div>
+        <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
+        <p>
+          Погода {WeatherStore.city}, {WeatherStore.date}
+        </p>
+      </div>
+      <div className="flex gap-3 justify-between">
         <div className="flex items-center">
           <p className="text-[56px] leading-none">{WeatherStore.temperature}&deg;</p>
-          <img src={WeatherStore.icon} alt="Weather Icon" className="h-16" />
+          <img src={WeatherStore.icon} alt="" className="h-16" />
         </div>
         <ul className="text-right flex flex-col justify-center">
           <li>{WeatherStore.description}</li>
           <li>
             {WeatherStore.maxTempDay}&deg;/{WeatherStore.minTempDay}&deg;
           </li>
-          {/* <li>Відчувається {WeatherStore.feelsLike}&deg;</li> */}
         </ul>
       </div>
-      {/* <p>Відчувається як {WeatherStore.feelsLike}°</p> */}
       <p>{WeatherStore.summary}</p>
-      <ul className="hourly-forecast flex justify-between py-3">
+      <ul className="flex justify-between">
         <Li />
         <Li />
         <Li />
         <Li />
       </ul>
-      <ul className="gap-3 grid grid-cols-3">
+      <ul className="grid gap-3 grid-cols-3">
         {data.map((item, index) => (
           <li key={index} className="rounded-lg flex items-center flex-col">
             <span className={item.iconClassName}></span>
@@ -85,3 +60,5 @@ const data = [
   { label: "Precipitation", value: "0.01 mm", iconClassName: "icon-rainfall" },
   { label: "Feels like", value: "-3°", iconClassName: "icon-feels-like" },
 ];
+
+export { CurrentWeather };

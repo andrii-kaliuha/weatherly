@@ -12,7 +12,7 @@ const App = () => {
       <main>
         <div className="flex flex-col lg:flex-row gap-3">
           <CurrentWeather />
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 flex-1">
             <SunAndMoon />
             <AQI />
           </div>
