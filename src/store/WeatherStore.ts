@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import AirQualityStore from "./AirQualityStore";
 import SunAndMoonStore from "./SunAndMoonStore";
+import WeeklyForecastStore from "./WeeklyForecastStore";
 
 class WeatherStore {
   city: string | null = null;
@@ -23,13 +24,6 @@ class WeatherStore {
   maxTempDay: number | null = null;
   minTempDay: number | null = null;
 
-  durationDay: string | null = null;
-  sunriseTime: string | null = null;
-  sunsetTime: string | null = null;
-  moonPhase: string | null = null;
-  moonriseTime: string | null = null;
-  moonsetTime: string | null = null;
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,72 +36,7 @@ class WeatherStore {
     this.error = error;
   }
 
-  updateSunAndMoon(data: any) {
-    this.sunriseTime = new Date(data.daily[0].sunrise * 1000).toLocaleTimeString("uk-UA", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-    this.sunsetTime = new Date(data.daily[0].sunset * 1000).toLocaleTimeString("uk-UA", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-    this.moonriseTime = new Date(data.daily[0].moonrise * 1000).toLocaleTimeString("uk-UA", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-    this.moonsetTime = new Date(data.daily[0].moonset * 1000).toLocaleTimeString("uk-UA", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-    this.moonPhase = data.daily[0].moon_phase;
-    // // this.sunriseTime = data.daily[0].sunrise;
-    // this.sunsetTime = data.daily[0].sunset;
-    // this.moonriseTime = data.daily[0].moonrise;
-    // this.moonsetTime = data.daily[0].moonset;
-
-    if (this.sunriseTime && this.sunsetTime) {
-      // Переконуємось, що значення є числами (якщо вони у вигляді рядка, конвертуємо їх у числа)
-      const sunriseTimeInSeconds = Number(this.sunriseTime); // Якщо це вже число, то Number не змінить його
-      const sunsetTimeInSeconds = Number(this.sunsetTime);
-
-      // Перевірка, чи обидва значення є числами
-      if (isNaN(sunriseTimeInSeconds) || isNaN(sunsetTimeInSeconds)) {
-        console.error("Невірний формат часу.");
-        return;
-      }
-
-      // Різниця між заходом і сходом у секундах
-      const durationInSeconds = sunsetTimeInSeconds - sunriseTimeInSeconds;
-
-      // Обчислюємо години та хвилини
-      const hours = Math.floor(durationInSeconds / 3600);
-      const minutes = Math.floor((durationInSeconds % 3600) / 60);
-
-      // Виводимо тривалість дня
-      this.durationDay = `${hours}:${minutes}`;
-    }
-  }
-
   updateWeatherData(data: any) {
-    // const date = new Date(data.current.dt * 1000);
-
-    // // Кастомна мапа для днів тижня у називному відмінку
-    // const weekdays = ["неділя", "понеділок", "вівторок", "середа", "четвер", "п’ятниця", "субота"];
-
-    // // Кастомна мапа для місяців у називному відмінку
-    // const months = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
-
-    // // Отримуємо складові дати
-    // const day = date.getDate(); // число
-    // const month = months[date.getMonth()]; // місяць
-    // const weekday = weekdays[date.getDay()]; // день тижня
-
-    // // Форматуємо дату
-    // const formattedDate = `${day} ${month} ${weekday}`;
-
-    // console.log(formattedDate);
-    // this.date = formattedDate;
-
     this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-US", {
       day: "numeric",
       month: "long",
@@ -193,7 +122,7 @@ class WeatherStore {
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
       const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&lang=uk&appid=${API_KEY}`
       );
       const forecast = await forecastResponse.json();
 
@@ -202,7 +131,8 @@ class WeatherStore {
       }
 
       this.updateWeatherData(forecast);
-      this.updateSunAndMoon(forecast);
+      SunAndMoonStore.updateSunAndMoon(forecast);
+      WeeklyForecastStore.updateWeeklyForecast(forecast.daily);
 
       console.log(forecast);
     } catch (error: any) {

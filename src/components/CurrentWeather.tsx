@@ -3,7 +3,7 @@ import WeatherStore from "../store/WeatherStore";
 
 const CurrentWeather = observer(() => {
   return (
-    <section className=" bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 lg:max-w-[296px] flex-shrink flex flex-col justify-between gap-3">
+    <section className=" bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
