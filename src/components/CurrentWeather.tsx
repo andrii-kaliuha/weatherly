@@ -1,38 +1,47 @@
 import { observer } from "mobx-react-lite";
-import WeatherStore from "../store/WeatherStore";
+import CurrentWeatherStore from "../store/CurrentWeatherStore";
 
 const CurrentWeather = observer(() => {
+  const { hourlyForecast, weatherConditions } = CurrentWeatherStore;
   return (
     <section className=" bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
-          Погода {WeatherStore.city}, {WeatherStore.date}
+          Погода {CurrentWeatherStore.city}, {CurrentWeatherStore.date}
         </p>
       </div>
       <div className="flex gap-3 justify-between">
         <div className="flex items-center">
-          <p className="text-[56px] leading-none">{WeatherStore.temperature}&deg;</p>
-          <img src={WeatherStore.icon} alt="" className="h-16" />
+          <p className="text-[56px] leading-none">{CurrentWeatherStore.temperature}&deg;</p>
+          <img src={CurrentWeatherStore.icon} alt="" className="h-16" />
         </div>
         <ul className="text-right flex flex-col justify-center">
-          <li>{WeatherStore.description}</li>
+          <li>{CurrentWeatherStore.description}</li>
           <li>
-            {WeatherStore.maxTempDay}&deg;/{WeatherStore.minTempDay}&deg;
+            {CurrentWeatherStore.maxTempDay}°/{CurrentWeatherStore.minTempDay}°
           </li>
         </ul>
       </div>
-      <p>{WeatherStore.summary}</p>
-      <ul className="flex justify-between">
-        <Li />
-        <Li />
-        <Li />
-        <Li />
+      <p>{CurrentWeatherStore.summary}</p>
+
+      <ul className="flex justify-between overflow-x-auto gap-3 scroll-px-40">
+        {hourlyForecast.map((item, index) => (
+          <li
+            key={index}
+            className="bg-[#1d1c1f] text-[#dddae5] flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0"
+          >
+            <span>{item.time}</span>
+            <img src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`} alt="" className="h-12 w-12 object-contain" />
+            <p>{item.temperature}°</p>
+          </li>
+        ))}
       </ul>
-      <ul className="grid gap-3 grid-cols-3">
-        {data.map((item, index) => (
+
+      <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
+        {weatherConditions.map((item, index) => (
           <li key={index} className="rounded-lg flex items-center flex-col">
-            <span className={item.iconClassName}></span>
+            <span className={item.icon}></span>
             <p className="flex items-end">{item.value}</p>
             <span className="text-[12px]">{item.label}</span>
           </li>
@@ -41,24 +50,5 @@ const CurrentWeather = observer(() => {
     </section>
   );
 });
-
-const Li = () => {
-  return (
-    <li className="bg-[#1d1c1f] text-[#dddae5] flex flex-col items-center justify-between rounded-3xl">
-      <span className="today-hourly-weather__name">Вночі</span>
-      <img src="https://openweathermap.org/img/wn/04n@2x.png" alt="Weather Icon" className="h-12" />
-      <span className="today-hourly-weather__temp">-2&deg;</span>
-    </li>
-  );
-};
-
-const data = [
-  { label: "Pressure", value: "755 mm", iconClassName: "icon-meater" },
-  { label: "Humidity", value: "91 %", iconClassName: "icon-dropp" },
-  { label: "Wind", value: "4 m/s", iconClassName: "icon-wind" },
-  { label: "UV index", value: "0/12", iconClassName: "icon-uv" },
-  { label: "Precipitation", value: "0.01 mm", iconClassName: "icon-rainfall" },
-  { label: "Feels like", value: "-3°", iconClassName: "icon-feels-like" },
-];
 
 export { CurrentWeather };

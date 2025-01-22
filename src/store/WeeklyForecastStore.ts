@@ -1,14 +1,14 @@
 import { makeAutoObservable } from "mobx";
 
 class WeeklyForecastStore {
-  weeklyForecast: any;
+  weeklyForecast: { date: string; weekday: string; minTemp: number; maxTemp: number; icon: string; description: string }[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
   updateWeeklyForecast(data: any) {
-    const formatForecast = data.map((day: any) => ({
+    this.weeklyForecast = data.map((day: any) => ({
       date: new Date(day.dt * 1000).toLocaleString("uk-UA", {
         day: "numeric",
         month: "long",
@@ -21,7 +21,6 @@ class WeeklyForecastStore {
       icon: day.weather[0].icon,
       description: day.weather[0].description,
     }));
-    this.weeklyForecast = formatForecast;
   }
 }
 

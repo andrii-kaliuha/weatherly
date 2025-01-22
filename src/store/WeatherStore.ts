@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import AirQualityStore from "./AirQualityStore";
 import SunAndMoonStore from "./SunAndMoonStore";
 import WeeklyForecastStore from "./WeeklyForecastStore";
+import CurrentWeatherStore from "./CurrentWeatherStore";
 
 class WeatherStore {
   city: string | null = null;
@@ -46,13 +47,13 @@ class WeatherStore {
     this.feelsLike = Math.round(data.current.feels_like);
     this.description = data.current.weather[0].description;
     this.icon = `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
-    this.dailyForecast = data.daily;
-    this.hourlyForecast = data.hourly;
     this.humidity = data.current.humidity;
     this.pressure = data.current.pressure;
     this.uv = data.current.uvi;
     this.windSpeed = data.current.wind_speed;
-    this.visibility = data.current.visibility;
+    // this.dailyForecast = data.daily;
+    // this.hourlyForecast = data.hourly;
+    // this.visibility = data.current.visibility;
     this.summary = data.daily[0].summary;
     this.maxTempDay = Math.round(data.daily[0].temp.max);
     this.minTempDay = Math.round(data.daily[0].temp.min);
@@ -133,6 +134,7 @@ class WeatherStore {
       this.updateWeatherData(forecast);
       SunAndMoonStore.updateSunAndMoon(forecast);
       WeeklyForecastStore.updateWeeklyForecast(forecast.daily);
+      CurrentWeatherStore.updateCurrentWeather(forecast);
 
       console.log(forecast);
     } catch (error: any) {

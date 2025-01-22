@@ -22,17 +22,13 @@ const AQI = observer(() => {
           </div>
         </div>
         <ul className="flex justify-around w-full">
-          {airPollutants && airPollutants.length > 0 ? (
-            airPollutants.map((item, index) => (
-              <li key={index} className="flex flex-col items-center">
-                <span className={item.iconClassName} style={{ color: AirQualityStore.color || "inherit" }}></span>
-                <p>{item.value}</p>
-                <span>{item.label}</span>
-              </li>
-            ))
-          ) : (
-            <p>Немає даних про забруднювачі</p>
-          )}
+          {airPollutants.map((item, index) => (
+            <li key={index} className="flex flex-col items-center">
+              <span className={item.iconClassName} style={{ color: AirQualityStore.color || "inherit" }}></span>
+              <p>{item.value}</p>
+              <span>{item.label}</span>
+            </li>
+          ))}
         </ul>
       </div>
       <div>

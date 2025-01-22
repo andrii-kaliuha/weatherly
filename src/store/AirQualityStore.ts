@@ -7,7 +7,7 @@ class AirQualityStore {
   color: string | null = null;
   title: string | null = null;
   description: string | null = null;
-  airPollutants: { label: string; value: number; iconClassName: string }[] | null = null;
+  airPollutants: { label: string; value: number; iconClassName: string }[] = [];
   airQualityLevels = [
     {
       id: 1,
