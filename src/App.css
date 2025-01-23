@@ -15,3 +15,7 @@ main {
   gap: 12px;
   margin: 0 12px 12px 12px;
 }
+
+html {
+  scrollbar-color: #495057 transparent; /* Колір повзунка і треку */
+}

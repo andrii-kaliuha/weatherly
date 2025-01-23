@@ -1,7 +1,7 @@
 import { useState } from "react";
 import WeatherStore from "../store/WeatherStore.ts";
 
-const Header = () => {
+const Header = ({ toggleMenu }: { toggleMenu: () => void }) => {
   const [city, setCity] = useState("Київ");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -12,7 +12,10 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-10 bg-[#131214] max-w-[1024px]">
       <nav className="flex items-center justify-between m-3 gap-3">
-        <button className="flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent ">
+        <button
+          onClick={toggleMenu} // Відкриває або закриває SideMenu
+          className="flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent"
+        >
           <span className="material-symbols-outlined"> menu </span>
         </button>
         <form className="relative text-[#dddae5]" onSubmit={handleSearch}>
@@ -24,7 +27,7 @@ const Header = () => {
             onChange={(e) => setCity(e.target.value)}
             className="text-[#dddae5] bg-[#1d1c1f] pl-3 rounded-[24px] h-[48px] w-full outline-transparent border-transparent"
           />
-          <button className="absolute right-0 top-0 flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent ">
+          <button className="absolute right-0 top-0 flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent">
             <span className="material-symbols-outlined"> search </span>
           </button>
         </form>
