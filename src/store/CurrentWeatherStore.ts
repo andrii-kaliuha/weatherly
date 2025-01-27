@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import WeatherStore from "./WeatherStore";
+import WeatherStore from "./request";
 
 class CurrentWeatherStore {
   city: string | null = null;
@@ -38,12 +38,6 @@ class CurrentWeatherStore {
       { icon: "icon-rainfall", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, label: "Precipitation" },
       { icon: "icon-feels-like", value: `${Math.round(data.current.feels_like)}°`, label: "Feels like" },
     ];
-    // this.hourlyForecast = [
-    //   { temperature: Math.round(data.hourly[0].temp.morn), icon: data.daily[0].weather[0].icon, time: "Morning" },
-    //   { temperature: Math.round(data.daily[0].temp.day), icon: data.daily[0].weather[0].icon, time: "Day" },
-    //   { temperature: Math.round(data.daily[0].temp.eve), icon: data.daily[0].weather[0].icon, time: "Evening" },
-    //   { temperature: Math.round(data.daily[0].temp.night), icon: data.daily[0].weather[0].icon, time: "Night" },
-    // ];
     this.hourlyForecast = data.hourly.map((hour: any) => ({
       time: new Date(hour.dt * 1000).toLocaleTimeString("uk-UA", {
         hour: "numeric",

@@ -5,7 +5,7 @@ const AQI = observer(() => {
   const { airPollutants } = AirQualityStore;
 
   return (
-    <section className="relative bg-[#1d1c1f] text-[#dddae5] rounded-3xl p-6">
+    <section className="relative bg-surface text-on-surface rounded-3xl p-6 flex-1">
       <h2 className="text-center sm:text-left leading-6">Якість повітря в {AirQualityStore.city}</h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">
         <div

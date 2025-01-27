@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import WeatherStore from "./WeatherStore";
+import WeatherStore from "./request";
 
 class AirQualityStore {
   city: string | null = null;

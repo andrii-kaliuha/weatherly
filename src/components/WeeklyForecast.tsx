@@ -5,11 +5,11 @@ const WeeklyForecast = observer(() => {
   const { weeklyForecast } = WeeklyForecastStore;
 
   return (
-    <section className="bg-[#1d1c1f] text-[#dddae5] rounded-3xl">
-      <h2 className="text-[16px] mx-6 mt-6 mb-3 leading-none">Прогноз погоди на тиждень</h2>
+    <section className="bg-surface text-on-surface rounded-3xl">
+      <h2 className="text-[16px] px-6 pt-6 pb-3 leading-none">Прогноз погоди на тиждень</h2>
       <ul className="flex flex-col">
         {weeklyForecast.map((day: any, index: number) => (
-          <li key={index} className="flex justify-between items-center px-6 py-3 border-t-2 border-[#131214] last-of-type:pb-6">
+          <li key={index} className="flex justify-between items-center px-6 py-3 border-t-2 border-[#131214]">
             <div className="md:flex-1">
               <p>{day.date}</p>
               <p>{day.weekday}</p>

@@ -1,48 +1,55 @@
 import { useState } from "react";
-import WeatherStore from "../store/WeatherStore.ts";
+import WeatherStore from "../store/request.ts";
+import { SideMenu } from "./SideMenu.tsx";
 
-const Header = ({ toggleMenu }: { toggleMenu: () => void }) => {
-  const [city, setCity] = useState("Київ");
+const Header = () => {
+  const [cityName, setCity] = useState("Київ");
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const searchCity = (e: React.FormEvent) => {
     e.preventDefault();
-    WeatherStore.getCityCoordinates(city);
+    WeatherStore.getCityCoordinates(cityName);
   };
 
   return (
-    <header className="sticky top-0 z-10 bg-[#131214] max-w-[1024px]">
-      <nav className="flex items-center justify-between m-3 gap-3">
-        <button
-          onClick={toggleMenu} // Відкриває або закриває SideMenu
-          className="flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent"
-        >
-          <span className="material-symbols-outlined"> menu </span>
-        </button>
-        <form className="relative text-[#dddae5]" onSubmit={handleSearch}>
+    <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
+      <nav className="flex items-center justify-between p-3 gap-3">
+        <Button onClick={toggleMenu} icon="menu" additionalClass="bg-surface text-on-surface" />
+        <SideMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+        <form className="relative text-on-surface" onSubmit={searchCity}>
           <input
             type="text"
             placeholder="Search city..."
-            name="City"
-            value={city}
+            name="searchCity "
+            value={cityName}
             onChange={(e) => setCity(e.target.value)}
-            className="text-[#dddae5] bg-[#1d1c1f] pl-3 rounded-[24px] h-[48px] w-full outline-transparent border-transparent"
+            className="bg-surface text-on-surface pl-3 rounded-[24px] h-[48px] outline-transparent border-transparent"
           />
-          <button className="absolute right-0 top-0 flex items-center justify-center bg-[#1d1c1f] text-white p-3 rounded-full cursor-pointer border-transparent outline-transparent">
-            <span className="material-symbols-outlined"> search </span>
-          </button>
+          <Button icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
         </form>
-        <div className="flex gap-3">
-          <button
-            className="flex items-center justify-center bg-[#b5a1e5] gap-3 p-3 h-[48px] rounded-full cursor-pointer border-transparent outline-transparent"
-            onClick={WeatherStore.getCurrentLocation}
-          >
-            <span className="material-symbols-outlined"> my_location </span>
-            <p className="md:block hidden">Current Location</p>
-          </button>
-        </div>
+        <Button onClick={WeatherStore.getCurrentLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
       </nav>
     </header>
   );
 };
 
 export { Header };
+
+interface ButtonProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  icon: string;
+  label?: string;
+  additionalClass?: string;
+}
+
+const Button: React.FC<ButtonProps> = ({ onClick, icon, label, additionalClass = "" }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}
+  >
+    <span className="material-symbols-outlined">{icon}</span>
+    {label && <p className="md:block hidden">{label}</p>}
+  </button>
+);

@@ -53,8 +53,8 @@ const Moon = observer(() => {
 
 const SunAndMoon = () => {
   return (
-    <section className="sun-and-moon bg-[#1d1c1f] text-[#dddae5] p-6 rounded-3xl ">
-      <h2>Сонце та Місяць</h2>
+    <section className="bg-surface text-on-surface p-6 rounded-3xl flex-1">
+      <h2 className="mb-3">Сонце та Місяць</h2>
       <div className="flex flex-col sm:flex-row justify-around gap-3">
         <Sun />
         <Moon />

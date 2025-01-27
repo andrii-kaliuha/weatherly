@@ -1,6 +1,8 @@
 body {
   background-color: #131214;
   font-family: "Roboto", sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
 .wrapper {
@@ -16,6 +18,12 @@ main {
   margin: 0 12px 12px 12px;
 }
 
-html {
-  scrollbar-color: #495057 transparent; /* Колір повзунка і треку */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff14;
+  border-radius: 6px;
 }

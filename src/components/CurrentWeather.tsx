@@ -4,14 +4,14 @@ import CurrentWeatherStore from "../store/CurrentWeatherStore";
 const CurrentWeather = observer(() => {
   const { hourlyForecast, weatherConditions } = CurrentWeatherStore;
   return (
-    <section className=" bg-[#1d1c1f] text-[#dddae5] text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
+    <section className=" bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
           Погода {CurrentWeatherStore.city}, {CurrentWeatherStore.date}
         </p>
       </div>
-      <div className="flex gap-3 justify-between">
+      <div className="flex justify-between gap-3">
         <div className="flex items-center">
           <p className="text-[56px] leading-none">{CurrentWeatherStore.temperature}&deg;</p>
           <img src={CurrentWeatherStore.icon} alt="" className="h-16" />
@@ -29,7 +29,7 @@ const CurrentWeather = observer(() => {
         {hourlyForecast.map((item, index) => (
           <li
             key={index}
-            className="bg-[#1d1c1f] text-[#dddae5] flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0"
+            className="bg-surface text-on-surface flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0"
           >
             <span>{item.time}</span>
             <img src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`} alt="" className="h-12 w-12 object-contain" />
