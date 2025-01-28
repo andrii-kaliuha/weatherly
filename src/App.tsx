@@ -7,7 +7,7 @@ import { WeeklyForecast } from "./components/WeeklyForecast";
 
 const App = () => {
   return (
-    <div className="wrapper">
+    <div className="container">
       <Header />
       <main>
         <div className="flex flex-col lg:flex-row gap-3">

@@ -1,6 +1,9 @@
 body {
   background-color: #131214;
   font-family: "Roboto", sans-serif;
+}
+
+body > #root {
   display: flex;
   justify-content: center;
 }
@@ -8,6 +11,13 @@ body {
 .wrapper {
   display: flex;
   flex-direction: column;
+  max-width: 1024px;
+  display: flex;
+  justify-content: center;
+  max-width: 1024px;
+}
+
+.container {
   max-width: 1024px;
 }
 
@@ -25,5 +35,4 @@ main {
 
 ::-webkit-scrollbar-thumb {
   background-color: #ffffff14;
-  border-radius: 6px;
 }

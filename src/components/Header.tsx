@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WeatherStore from "../store/request.ts";
+import WeatherRequest from "../store/request.ts";
 import { SideMenu } from "./SideMenu.tsx";
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
 
   const searchCity = (e: React.FormEvent) => {
     e.preventDefault();
-    WeatherStore.getCityCoordinates(cityName);
+    WeatherRequest.getCityCoordinates(cityName);
   };
 
   return (
@@ -25,11 +25,11 @@ const Header = () => {
             name="searchCity "
             value={cityName}
             onChange={(e) => setCity(e.target.value)}
-            className="bg-surface text-on-surface pl-3 rounded-[24px] h-[48px] outline-transparent border-transparent"
+            className="bg-surface text-on-surface pl-3 rounded-[24px] w-full sm:w-64 h-[48px] outline-transparent border-transparent"
           />
           <Button icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
         </form>
-        <Button onClick={WeatherStore.getCurrentLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
+        <Button onClick={WeatherRequest.getCurrentLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
       </nav>
     </header>
   );

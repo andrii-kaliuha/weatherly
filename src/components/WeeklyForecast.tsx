@@ -9,7 +9,7 @@ const WeeklyForecast = observer(() => {
       <h2 className="text-[16px] px-6 pt-6 pb-3 leading-none">Прогноз погоди на тиждень</h2>
       <ul className="flex flex-col">
         {weeklyForecast.map((day: any, index: number) => (
-          <li key={index} className="flex justify-between items-center px-6 py-3 border-t-2 border-[#131214]">
+          <li key={index} className="flex justify-between items-center px-6 py-3 border-t-2 border-background">
             <div className="md:flex-1">
               <p>{day.date}</p>
               <p>{day.weekday}</p>

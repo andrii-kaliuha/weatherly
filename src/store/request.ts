@@ -4,26 +4,10 @@ import SunAndMoonStore from "./SunAndMoonStore";
 import WeeklyForecastStore from "./WeeklyForecastStore";
 import CurrentWeatherStore from "./CurrentWeatherStore";
 
-class WeatherStore {
+class WeatherRequest {
   city: string | null = null;
   loading: boolean = false;
   error: string | null = null;
-  // date: string | null = null;
-  // temperature: number | null = null;
-  // feelsLike: number | null = null;
-  // description: string = "";
-  // icon: string = "";
-  // dailyForecast: any;
-  // hourlyForecast: any;
-  // humidity: string | null = null;
-  // pressure: string | null = null;
-  // uv: string | null = null;
-  // summary: string | null = null;
-  // windSpeed: string | null = null;
-  // visibility: string | null = null;
-  // airQualityIndex: any;
-  // maxTempDay: number | null = null;
-  // minTempDay: number | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,28 +20,6 @@ class WeatherStore {
   setError(error: string | null) {
     this.error = error;
   }
-
-  // updateWeatherData(data: any) {
-  //   this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-US", {
-  //     day: "numeric",
-  //     month: "long",
-  //     weekday: "long",
-  //   });
-  //   this.temperature = Math.round(data.current.temp);
-  //   this.feelsLike = Math.round(data.current.feels_like);
-  //   this.description = data.current.weather[0].description;
-  //   this.icon = `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
-  //   this.humidity = data.current.humidity;
-  //   this.pressure = data.current.pressure;
-  //   this.uv = data.current.uvi;
-  //   this.windSpeed = data.current.wind_speed;
-  //   // this.dailyForecast = data.daily;
-  //   // this.hourlyForecast = data.hourly;
-  //   // this.visibility = data.current.visibility;
-  //   this.summary = data.daily[0].summary;
-  //   this.maxTempDay = Math.round(data.daily[0].temp.max);
-  //   this.minTempDay = Math.round(data.daily[0].temp.min);
-  // }
 
   async getCityCoordinates(cityName: string) {
     this.setLoading(true);
@@ -143,4 +105,4 @@ class WeatherStore {
   }
 }
 
-export default new WeatherStore();
+export default new WeatherRequest();

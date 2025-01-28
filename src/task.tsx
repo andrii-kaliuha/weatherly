@@ -77,3 +77,8 @@
 //   { temperature: Math.round(data.daily[0].temp.eve), icon: data.daily[0].weather[0].icon, time: "Evening" },
 //   { temperature: Math.round(data.daily[0].temp.night), icon: data.daily[0].weather[0].icon, time: "Night" },
 // ];
+
+// // Конфігурація MobX
+// configure({
+//   enforceActions: "never", // Вимикає strict mode
+// });

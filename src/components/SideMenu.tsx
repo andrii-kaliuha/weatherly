@@ -1,46 +1,52 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 interface SideMenuProps {
-  isMenuOpen: boolean; // Проп для контролю видимості меню
-  toggleMenu: () => void; // Функція для відкриття/закриття меню
+  isMenuOpen: boolean;
+  toggleMenu: () => void;
 }
+
+const useClickOutside = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback(); // Закриваємо меню, не відкриваючи
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, callback]);
+};
 
 const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpen, toggleMenu }) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        toggleMenu(); // Закриваємо меню
-      }
-    };
-
+  // Використовуємо хук для обробки кліків поза меню
+  useClickOutside(menuRef, () => {
     if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      toggleMenu(); // Закриваємо меню тільки якщо воно відкрите
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMenuOpen, toggleMenu]);
+  });
 
   return (
     <div
       ref={menuRef}
-      className={`fixed top-0 left-0 bg-surface text-on-surface w-[30vw] p-6 h-[100%] z-20 border-r-2 border-cyan-700 ${
-        isMenuOpen ? "block" : "hidden"
+      className={`fixed top-0 left-0 bg-background text-on-surface md:w-[30vw] p-6 h-full z-20 transition-transform duration-300 ${
+        isMenuOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="flex items-center leading-none gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-6">
         <h1 className="text-[20px] font-bold">Weatherly</h1>
-        <img src="./src/assets/images/logo.svg" alt="" className="w-8 h-8" />
+        <img src="./src/assets/images/logo.svg" alt="Weatherly logo" className="w-8 h-8" />
       </div>
 
       <div className="flex flex-col justify-between h-full pb-10">
-        <ul className="space-y-5">
-          <LiSelect icon="language" title="Language" options={["English", "Ukrainian"]} />
-          <LiSelect icon="dark_mode" title="Interface theme" options={["Dark", "Light"]} />
-          <LiSelect icon="air" title="Wind" options={["m/s", "km/h", "mph"]} />
+        <ul className="flex flex-col gap-3">
+          <LiSelect title="Language" options={["English", "Ukrainian"]} />
+          <LiSelect title="Interface theme" options={["Dark", "Light"]} />
+          <LiSelect title="Wind speed" options={["m/s", "km/h", "mph"]} />
         </ul>
 
         <ul className="text-[14px]">
@@ -56,25 +62,73 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpen, toggleMenu }) => {
 export { SideMenu };
 
 interface LiSelectProps {
-  icon: string;
   title: string;
   options: string[];
 }
 
-const LiSelect: React.FC<LiSelectProps> = ({ icon, title, options }) => {
+const LiSelect: React.FC<LiSelectProps> = ({ title, options }) => {
+  const handleSelectChange = (selected: string) => {
+    console.log(`${title} selected:`, selected);
+  };
+
   return (
-    <li className="flex flex-col">
-      <p className="text-[12px] mb-1">{title}</p>
-      <div className="flex items-center">
-        <span className="material-symbols-outlined mr-2">{icon}</span>
-        <select className="bg-transparent border border-on-surface rounded-md p-1 text-on-surface text-[12px] focus:outline-none focus:ring-1 focus:ring-cyan-700">
-          {options.map((option, index) => (
-            <option key={index} value={option} className="bg-surface text-on-surface">
-              {option}
-            </option>
-          ))}
-        </select>
+    <li>
+      <div className="flex justify-between items-center">
+        <p className="text-[12px]">{title}</p>
+        <CustomSelect options={options} onChange={handleSelectChange} />
       </div>
     </li>
   );
 };
+
+interface CustomSelectProps {
+  options: string[];
+  onChange: (value: string) => void;
+}
+
+const CustomSelect: React.FC<CustomSelectProps> = ({ options, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string>(options[0]);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleSelect = (option: string) => {
+    setSelectedOption(option);
+    onChange(option);
+    setIsOpen(false);
+  };
+
+  useClickOutside(menuRef, () => setIsOpen(false));
+
+  return (
+    <div className="relative w-32" ref={menuRef}>
+      <div
+        className="flex items-center justify-end border-transparent rounded-md p-3 text-on-surface text-[12px] cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+        role="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+      >
+        {selectedOption}
+        <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+      </div>
+
+      {isOpen && (
+        <ul className="absolute bg-surface rounded-md w-full z-10" role="listbox" aria-activedescendant={selectedOption}>
+          {options.map((option, index) => (
+            <li
+              key={index}
+              className="p-3 text-on-surface text-[12px] cursor-pointer border-b-2 border-background last-of-type:border-none"
+              onClick={() => handleSelect(option)}
+              role="option"
+              aria-selected={option === selectedOption}
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default CustomSelect;

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import WeatherStore from "./request";
+import WeatherRequest from "./request";
 
 class AirQualityStore {
   city: string | null = null;
@@ -56,7 +56,7 @@ class AirQualityStore {
   }
 
   updateAirQuality(data: any) {
-    this.city = WeatherStore.city;
+    this.city = WeatherRequest.city;
     this.aqi = data.list[0].main.aqi;
     const currentAirQuality = this.airQualityLevels.find((item) => item.id === this.aqi) || this.airQualityLevels[4];
     this.color = currentAirQuality.color;
