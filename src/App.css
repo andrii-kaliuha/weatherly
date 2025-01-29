@@ -22,9 +22,9 @@ body > #root {
 }
 
 main {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 12px; */
   margin: 0 12px 12px 12px;
 }
 

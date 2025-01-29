@@ -3,11 +3,11 @@ import AirQualityStore from "./AirQualityStore";
 import SunAndMoonStore from "./SunAndMoonStore";
 import WeeklyForecastStore from "./WeeklyForecastStore";
 import CurrentWeatherStore from "./CurrentWeatherStore";
+import ErrorStore from "./ErrorStore";
 
 class WeatherRequest {
-  city: string | null = null;
+  cityName: string | null = null;
   loading: boolean = false;
-  error: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -17,88 +17,116 @@ class WeatherRequest {
     this.loading = loading;
   }
 
-  setError(error: string | null) {
-    this.error = error;
-  }
-
   async getCityCoordinates(cityName: string) {
     this.setLoading(true);
-    this.setError(null);
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
-      const coordinatesResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
-      const coordinates = await coordinatesResponse.json();
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
+
+      if (!response.ok) {
+        throw new Error("Помилка при підключенні до сервера. Спробуйте ще раз.");
+      }
+
+      const coordinates = await response.json();
 
       if (!coordinates || coordinates.length === 0) {
-        throw new Error("City not found");
+        throw new Error("Місто не знайдено. Перевірте правильність введеної назви.");
       }
-      this.city = coordinates[0].local_names.en;
+
       const { lat, lon } = coordinates[0];
       this.getWeatherForecast(lat, lon);
       AirQualityStore.getAirQuality(lat, lon);
+      AirQualityStore.setCity(coordinates[0].local_names.uk);
+      this.cityName = coordinates[0].local_names.uk;
     } catch (error: any) {
-      this.setError(error.message || "Error getting city coordinates");
+      ErrorStore.addError(error.message || "Сталася непередбачена помилка. Спробуйте ще раз.");
     } finally {
       this.setLoading(false);
     }
   }
 
-  getCityFromCoordinates = (lat: number, lon: number) => {
-    const API_KEY = "ada53a53546a12851a13875d932b485b";
-    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`;
+  async getCityNameByCoordinates(lat: number, lon: number) {
+    this.setLoading(true);
+    try {
+      const API_KEY = "ada53a53546a12851a13875d932b485b";
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`);
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length > 0) {
-          this.city = data[0].name;
-        } else {
-          console.error("Не вдалося знайти місто за цими координатами.");
-        }
-      })
-      .catch((error) => {
-        console.error("Помилка при отриманні даних:", error);
-      });
-  };
+      if (!response.ok) {
+        throw new Error("Помилка при підключенні до сервера. Спробуйте ще раз.");
+      }
 
-  getCurrentLocation = () => {
+      const cityData = await response.json();
+
+      if (!cityData || cityData.length === 0) {
+        throw new Error("Місто з вказаними координатами не знайдено.");
+      }
+
+      this.cityName = cityData[0].local_names.uk;
+      AirQualityStore.setCity(cityData[0].local_names.uk);
+    } catch (error: any) {
+      ErrorStore.addError(error.message || "Сталася непередбачена помилка. Спробуйте ще раз пізніше.");
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  getCurrentLocation = async () => {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          this.getCityFromCoordinates(latitude, longitude);
-          this.getWeatherForecast(latitude, longitude);
-          AirQualityStore.getAirQuality(latitude, longitude);
-        },
-        (error) => {
-          console.error("Помилка геолокації:", error);
+      try {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const { latitude, longitude } = position.coords;
+
+        await this.getCityNameByCoordinates(latitude, longitude);
+        await this.getWeatherForecast(latitude, longitude);
+        await AirQualityStore.getAirQuality(latitude, longitude);
+      } catch (error) {
+        if (error instanceof GeolocationPositionError) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              ErrorStore.addError("Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              ErrorStore.addError("Не вдалося визначити місцезнаходження. Спробуйте пізніше.");
+              break;
+            case error.TIMEOUT:
+              ErrorStore.addError("Час вичерпано при спробі визначити місцезнаходження.");
+              break;
+            default:
+              ErrorStore.addError("Не вдалося отримати геолокацію. Спробуйте ще раз.");
+          }
+        } else {
+          ErrorStore.addError("Сталася непередбачена помилка при отриманні геолокації.");
         }
-      );
+      }
     } else {
-      console.error("Невідома помилка геолокації.");
+      ErrorStore.addError("Геолокація не підтримується вашим браузером.");
     }
   };
 
   async getWeatherForecast(lat: number, lon: number) {
     this.setLoading(true);
-    this.setError(null);
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
-      const forecastResponse = await fetch(
+      const response = await fetch(
         `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&lang=uk&appid=${API_KEY}`
       );
-      const forecast = await forecastResponse.json();
 
-      if (!forecastResponse.ok) {
-        throw new Error("Failed to retrieve weather data");
+      if (!response.ok) {
+        throw new Error("Помилка під час запиту до серверу. Перевірте підключення до інтернету.");
       }
+
+      const forecast = await response.json();
+
       console.log(forecast);
 
       SunAndMoonStore.updateSunAndMoon(forecast);
       WeeklyForecastStore.updateWeeklyForecast(forecast.daily);
       CurrentWeatherStore.updateCurrentWeather(forecast);
     } catch (error: any) {
-      this.setError(error.message || "Error when receiving data");
+      ErrorStore.addError(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
     } finally {
       this.setLoading(false);
     }

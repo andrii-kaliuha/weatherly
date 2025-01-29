@@ -8,7 +8,7 @@ const CurrentWeather = observer(() => {
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
-          Погода {CurrentWeatherStore.city}, {CurrentWeatherStore.date}
+          Погода {CurrentWeatherStore.cityName}, {CurrentWeatherStore.date}
         </p>
       </div>
       <CurrentTemperature />

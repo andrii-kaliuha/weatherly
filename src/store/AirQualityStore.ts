@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
-import WeatherRequest from "./request";
 
 class AirQualityStore {
-  city: string | null = null;
+  cityName: string | null = null;
   aqi: number | null = null;
   color: string | null = null;
   title: string | null = null;
@@ -15,7 +14,7 @@ class AirQualityStore {
       color: "#a2d043",
       title: "Хороше повітря",
       description:
-        "Повітря чисте, а забруднення становить невеликий ризик або взагалі не становить жодного ризику. Прийнятно для більшості людей.",
+        "Повітря чисте, а рівень забруднення є мінімальним або не становить жодної загрози для здоров'я. Це безпечно для більшості людей.",
     },
     {
       id: 2,
@@ -55,8 +54,11 @@ class AirQualityStore {
     makeAutoObservable(this);
   }
 
+  setCity(cityName: string) {
+    this.cityName = cityName;
+  }
+
   updateAirQuality(data: any) {
-    this.city = WeatherRequest.city;
     this.aqi = data.list[0].main.aqi;
     const currentAirQuality = this.airQualityLevels.find((item) => item.id === this.aqi) || this.airQualityLevels[4];
     this.color = currentAirQuality.color;
