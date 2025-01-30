@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import ErrorStore from "./ErrorStore";
 
 class AirQualityStore {
   cityName: string | null = null;
@@ -6,7 +7,7 @@ class AirQualityStore {
   color: string | null = null;
   title: string | null = null;
   description: string | null = null;
-  airPollutants: { label: string; value: number; iconClassName: string }[] = [];
+  airPollutants: { label: string; value: number; icon: string }[] = [];
   airQualityLevels = [
     {
       id: 1,
@@ -68,22 +69,22 @@ class AirQualityStore {
       {
         label: "PM 2.5",
         value: Math.round(data.list[0].components.pm2_5),
-        iconClassName: "icon-particles-simetrik",
+        icon: "icon-particles-simetrik",
       },
       {
         label: "PM 10",
         value: Math.round(data.list[0].components.pm10),
-        iconClassName: "icon-particles",
+        icon: "icon-particles",
       },
       {
         label: "SO2",
         value: Math.round(data.list[0].components.so2),
-        iconClassName: "icon-SO2",
+        icon: "icon-SO2",
       },
       {
         label: "NO2",
         value: Math.round(data.list[0].components.no2),
-        iconClassName: "icon-NO2",
+        icon: "icon-NO2",
       },
     ];
   }
@@ -91,11 +92,11 @@ class AirQualityStore {
   async getAirQuality(lat: number, lon: number) {
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
-      const AQIResponse = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-      const AQI = await AQIResponse.json();
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      const AQI = await response.json();
       this.updateAirQuality(AQI);
     } catch (error: any) {
-      console.log(error.message || "Error when receiving air quality data");
+      ErrorStore.addError(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
     }
   }
 }

@@ -64,12 +64,9 @@ const HourlyForecast = () => {
   }, []);
 
   return (
-    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-3 scroll-px-40">
+    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-3">
       {hourlyForecast.map((item, index) => (
-        <li
-          key={index}
-          className="bg-surface text-on-surface flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0"
-        >
+        <li key={index} className="flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0">
           <span>{item.time}</span>
           <img src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`} alt="" className="h-12 w-12 object-contain" />
           <p>{item.temperature}°</p>

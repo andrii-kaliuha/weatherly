@@ -1,9 +1,9 @@
 import { useState } from "react";
-import WeatherRequest from "../store/request.ts";
+import request from "../store/request.ts";
 import { SideMenu } from "./SideMenu.tsx";
-import ErrorStore from "../store/ErrorStore";
+import StartScreenStore from "../store/StartScreenStore.ts";
 
-const Header = ({ onHideStartScreen }: { onHideStartScreen: () => void }) => {
+const Header = () => {
   const [cityName, setCity] = useState("Київ");
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -11,7 +11,11 @@ const Header = ({ onHideStartScreen }: { onHideStartScreen: () => void }) => {
 
   const searchCity = (e: React.FormEvent) => {
     e.preventDefault();
-    WeatherRequest.getCityCoordinates(cityName);
+    request.getCityCoordinates(cityName);
+  };
+
+  const hideStartScreen = () => {
+    StartScreenStore.hideStartScreen();
   };
 
   return (
@@ -28,11 +32,11 @@ const Header = ({ onHideStartScreen }: { onHideStartScreen: () => void }) => {
             onChange={(e) => setCity(e.target.value)}
             className="bg-surface text-on-surface pl-3 rounded-[24px] w-full sm:w-64 h-[48px] outline-transparent border-transparent"
           />
-          <Button onHide={onHideStartScreen} icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
+          <Button onHide={hideStartScreen} icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
         </form>
         <Button
-          onHide={onHideStartScreen}
-          onClick={WeatherRequest.getCurrentLocation}
+          onHide={hideStartScreen}
+          onClick={request.getCurrentLocation}
           icon="my_location"
           label="Current Location"
           additionalClass="bg-primary gap-3"
@@ -45,19 +49,18 @@ const Header = ({ onHideStartScreen }: { onHideStartScreen: () => void }) => {
 export { Header };
 
 interface ButtonProps {
-  onClick?: () => void;
   icon: string;
   label?: string;
   additionalClass?: string;
-  onHide?: () => void; // Додано onHide
+  onClick?: () => void;
+  onHide?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, icon, label, additionalClass = "", onHide }) => (
+const Button: React.FC<ButtonProps> = ({ icon, label, additionalClass = "", onClick, onHide }) => (
   <button
     onClick={() => {
-      ErrorStore.clearErrors(); // Спочатку очищаємо помилки
-      if (onClick) onClick(); // Викликаємо onClick, якщо є
-      if (onHide) onHide(); // Викликаємо onHide, якщо є
+      if (onClick) onClick();
+      if (onHide) onHide();
     }}
     className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}
   >

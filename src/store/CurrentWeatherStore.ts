@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import WeatherRequest from "./request";
+import request from "./request";
 
 class CurrentWeatherStore {
   cityName: string | null = null;
@@ -18,8 +18,8 @@ class CurrentWeatherStore {
   }
 
   updateCurrentWeather(data: any) {
-    this.cityName = WeatherRequest.cityName;
-    this.date = new Date(data.current.dt * 1000).toLocaleDateString("en-US", {
+    this.cityName = request.cityName;
+    this.date = new Date(data.current.dt * 1000).toLocaleDateString("uk-UA", {
       day: "numeric",
       month: "long",
       weekday: "long",

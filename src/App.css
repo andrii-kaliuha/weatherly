@@ -8,26 +8,6 @@ body > #root {
   justify-content: center;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  max-width: 1024px;
-  display: flex;
-  justify-content: center;
-  max-width: 1024px;
-}
-
-.container {
-  max-width: 1024px;
-}
-
-main {
-  /* display: flex;
-  flex-direction: column;
-  gap: 12px; */
-  margin: 0 12px 12px 12px;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

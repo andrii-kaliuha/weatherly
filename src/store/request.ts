@@ -5,7 +5,7 @@ import WeeklyForecastStore from "./WeeklyForecastStore";
 import CurrentWeatherStore from "./CurrentWeatherStore";
 import ErrorStore from "./ErrorStore";
 
-class WeatherRequest {
+class request {
   cityName: string | null = null;
   loading: boolean = false;
 
@@ -71,38 +71,50 @@ class WeatherRequest {
   }
 
   getCurrentLocation = async () => {
-    if ("geolocation" in navigator) {
-      try {
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
+    this.setLoading(true);
 
-        const { latitude, longitude } = position.coords;
-
-        await this.getCityNameByCoordinates(latitude, longitude);
-        await this.getWeatherForecast(latitude, longitude);
-        await AirQualityStore.getAirQuality(latitude, longitude);
-      } catch (error) {
-        if (error instanceof GeolocationPositionError) {
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              ErrorStore.addError("Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.");
-              break;
-            case error.POSITION_UNAVAILABLE:
-              ErrorStore.addError("Не вдалося визначити місцезнаходження. Спробуйте пізніше.");
-              break;
-            case error.TIMEOUT:
-              ErrorStore.addError("Час вичерпано при спробі визначити місцезнаходження.");
-              break;
-            default:
-              ErrorStore.addError("Не вдалося отримати геолокацію. Спробуйте ще раз.");
-          }
-        } else {
-          ErrorStore.addError("Сталася непередбачена помилка при отриманні геолокації.");
-        }
-      }
-    } else {
+    if (!("geolocation" in navigator)) {
       ErrorStore.addError("Геолокація не підтримується вашим браузером.");
+      this.setLoading(false);
+      return;
+    }
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+
+      const { latitude, longitude } = position.coords;
+
+      await Promise.all([
+        this.getCityNameByCoordinates(latitude, longitude),
+        this.getWeatherForecast(latitude, longitude),
+        AirQualityStore.getAirQuality(latitude, longitude),
+      ]);
+    } catch (error: unknown) {
+      console.error("Помилка геолокації:", error);
+
+      if (error instanceof GeolocationPositionError) {
+        switch (error.code) {
+          case GeolocationPositionError.PERMISSION_DENIED:
+            ErrorStore.addError("Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.");
+            break;
+          case GeolocationPositionError.POSITION_UNAVAILABLE:
+            ErrorStore.addError("Не вдалося визначити місцезнаходження. Спробуйте пізніше.");
+            break;
+          case GeolocationPositionError.TIMEOUT:
+            ErrorStore.addError("Час вичерпано при спробі визначити місцезнаходження.");
+            break;
+          default:
+            ErrorStore.addError("Не вдалося отримати геолокацію. Спробуйте ще раз.");
+        }
+      } else if (error instanceof Error) {
+        ErrorStore.addError(`Сталася помилка: ${error.message}`);
+      } else {
+        ErrorStore.addError("Сталася невідома помилка при отриманні геолокації.");
+      }
+    } finally {
+      this.setLoading(false);
     }
   };
 
@@ -133,4 +145,4 @@ class WeatherRequest {
   }
 }
 
-export default new WeatherRequest();
+export default new request();

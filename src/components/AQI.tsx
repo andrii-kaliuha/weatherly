@@ -24,7 +24,7 @@ const AQI = observer(() => {
         <ul className="flex justify-around w-full">
           {airPollutants.map((item, index) => (
             <li key={index} className="flex flex-col items-center">
-              <span className={item.iconClassName} style={{ color: AirQualityStore.color || "inherit" }}></span>
+              <span className={item.icon} style={{ color: AirQualityStore.color || "inherit" }}></span>
               <p>{item.value}</p>
               <span>{item.label}</span>
             </li>

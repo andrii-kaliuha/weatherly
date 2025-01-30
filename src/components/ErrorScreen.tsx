@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import ErrorStore from "../store/ErrorStore";
 
-const Error = observer(() => {
+const ErrorScreen = observer(() => {
   if (ErrorStore.errors.length === 0) return null;
 
   const title = "Сталася помилка!";
@@ -20,4 +20,4 @@ const Error = observer(() => {
   );
 });
 
-export { Error };
+export { ErrorScreen };
