@@ -14,8 +14,8 @@ const WeeklyForecast = observer(() => {
               <p>{day.date}</p>
               <p>{day.weekday}</p>
             </div>
-            <img src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`} alt="" className="w-8 h-8" />
-            <p className="hidden md:block md:flex-1">{day.description}</p>
+            <img src={`./src/assets/icons/${day.icon}.svg`} alt="" height={32} width={32} />
+            <p className="ml-3 hidden md:block md:flex-1">{day.description}</p>
             <p className="text-[20px] w-8 text-center md:flex-1">{day.maxTemp}°</p>
             <p className="text-[20px] w-8 text-center md:flex-1 opacity-55">{day.minTemp}°</p>
           </li>

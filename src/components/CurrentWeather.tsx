@@ -26,7 +26,7 @@ const CurrentTemperature = () => {
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
         <p className="text-[56px] leading-none">{CurrentWeatherStore.temperature}&deg;</p>
-        <img src={CurrentWeatherStore.icon} alt="" className="h-16" />
+        <img src={CurrentWeatherStore.icon} alt="" height={64} width={64} />
       </div>
       <ul className="text-right flex flex-col justify-center">
         <li>{CurrentWeatherStore.description}</li>
@@ -66,9 +66,9 @@ const HourlyForecast = () => {
   return (
     <ul ref={listRef} className="flex justify-between overflow-x-auto gap-3">
       {hourlyForecast.map((item, index) => (
-        <li key={index} className="flex flex-col items-center justify-between rounded-3xl min-w-[48px] flex-shrink-0">
+        <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-[48px] flex-shrink-0">
           <span>{item.time}</span>
-          <img src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`} alt="" className="h-12 w-12 object-contain" />
+          <img src={item.icon} alt="" className="h-8 w-8" />
           <p>{item.temperature}°</p>
         </li>
       ))}

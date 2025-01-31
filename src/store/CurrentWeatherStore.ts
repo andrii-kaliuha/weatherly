@@ -25,7 +25,7 @@ class CurrentWeatherStore {
       weekday: "long",
     });
     this.temperature = Math.round(data.current.temp);
-    this.icon = `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
+    this.icon = `./src/assets/icons/${data.current.weather[0].icon}.svg`;
     this.description = data.current.weather[0].description;
     this.maxTempDay = Math.round(data.daily[0].temp.max);
     this.minTempDay = Math.round(data.daily[0].temp.min);
@@ -43,7 +43,7 @@ class CurrentWeatherStore {
         hour: "numeric",
         minute: "numeric",
       }),
-      icon: hour.weather[0].icon,
+      icon: `./src/assets/icons/${hour.weather[0].icon}.svg`,
       temperature: Math.round(hour.temp),
     }));
   }
