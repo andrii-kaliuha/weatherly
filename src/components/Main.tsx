@@ -1,4 +1,4 @@
-import { AQI } from "./AQI";
+import { AirQualityIndex } from "./AirQualityIndex";
 import { CurrentWeather } from "./CurrentWeather";
 import { SunAndMoon } from "./SunAndMoon";
 import { WeeklyForecast } from "./WeeklyForecast";
@@ -26,7 +26,7 @@ const Main = observer(() => {
           <CurrentWeather />
           <div className="flex flex-col gap-3 flex-1">
             <SunAndMoon />
-            <AQI />
+            <AirQualityIndex />
           </div>
         </div>
         <WeeklyForecast />

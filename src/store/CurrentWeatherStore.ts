@@ -31,11 +31,11 @@ class CurrentWeatherStore {
     this.minTempDay = Math.round(data.daily[0].temp.min);
     this.summary = data.daily[0].summary;
     this.weatherConditions = [
-      { icon: "icon-meater", value: `${Math.round(data.current.pressure)} hPa`, label: "Pressure" },
-      { icon: "icon-dropp", value: `${Math.round(data.current.humidity)} %`, label: "Humidity" },
+      { icon: "icon-pressure", value: `${Math.round(data.current.pressure)} hPa`, label: "Pressure" },
+      { icon: "icon-humidity", value: `${Math.round(data.current.humidity)} %`, label: "Humidity" },
       { icon: "icon-wind", value: `${Math.round(data.current.wind_speed)} m/s`, label: "Wind" },
       { icon: "icon-uv", value: `${Math.round(data.current.uvi)} / 12`, label: "UV index" },
-      { icon: "icon-rainfall", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, label: "Precipitation" },
+      { icon: "icon-precipitation", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, label: "Precipitation" },
       { icon: "icon-feels-like", value: `${Math.round(data.current.feels_like)}°`, label: "Feels like" },
     ];
     this.hourlyForecast = data.hourly.map((hour: any) => ({

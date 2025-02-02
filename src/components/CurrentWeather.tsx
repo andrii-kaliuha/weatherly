@@ -82,7 +82,9 @@ const WeatherConditions = () => {
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col">
-          <span className={item.icon}></span>
+          <svg width={20} height={20}>
+            <use xlinkHref={`./src/assets/images/weatherConditions.svg#${item.icon}`}></use>
+          </svg>
           <p className="flex items-end">{item.value}</p>
           <span className="text-[12px]">{item.label}</span>
         </li>

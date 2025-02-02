@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import AirQualityStore from "../store/AirQualityStore";
 
-const AQI = observer(() => {
+const AirQualityIndex = observer(() => {
   const { airPollutants } = AirQualityStore;
 
   return (
@@ -25,7 +25,7 @@ const AQI = observer(() => {
           {airPollutants.map((item, index) => (
             <li key={index} className="flex flex-col items-center">
               <svg fill={AirQualityStore.color || "inherit"} width="24" height="24">
-                <use href={`./src/assets/images/air-polutants.svg#${item.icon}`}></use>
+                <use href={`./src/assets/images/airPollutants.svg#${item.icon}`}></use>
               </svg>
               <p>{item.value}</p>
               <span>{item.label}</span>
@@ -41,4 +41,4 @@ const AQI = observer(() => {
   );
 });
 
-export { AQI };
+export { AirQualityIndex };
