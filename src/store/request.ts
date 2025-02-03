@@ -28,6 +28,7 @@ class request {
       }
 
       const coordinates = await response.json();
+      console.log(coordinates);
 
       if (!coordinates || coordinates.length === 0) {
         throw new Error("Місто не знайдено. Перевірте правильність введеної назви.");
@@ -56,6 +57,7 @@ class request {
       }
 
       const cityData = await response.json();
+      console.log(cityData);
 
       if (!cityData || cityData.length === 0) {
         throw new Error("Місто з вказаними координатами не знайдено.");

@@ -1,18 +1,18 @@
 import { makeAutoObservable } from "mobx";
 
 class ErrorStore {
-  errors: string[] = [];
+  error: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
   addError(message: string) {
-    this.errors.push(message);
+    this.error = message;
   }
 
-  clearErrors() {
-    this.errors = [];
+  clearError() {
+    this.error = null;
   }
 }
 

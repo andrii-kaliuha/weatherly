@@ -69,22 +69,22 @@ class AirQualityStore {
       {
         label: "PM 2.5",
         value: Math.round(data.list[0].components.pm2_5),
-        icon: "icon-PM-2_5",
+        icon: "pm2_5",
       },
       {
         label: "PM 10",
         value: Math.round(data.list[0].components.pm10),
-        icon: "icon-PM-10",
+        icon: "pm10",
       },
       {
         label: "SO2",
         value: Math.round(data.list[0].components.so2),
-        icon: "icon-SO2",
+        icon: "so2",
       },
       {
         label: "NO2",
         value: Math.round(data.list[0].components.no2),
-        icon: "icon-NO2",
+        icon: "no2",
       },
     ];
   }

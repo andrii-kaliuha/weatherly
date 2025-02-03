@@ -64,7 +64,7 @@ const HourlyForecast = () => {
   }, []);
 
   return (
-    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-3">
+    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-4">
       {hourlyForecast.map((item, index) => (
         <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-[48px] flex-shrink-0">
           <span>{item.time}</span>
@@ -82,10 +82,8 @@ const WeatherConditions = () => {
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col">
-          <svg width={20} height={20}>
-            <use xlinkHref={`./src/assets/images/weatherConditions.svg#${item.icon}`}></use>
-          </svg>
-          <p className="flex items-end">{item.value}</p>
+          <span className="weatherly-icon-pack">{item.icon}</span>
+          <p className="flex text-[16px]">{item.value}</p>
           <span className="text-[12px]">{item.label}</span>
         </li>
       ))}

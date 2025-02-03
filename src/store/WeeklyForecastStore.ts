@@ -8,7 +8,7 @@ class WeeklyForecastStore {
   }
 
   updateWeeklyForecast(data: any) {
-    this.weeklyForecast = data.map((day: any) => ({
+    this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
       date: new Date(day.dt * 1000).toLocaleString("uk-UA", {
         day: "numeric",
         month: "long",

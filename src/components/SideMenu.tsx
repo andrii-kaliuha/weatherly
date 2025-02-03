@@ -1,53 +1,40 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
+import { observer } from "mobx-react-lite";
+import SideMenuStore from "../store/SideMenuStore";
 
-interface SideMenuProps {
-  isMenuOpen: boolean;
-  toggleMenu: () => void;
-}
-
-const useClickOutside = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback(); // Закриваємо меню, не відкриваючи
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, callback]);
-};
-
-const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpen, toggleMenu }) => {
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  // Використовуємо хук для обробки кліків поза меню
-  useClickOutside(menuRef, () => {
-    if (isMenuOpen) {
-      toggleMenu(); // Закриваємо меню тільки якщо воно відкрите
-    }
-  });
-
+const SideMenu = observer(() => {
   return (
     <div
-      ref={menuRef}
-      className={`fixed top-0 left-0 bg-background text-on-surface md:w-[30vw] p-6 h-full z-20 transition-transform duration-300 ${
-        isMenuOpen ? "translate-x-0" : "-translate-x-full"
-      }`}
+      className="fixed top-0 left-0 bg-background text-on-surface md:w-[30vw] p-6 h-full z-20 "
+      style={{
+        display: SideMenuStore.isSideMenuVisible ? "block" : "none",
+      }}
     >
       <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-[20px] font-bold">Weatherly</h1>
         <img src="./src/assets/images/logo.svg" alt="Weatherly logo" className="w-8 h-8" />
+        <h1 className="text-[20px] font-bold leading-none">Weatherly</h1>
+        <button className="flex" onClick={() => SideMenuStore.toggleSideMenu()}>
+          <span className="material-symbols-outlined">close</span>
+        </button>
       </div>
 
       <div className="flex flex-col justify-between h-full pb-10">
-        <ul className="flex flex-col gap-3">
-          <LiSelect title="Language" options={["English", "Ukrainian"]} />
-          <LiSelect title="Interface theme" options={["Dark", "Light"]} />
-          <LiSelect title="Wind speed" options={["m/s", "km/h", "mph"]} />
-        </ul>
+        <div>
+          <h2 className="text-[16px]">Your history</h2>
+          <ul className="flex flex-col gap-3">
+            <LiHistory />
+            <LiHistory />
+            <LiHistory />
+            <LiHistory />
+            <LiHistory />
+          </ul>
+        </div>
+
+        {/* <ul className="flex flex-col gap-3">
+        <LiSelect title="Language" options={["English", "Ukrainian"]} />
+        <LiSelect title="Interface theme" options={["Dark", "Light"]} />
+        <LiSelect title="Wind speed" options={["m/s", "km/h", "mph"]} />
+      </ul> */}
 
         <ul className="text-[14px]">
           <li>About us</li>
@@ -57,9 +44,70 @@ const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpen, toggleMenu }) => {
       </div>
     </div>
   );
-};
+});
 
 export { SideMenu };
+
+const LiHistory = () => {
+  return (
+    // <li className="flex flex-col gap-3 border-y-2 border-on-surface py-3">
+    //   <div className="flex items-center gap-1">
+    //     <span className="material-symbols-outlined">location_on</span>
+    //     <p>Тернопіль</p>
+    //   </div>
+    //   <div className="flex items-center gap-3">
+    //     <img width={32} src="./src/assets/icons/01d.svg" alt="" />
+    //     {/* <p>чисте небо</p> */}
+    //     <p className="ml-auto">1°</p>
+    //   </div>
+    // </li>
+    <li className="flex items-center justify-between h-8">
+      <p>Тернопіль</p>
+      <div className="flex items-center gap-3">
+        <img width={24} src="./src/assets/icons/01d.svg" alt="" />
+        <p>1°</p>
+      </div>
+    </li>
+  );
+};
+
+// interface SideMenuProps {
+//   isMenuOpen: boolean;
+//   toggleMenu: () => void;
+// }
+
+// const useClickOutside = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (ref.current && !ref.current.contains(event.target as Node)) {
+//         callback(); // Закриваємо меню, не відкриваючи
+//       }
+//     };
+
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [ref, callback]);
+// };
+
+// const SideMenu: React.FC<SideMenuProps> = ({ isMenuOpen, toggleMenu }) => {
+//   const menuRef = useRef<HTMLDivElement>(null);
+
+//   // Використовуємо хук для обробки кліків поза меню
+//   useClickOutside(menuRef, () => {
+//     if (isMenuOpen) {
+//       toggleMenu(); // Закриваємо меню тільки якщо воно відкрите
+//     }
+//   });
+
+//   return <Menu />;
+// };
+
+// ref={menuRef}
+//   className={`fixed top-0 left-0 bg-background text-on-surface md:w-[30vw] p-6 h-full z-20 transition-transform duration-300 ${
+//     isMenuOpen ? "translate-x-0" : "-translate-x-full"
+//   }`}
 
 interface LiSelectProps {
   title: string;
@@ -97,7 +145,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options, onChange }) => {
     setIsOpen(false);
   };
 
-  useClickOutside(menuRef, () => setIsOpen(false));
+  // useClickOutside(menuRef, () => setIsOpen(false));
 
   return (
     <div className="relative w-32" ref={menuRef}>

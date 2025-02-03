@@ -13,11 +13,11 @@ import StartScreenStore from "../store/StartScreenStore";
 const Main = observer(() => {
   const { isStartScreenVisible } = StartScreenStore;
   const { loading } = request;
-  const { errors } = ErrorStore;
+  const { error } = ErrorStore;
 
   if (isStartScreenVisible === true) return <StartScreen />;
   if (loading) return <LoadingScreen />;
-  if (errors.length > 0) return <ErrorScreen />;
+  if (error) return <ErrorScreen />;
 
   return (
     <main className="mx-3 mb-3">

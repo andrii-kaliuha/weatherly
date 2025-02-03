@@ -9,6 +9,7 @@ class SideMenuStore {
 
   toggleSideMenu() {
     this.isSideMenuVisible = !this.isSideMenuVisible;
+    console.log(1);
   }
 }
 
