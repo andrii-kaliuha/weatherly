@@ -36,7 +36,7 @@ class CurrentWeatherStore {
       { icon: "wind", value: `${Math.round(data.current.wind_speed)} m/s`, label: "Wind" },
       { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, label: "UV index" },
       { icon: "precipitation", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, label: "Precipitation" },
-      { icon: "feels like", value: `${Math.round(data.current.feels_like)}°`, label: "Feels like" },
+      { icon: "feels like", value: `${Math.round(data.current.feels_like)}°C`, label: "Feels like" },
     ];
     this.hourlyForecast = data.hourly.map((hour: any) => ({
       time: new Date(hour.dt * 1000).toLocaleTimeString("uk-UA", {
