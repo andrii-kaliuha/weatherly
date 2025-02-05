@@ -1,6 +1,6 @@
 import { useState } from "react";
 import request from "../store/request.ts";
-import { SideMenu } from "./SideMenu.tsx";
+import { SideMenu } from "./SideMenu/SideMenu.tsx";
 import StartScreenStore from "../store/StartScreenStore.ts";
 import SideMenuStore from "../store/SideMenuStore.ts";
 import ErrorStore from "../store/ErrorStore.ts";
@@ -22,7 +22,7 @@ const Header = () => {
     <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
       <nav className="flex items-center justify-between p-3 gap-3">
         <Button onClick={() => SideMenuStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
-        {/* <SideMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} /> */}
+
         <SideMenu />
         <form className="relative text-on-surface" onSubmit={searchCity}>
           <input
