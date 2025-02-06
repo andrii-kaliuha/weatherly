@@ -1,57 +1,65 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, observable, action } from "mobx";
 
 class SideMenuStore {
   isSideMenuVisible = false;
-  isSelectSettingsVisible = false;
-  currentSettings: string | null = null;
+  isSettingsItemVisible = false;
+  currentSettings: {
+    key: string;
+    icon: string;
+    title: string;
+    value: string;
+    options: string[];
+  } | null = null;
 
-  settings = [
+  settingsList = observable([
     {
       key: "temperature",
-      options: ["Celsius", "Fahrenheit", "Kelvin"],
-      selected: "Celsius",
       icon: "thermostat",
       title: "Temperature",
+      value: "Celsius",
+      options: ["Celsius", "Fahrenheit", "Kelvin"],
     },
     {
       key: "wind",
-      options: ["m/s", "km/h", "mph"],
-      selected: "m/s",
       icon: "air",
+      value: "m/s",
       title: "Wind speed",
+      options: ["m/s", "km/h", "mph"],
     },
     {
       key: "pressure",
-      options: ["hPa", "mmHg"],
-      selected: "hPa",
       icon: "speed",
       title: "Pressure",
+      value: "hPa",
+      options: ["hPa", "mmHg"],
     },
     {
       key: "language",
-      options: ["English", "Ukrainian"],
-      selected: "English",
       icon: "translate",
       title: "Language",
+      value: "English",
+      options: ["English", "Ukrainian"],
     },
     {
       key: "interfaceTheme",
-      options: ["Light", "Dark"],
-      selected: "Dark",
-      icon: "translate",
+      icon: "dark_mode",
       title: "Interface theme",
+      value: "Dark",
+      options: ["Light", "Dark"],
     },
     {
       key: "formatTime",
-      options: ["12-hour format", "24-hour format"],
-      selected: "24-hour format",
-      icon: "translate",
+      icon: "schedule",
       title: "Time format",
+      value: "24-hour format",
+      options: ["12-hour format", "24-hour format"],
     },
-  ];
+  ]);
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      setValue: action,
+    });
   }
 
   toggleSideMenu() {
@@ -59,14 +67,29 @@ class SideMenuStore {
   }
 
   toggleSettings() {
-    this.isSelectSettingsVisible = !this.isSelectSettingsVisible;
+    this.isSettingsItemVisible = !this.isSettingsItemVisible;
+    console.log(this.isSettingsItemVisible);
   }
 
-  updateSetting(key: string, value: string) {
-    const setting = this.settings.find((s) => s.key === key);
-    if (setting) {
-      setting.selected = value;
+  setCurrentSettings(key: string) {
+    const SettingItem = this.settingsList.find((item) => item.key === key);
+    if (SettingItem) {
+      this.currentSettings = SettingItem;
     }
+  }
+
+  setValue(value: string) {
+    if (this.currentSettings) {
+      this.currentSettings.value = value;
+    }
+  }
+
+  get units() {
+    const tempSetting = this.settingsList.find((s) => s.key === "temperature")?.value;
+
+    if (tempSetting === "Celsius") return "metric";
+    if (tempSetting === "Fahrenheit") return "imperial";
+    return "standard";
   }
 }
 

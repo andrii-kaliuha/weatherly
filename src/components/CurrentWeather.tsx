@@ -21,7 +21,7 @@ const CurrentWeather = observer(() => {
 
 export { CurrentWeather };
 
-const CurrentTemperature = () => {
+const CurrentTemperature = observer(() => {
   return (
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
@@ -36,7 +36,7 @@ const CurrentTemperature = () => {
       </ul>
     </div>
   );
-};
+});
 
 const HourlyForecast = () => {
   const { hourlyForecast } = CurrentWeatherStore;

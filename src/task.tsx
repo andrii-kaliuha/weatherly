@@ -20,3 +20,6 @@
 // };
 
 // export { RadioButton };
+
+//  className="fixed top-0 left-0 bg-background text-on-surface w-[320px] h-full z-20 " тут можливо 30vw але треба буде ще обдумати це
+//дизайн about us буду робити схожим на https://gemini.google.com/updates
