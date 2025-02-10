@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { SettingItem } from "./SettingItem";
 import { SettingsList } from "./SettingsList";
-import SideMenuStore from "../../store/SideMenuStore";
+import SettingStore from "../../../store/main/SettingStore";
 
 const Settings = observer(() => {
-  if (SideMenuStore.isSettingsItemVisible === true) return <SettingItem />;
+  if (SettingStore.isSettingsItemVisible === true) return <SettingItem />;
   return <SettingsList />;
 });
 

@@ -1,7 +1,6 @@
 import { makeAutoObservable, observable, action } from "mobx";
 
-class SideMenuStore {
-  isSideMenuVisible = false;
+class SettingStore {
   isSettingsItemVisible = false;
   currentSettings: {
     key: string;
@@ -62,13 +61,8 @@ class SideMenuStore {
     });
   }
 
-  toggleSideMenu() {
-    this.isSideMenuVisible = !this.isSideMenuVisible;
-  }
-
   toggleSettings() {
     this.isSettingsItemVisible = !this.isSettingsItemVisible;
-    console.log(this.isSettingsItemVisible);
   }
 
   setCurrentSettings(key: string) {
@@ -84,13 +78,13 @@ class SideMenuStore {
     }
   }
 
-  get units() {
-    const tempSetting = this.settingsList.find((s) => s.key === "temperature")?.value;
+  // get units() {
+  //   const tempSetting = this.settingsList.find((s) => s.key === "temperature")?.value;
 
-    if (tempSetting === "Celsius") return "metric";
-    if (tempSetting === "Fahrenheit") return "imperial";
-    return "standard";
-  }
+  //   if (tempSetting === "Celsius") return "metric";
+  //   if (tempSetting === "Fahrenheit") return "imperial";
+  //   return "standard";
+  // }
 }
 
-export default new SideMenuStore();
+export default new SettingStore();

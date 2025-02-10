@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import AirQualityStore from "../store/AirQualityStore";
+import AirQualityStore from "../../store/main/AirQualityStore";
 
 const AirQualityIndex = observer(() => {
   const { airPollutants } = AirQualityStore;

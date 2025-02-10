@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import SideMenuStore from "../../store/SideMenuStore";
+import SideMenuStore from "../../../store/ui/SideMenuStore";
 import { Settings } from "./Settings";
 import { AboutUs } from "./AboutUs";
 

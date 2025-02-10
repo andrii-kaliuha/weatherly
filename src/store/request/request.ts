@@ -1,28 +1,17 @@
 import { makeAutoObservable } from "mobx";
-import AirQualityStore from "./AirQualityStore";
-import SunAndMoonStore from "./SunAndMoonStore";
-import WeeklyForecastStore from "./WeeklyForecastStore";
-import CurrentWeatherStore from "./CurrentWeatherStore";
-import ErrorStore from "./ErrorStore";
-import SideMenuStore from "./SideMenuStore";
+import AirQualityStore from "../main/AirQualityStore";
+import SunAndMoonStore from "../main/SunAndMoonStore";
+import WeeklyForecastStore from "../main/WeeklyForecastStore";
+import CurrentWeatherStore from "../main/CurrentWeatherStore";
+import ErrorStore from "../ui/ErrorStore";
+import SideMenuStore from "../ui/SideMenuStore";
 
 class request {
   cityName: string | null = null;
   loading: boolean = false;
-  lastLat: number | null = null;
-  lastLon: number | null = null;
+
   constructor() {
     makeAutoObservable(this);
-
-    // Стежимо за змінами одиниць вимірювання
-    reaction(
-      () => SideMenuStore.units, // коли змінюються units
-      () => {
-        if (this.lastLat !== null && this.lastLon !== null) {
-          this.getWeatherForecast(this.lastLat, this.lastLon);
-        }
-      }
-    );
   }
 
   setLoading(loading: boolean) {
@@ -130,12 +119,10 @@ class request {
 
   async getWeatherForecast(lat: number, lon: number) {
     this.setLoading(true);
-    this.lastLat = lat;
-    this.lastLon = lon;
     try {
       const API_KEY = "ada53a53546a12851a13875d932b485b";
       const response = await fetch(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${SideMenuStore.units}&lang=uk&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&lang=uk&appid=${API_KEY}`
       );
 
       if (!response.ok) {
@@ -158,5 +145,3 @@ class request {
 }
 
 export default new request();
-
-import { reaction } from "mobx";

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useRef, useEffect } from "react";
-import CurrentWeatherStore from "../store/CurrentWeatherStore";
+import CurrentWeatherStore from "../../store/main/CurrentWeatherStore";
 
 const CurrentWeather = observer(() => {
   return (

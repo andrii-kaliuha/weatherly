@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import SideMenuStore from "../../store/SideMenuStore";
+import SettingStore from "../../../store/main/SettingStore";
 
 const AboutUs = observer(() => {
   const titles = ["About us", "User Agreement", "Legal information"];
@@ -7,7 +7,7 @@ const AboutUs = observer(() => {
     <ul
       className="absolute bottom-0 text-[14px] pb-6 "
       style={{
-        display: SideMenuStore.isSettingsItemVisible ? "none" : "block",
+        display: SettingStore.isSettingsItemVisible ? "none" : "block",
       }}
     >
       {titles.map((title, index) => (

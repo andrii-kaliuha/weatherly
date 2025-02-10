@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
-import SideMenuStore from "../../store/SideMenuStore";
+import SettingStore from "../../../store/main/SettingStore";
 
 const SettingsList = observer(() => {
-  const { settingsList } = SideMenuStore;
+  const { settingsList } = SettingStore;
 
   return (
     <ul>
@@ -10,8 +10,8 @@ const SettingsList = observer(() => {
         <li
           key={index}
           onClick={() => {
-            SideMenuStore.toggleSettings();
-            SideMenuStore.setCurrentSettings(item.key);
+            SettingStore.toggleSettings();
+            SettingStore.setCurrentSettings(item.key);
           }}
           className="flex items-center justify-between hover:bg-surface"
         >

@@ -1,14 +1,14 @@
-import { AirQualityIndex } from "./AirQualityIndex";
-import { CurrentWeather } from "./CurrentWeather";
-import { SunAndMoon } from "./SunAndMoon";
-import { WeeklyForecast } from "./WeeklyForecast";
-import ErrorStore from "../store/ErrorStore";
-import { StartScreen } from "./StartScreen";
-import { ErrorScreen } from "./ErrorScreen";
-import request from "../store/request";
+import { AirQualityIndex } from "../Main/AirQualityIndex";
+import { CurrentWeather } from "../Main/CurrentWeather";
+import { SunAndMoon } from "../Main/SunAndMoon";
+import { WeeklyForecast } from "../Main/WeeklyForecast";
+import ErrorStore from "../../store/ui/ErrorStore";
+import { StartScreen } from "../UI/StartScreen";
+import { ErrorScreen } from "../UI/ErrorScreen";
+import request from "../../store/request/request";
 import { observer } from "mobx-react-lite";
-import { LoadingScreen } from "./LoadingScreen";
-import StartScreenStore from "../store/StartScreenStore";
+import { LoadingScreen } from "../UI/LoadingScreen";
+import StartScreenStore from "../../store/ui/StartScreenStore";
 
 const Main = observer(() => {
   const { isStartScreenVisible } = StartScreenStore;

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import SunAndMoonStore from "../store/SunAndMoonStore";
+import SunAndMoonStore from "../../store/main/SunAndMoonStore";
 
 const Sun = observer(() => {
   return (

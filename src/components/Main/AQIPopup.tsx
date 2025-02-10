@@ -1,4 +1,4 @@
-import AirQualityStore from "../store/AirQualityStore.ts";
+import AirQualityStore from "../../store/main/AirQualityStore.ts";
 
 const AQIPopup = () => {
   const { airQualityLevels } = AirQualityStore;

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import ErrorStore from "./ErrorStore";
+import ErrorStore from "../ui/ErrorStore";
 
 class AirQualityStore {
   cityName: string | null = null;

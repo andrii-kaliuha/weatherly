@@ -1,9 +1,9 @@
 import { useState } from "react";
-import request from "../store/request.ts";
+import request from "../../store/request/request.ts";
 import { SideMenu } from "./SideMenu/SideMenu.tsx";
-import StartScreenStore from "../store/StartScreenStore.ts";
-import SideMenuStore from "../store/SideMenuStore.ts";
-import ErrorStore from "../store/ErrorStore.ts";
+import StartScreenStore from "../../store/ui/StartScreenStore.ts";
+import SideMenuStore from "../../store/ui/SideMenuStore.ts";
+import ErrorStore from "../../store/ui/ErrorStore.ts";
 
 const Header = () => {
   const [cityName, setCity] = useState("Київ");

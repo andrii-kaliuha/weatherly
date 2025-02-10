@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import ErrorStore from "../store/ErrorStore";
+import ErrorStore from "../../store/ui/ErrorStore";
 
 const ErrorScreen = observer(() => {
   if (!ErrorStore.error) return null;
