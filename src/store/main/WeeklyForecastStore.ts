@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import rootStore from "../rootStore";
 
 class WeeklyForecastStore {
   weeklyForecast: { date: string; weekday: string; minTemp: number; maxTemp: number; icon: string; description: string }[] = [];
@@ -16,8 +17,8 @@ class WeeklyForecastStore {
       weekday: new Date(day.dt * 1000).toLocaleString("uk-UA", {
         weekday: "long",
       }),
-      minTemp: Math.round(day.temp.min),
-      maxTemp: Math.round(day.temp.max),
+      minTemp: rootStore.convertTemperature(day.temp.min),
+      maxTemp: rootStore.convertTemperature(day.temp.max),
       icon: day.weather[0].icon,
       description: day.weather[0].description,
     }));

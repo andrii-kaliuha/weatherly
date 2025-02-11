@@ -1,11 +1,12 @@
 import { useState } from "react";
 import request from "../../store/request/request.ts";
-import { SideMenu } from "./SideMenu/SideMenu.tsx";
+import { SideMenu } from "../SideMenu/SideMenu.tsx";
 import StartScreenStore from "../../store/ui/StartScreenStore.ts";
 import SideMenuStore from "../../store/ui/SideMenuStore.ts";
 import ErrorStore from "../../store/ui/ErrorStore.ts";
+import { observer } from "mobx-react-lite";
 
-const Header = () => {
+const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
 
   const searchCity = (e: React.FormEvent) => {
@@ -48,7 +49,7 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+});
 
 export { Header };
 

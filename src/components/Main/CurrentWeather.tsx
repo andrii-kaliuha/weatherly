@@ -31,14 +31,14 @@ const CurrentTemperature = observer(() => {
       <ul className="text-right flex flex-col justify-center">
         <li>{CurrentWeatherStore.description}</li>
         <li>
-          {CurrentWeatherStore.maxTempDay}°/{CurrentWeatherStore.minTempDay}°
+          {CurrentWeatherStore.maxTemp}°/{CurrentWeatherStore.minTemp}°
         </li>
       </ul>
     </div>
   );
 });
 
-const HourlyForecast = () => {
+const HourlyForecast = observer(() => {
   const { hourlyForecast } = CurrentWeatherStore;
 
   const listRef = useRef<HTMLUListElement | null>(null);
@@ -74,9 +74,9 @@ const HourlyForecast = () => {
       ))}
     </ul>
   );
-};
+});
 
-const WeatherConditions = () => {
+const WeatherConditions = observer(() => {
   const { weatherConditions } = CurrentWeatherStore;
   return (
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
@@ -89,4 +89,4 @@ const WeatherConditions = () => {
       ))}
     </ul>
   );
-};
+});

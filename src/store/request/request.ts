@@ -4,7 +4,9 @@ import SunAndMoonStore from "../main/SunAndMoonStore";
 import WeeklyForecastStore from "../main/WeeklyForecastStore";
 import CurrentWeatherStore from "../main/CurrentWeatherStore";
 import ErrorStore from "../ui/ErrorStore";
-import SideMenuStore from "../ui/SideMenuStore";
+// import SideMenuStore from "../ui/SideMenuStore";
+// import rootStore from "../rootStore";
+// import SettingStore from "../main/SettingStore";
 
 class request {
   cityName: string | null = null;
@@ -36,8 +38,8 @@ class request {
 
       const { lat, lon } = coordinates[0];
       this.getWeatherForecast(lat, lon);
-      AirQualityStore.getAirQuality(lat, lon);
-      AirQualityStore.setCity(coordinates[0].local_names.uk);
+      this.getAirQuality(lat, lon);
+      // AirQualityStore.setCity(coordinates[0].local_names.uk);
       this.cityName = coordinates[0].local_names.uk;
     } catch (error: any) {
       ErrorStore.addError(error.message || "Сталася непередбачена помилка. Спробуйте ще раз.");
@@ -63,7 +65,7 @@ class request {
       }
 
       this.cityName = cityData[0].local_names.uk;
-      AirQualityStore.setCity(cityData[0].local_names.uk);
+      // AirQualityStore.setCity(cityData[0].local_names.uk);
     } catch (error: any) {
       ErrorStore.addError(error.message || "Сталася непередбачена помилка. Спробуйте ще раз пізніше.");
     } finally {
@@ -90,7 +92,7 @@ class request {
       await Promise.all([
         this.getCityNameByCoordinates(latitude, longitude),
         this.getWeatherForecast(latitude, longitude),
-        AirQualityStore.getAirQuality(latitude, longitude),
+        this.getAirQuality(latitude, longitude),
       ]);
     } catch (error: unknown) {
       if (error instanceof GeolocationPositionError) {
@@ -135,11 +137,22 @@ class request {
 
       SunAndMoonStore.updateSunAndMoon(forecast);
       WeeklyForecastStore.updateWeeklyForecast(forecast.daily);
-      CurrentWeatherStore.updateCurrentWeather(forecast);
+      CurrentWeatherStore.updateCurrentWeather(forecast, this.cityName !== null ? this.cityName : "unknown");
     } catch (error: any) {
       ErrorStore.addError(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
     } finally {
       this.setLoading(false);
+    }
+  }
+
+  async getAirQuality(lat: number, lon: number) {
+    try {
+      const API_KEY = "ada53a53546a12851a13875d932b485b";
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      const AQI = await response.json();
+      AirQualityStore.updateAirQuality(AQI, this.cityName !== null ? this.cityName : "unknown");
+    } catch (error: any) {
+      ErrorStore.addError(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
     }
   }
 }

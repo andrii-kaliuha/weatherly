@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import ErrorStore from "../ui/ErrorStore";
 
 class AirQualityStore {
   cityName: string | null = null;
@@ -55,11 +54,8 @@ class AirQualityStore {
     makeAutoObservable(this);
   }
 
-  setCity(cityName: string) {
+  updateAirQuality(data: any, cityName: string) {
     this.cityName = cityName;
-  }
-
-  updateAirQuality(data: any) {
     this.aqi = data.list[0].main.aqi;
     const currentAirQuality = this.airQualityLevels.find((item) => item.id === this.aqi) || this.airQualityLevels[4];
     this.color = currentAirQuality.color;
@@ -87,17 +83,6 @@ class AirQualityStore {
         icon: "no2",
       },
     ];
-  }
-
-  async getAirQuality(lat: number, lon: number) {
-    try {
-      const API_KEY = "ada53a53546a12851a13875d932b485b";
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-      const AQI = await response.json();
-      this.updateAirQuality(AQI);
-    } catch (error: any) {
-      ErrorStore.addError(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
-    }
   }
 }
 
