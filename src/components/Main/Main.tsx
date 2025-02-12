@@ -1,19 +1,16 @@
 import { CurrentWeather } from "./CurrentWeather";
-import { SunAndMoon } from "./SunAndMoon";
 import { AirQualityIndex } from "./AirQualityIndex";
+import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
-import { LoadingScreen } from "../UI/LoadingScreen";
-import { StartScreen } from "../UI/StartScreen";
-import { ErrorScreen } from "../UI/ErrorScreen";
+import { StartScreen, LoadingScreen, ErrorScreen } from "../AppScreens";
 import { observer } from "mobx-react-lite";
-import StartScreenStore from "../../store/ui/StartScreenStore";
-import ErrorStore from "../../store/ui/ErrorStore";
-import request from "../../store/request/request";
+import { request } from "../../store/request";
+import rootStore from "../../store/rootStore";
 
 const Main = observer(() => {
-  const { isStartScreenVisible } = StartScreenStore;
+  const { isStartScreenVisible } = rootStore;
   const { loading } = request;
-  const { error } = ErrorStore;
+  const { error } = request;
 
   if (isStartScreenVisible === true) return <StartScreen />;
   if (loading) return <LoadingScreen />;
@@ -25,7 +22,7 @@ const Main = observer(() => {
         <div className="flex flex-col lg:flex-row gap-3">
           <CurrentWeather />
           <div className="flex flex-col gap-3 flex-1">
-            <SunAndMoon />
+            <Astronomy />
             <AirQualityIndex />
           </div>
         </div>

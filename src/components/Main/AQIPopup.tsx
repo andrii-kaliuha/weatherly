@@ -1,7 +1,7 @@
-import AirQualityStore from "../../store/main/AirQualityStore.ts";
+import { airQualityStore } from "../../store/forecast";
 
 const AQIPopup = () => {
-  const { airQualityLevels } = AirQualityStore;
+  const { airQualityLevels } = airQualityStore;
 
   return (
     // <section className="fixed z-30 top-0 w-full md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 bg-surface text-on-surface max-w-3xl md:rounded-3xl ">

@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
-import WeeklyForecastStore from "../../store/main/WeeklyForecastStore";
+import { weeklyForecastStore } from "../../store/forecast";
 
 const WeeklyForecast = observer(() => {
-  const { weeklyForecast } = WeeklyForecastStore;
+  const { weeklyForecast } = weeklyForecastStore;
 
   return (
     <section className="bg-surface text-on-surface rounded-3xl">

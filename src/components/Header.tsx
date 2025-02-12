@@ -1,28 +1,26 @@
 import { useState } from "react";
-import request from "../../store/request/request.ts";
-import { SideMenu } from "../SideMenu/SideMenu.tsx";
-import StartScreenStore from "../../store/ui/StartScreenStore.ts";
-import SideMenuStore from "../../store/ui/SideMenuStore.ts";
-import ErrorStore from "../../store/ui/ErrorStore.ts";
+import { request } from "../store/request";
+import { SideMenu } from "./SideMenu";
 import { observer } from "mobx-react-lite";
+import rootStore from "../store/rootStore";
 
 const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
 
   const searchCity = (e: React.FormEvent) => {
     e.preventDefault();
-    ErrorStore.clearError();
+    request.clearError();
     request.getCityCoordinates(cityName);
   };
 
   const hideStartScreen = () => {
-    StartScreenStore.hideStartScreen();
+    rootStore.hideStartScreen();
   };
 
   return (
     <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
       <nav className="flex items-center justify-between p-3 gap-3">
-        <Button onClick={() => SideMenuStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
+        <Button onClick={() => rootStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
 
         <SideMenu />
         <form className="relative text-on-surface" onSubmit={searchCity}>
@@ -39,7 +37,7 @@ const Header = observer(() => {
         <Button
           onHide={hideStartScreen}
           onClick={() => {
-            ErrorStore.clearError();
+            request.clearError();
             request.getCurrentLocation();
           }}
           icon="my_location"
@@ -53,13 +51,13 @@ const Header = observer(() => {
 
 export { Header };
 
-interface ButtonProps {
+type ButtonProps = {
   icon: string;
   label?: string;
   additionalClass?: string;
   onClick?: () => void;
   onHide?: () => void;
-}
+};
 
 const Button: React.FC<ButtonProps> = ({ icon, label, additionalClass = "", onClick, onHide }) => (
   <button

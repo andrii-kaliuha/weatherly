@@ -1,17 +1,33 @@
 import { makeAutoObservable } from "mobx";
 
 class rootStore {
+  isStartScreenVisible = true;
+  isSideMenuVisible = false;
+  isSettingVisible = false;
+
   settings = {
-    temperature: "celsius",
-    wind: "km/h",
+    temperature: "kelvin",
+    wind: "m/s",
     pressure: "hPa",
-    language: "English",
+    language: "Ukrainian",
     interfaceTheme: "Dark",
     formatTime: "24-hour format",
   };
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  hideStartScreen() {
+    this.isStartScreenVisible = false;
+  }
+
+  toggleSideMenu() {
+    this.isSideMenuVisible = !this.isSideMenuVisible;
+  }
+
+  toggleSetting() {
+    this.isSettingVisible = !this.isSettingVisible;
   }
 
   convertTemperature(value: number): number | null {

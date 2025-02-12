@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useRef, useEffect } from "react";
-import CurrentWeatherStore from "../../store/main/CurrentWeatherStore";
+import { currentWeatherStore } from "../../store/forecast";
 
 const CurrentWeather = observer(() => {
   return (
@@ -8,11 +8,11 @@ const CurrentWeather = observer(() => {
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
-          Погода {CurrentWeatherStore.cityName}, {CurrentWeatherStore.date}
+          Погода {currentWeatherStore.cityName}, {currentWeatherStore.date}
         </p>
       </div>
       <CurrentTemperature />
-      <p>{CurrentWeatherStore.summary}</p>
+      <p>{currentWeatherStore.summary}</p>
       <HourlyForecast />
       <WeatherConditions />
     </section>
@@ -25,13 +25,13 @@ const CurrentTemperature = observer(() => {
   return (
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
-        <p className="text-[56px] leading-none">{CurrentWeatherStore.temperature}&deg;</p>
-        <img src={CurrentWeatherStore.icon} alt="" height={64} width={64} />
+        <p className="text-[56px] leading-none">{currentWeatherStore.temperature}&deg;</p>
+        <img src={currentWeatherStore.icon} alt="" height={64} width={64} />
       </div>
       <ul className="text-right flex flex-col justify-center">
-        <li>{CurrentWeatherStore.description}</li>
+        <li>{currentWeatherStore.description}</li>
         <li>
-          {CurrentWeatherStore.maxTemp}°/{CurrentWeatherStore.minTemp}°
+          {currentWeatherStore.maxTemp}°/{currentWeatherStore.minTemp}°
         </li>
       </ul>
     </div>
@@ -39,7 +39,7 @@ const CurrentTemperature = observer(() => {
 });
 
 const HourlyForecast = observer(() => {
-  const { hourlyForecast } = CurrentWeatherStore;
+  const { hourlyForecast } = currentWeatherStore;
 
   const listRef = useRef<HTMLUListElement | null>(null);
 
@@ -77,7 +77,7 @@ const HourlyForecast = observer(() => {
 });
 
 const WeatherConditions = observer(() => {
-  const { weatherConditions } = CurrentWeatherStore;
+  const { weatherConditions } = currentWeatherStore;
   return (
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
       {weatherConditions.map((item, index) => (
