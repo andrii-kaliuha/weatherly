@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "chart.js": "^4.4.7",
+    "i18next": "^24.2.2",
+    "i18next-browser-languagedetector": "^8.0.3",
     "lucide-react": "^0.474.0",
     "mobx": "^6.13.5",
     "mobx-react-lite": "^4.0.7",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

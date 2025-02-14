@@ -16,7 +16,7 @@ class CurrentWeatherStore {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(data: any, cityName: string) {
+  updateCurrentWeather(data: any, cityName: string, temperatureUnit: string, pressureUnit: string, windSpeedUnit: string) {
     this.cityName = cityName;
     this.date = new Date(data.current.dt * 1000).toLocaleDateString("uk-UA", {
       day: "numeric",

@@ -9,43 +9,62 @@ class SettingStore {
       key: "temperature",
       icon: "thermostat",
       title: "Temperature",
-      value: "celsius",
+      get value() {
+        return rootStore.settings.temperature;
+      },
       options: ["celsius", "fahrenheit", "kelvin"],
+      // fun: rootStore.convertTemperature(),
+      fun: rootStore.log,
     },
     {
       key: "wind",
       icon: "air",
       title: "Wind speed",
-      value: "m/s",
+      get value() {
+        return rootStore.settings.wind;
+      },
       options: ["m/s", "km/h", "mph"],
+      fun: rootStore.log,
     },
     {
       key: "pressure",
       icon: "speed",
       title: "Pressure",
-      value: "hPa",
+      get value() {
+        return rootStore.settings.pressure;
+      },
       options: ["hPa", "mmHg"],
+      fun: rootStore.log,
     },
     {
       key: "language",
       icon: "translate",
       title: "Language",
-      value: "English",
+      get value() {
+        return rootStore.settings.language;
+      },
       options: ["English", "Ukrainian"],
+      fun: rootStore.log,
     },
     {
       key: "interfaceTheme",
       icon: "dark_mode",
       title: "Interface theme",
-      value: "Dark",
+      get value() {
+        return rootStore.settings.interfaceTheme;
+      },
       options: ["Light", "Dark"],
+      fun: rootStore.log,
     },
     {
       key: "formatTime",
       icon: "schedule",
       title: "Time format",
-      value: "24-hour format",
+      get value() {
+        return rootStore.settings.formatTime;
+      },
       options: ["12-hour format", "24-hour format"],
+      fun: rootStore.log,
     },
   ];
 
@@ -81,7 +100,7 @@ class SettingStore {
       return item;
     });
 
-    console.log(JSON.stringify(this.settingsList, null, 2));
+    // console.log(JSON.stringify(this.settingsList, null, 2));
   }
 }
 

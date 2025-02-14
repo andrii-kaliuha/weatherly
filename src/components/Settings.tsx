@@ -2,69 +2,80 @@ import { observer } from "mobx-react-lite";
 import SettingStore from "../store/SettingStore";
 import rootStore from "../store/rootStore";
 
-const Settings = observer(() => {
-  if (rootStore.isSettingVisible && SettingStore.activeSettingKey !== null) {
-    return <Setting settingKey={SettingStore.activeSettingKey} />;
-  }
-  return <SettingsList />;
+type SettingProps = {
+  id: string;
+  icon: string;
+  title: string;
+  value: string;
+  options: string[];
+  function: (value: string) => void;
+  toggleSetting?: () => void;
+  isSelectVisible?: boolean;
+};
+
+import { useState } from "react";
+
+const Setting = observer(({ id, icon, title, value, options, function: func }: SettingProps) => {
+  const [isSelectVisible, setSelectVisible] = useState(false);
+
+  const toggleSetting = () => {
+    setSelectVisible((prev) => !prev);
+  };
+
+  return (
+    <li className="flex flex-col items-center justify-between hover:bg-surface">
+      <button className="flex justify-between w-full items-center py-3 px-6" onClick={toggleSetting}>
+        <div className="flex items-center gap-3">
+          <span className="material-symbols-outlined">{icon}</span>
+          <div className="text-start text-sm">
+            <p className="font-medium">{title}</p>
+            <p className="text-gray-500 dark:text-gray-400">{value}</p>
+          </div>
+        </div>
+        <span className="material-symbols-outlined">chevron_right</span>
+      </button>
+
+      {isSelectVisible && (
+        <SettingSelect id={id} icon={icon} title={title} value={value} options={options} function={func} toggleSetting={toggleSetting} />
+      )}
+    </li>
+  );
 });
 
-export { Settings };
-
-const click = (key: string) => {
-  rootStore.toggleSetting();
-  console.log(click);
-  SettingStore.setActiveSettingKey(key);
-};
-const { settingsList } = SettingStore;
-
-const SettingsList = observer(() => {
+const Settings = observer(() => {
   return (
-    <ul>
-      {settingsList.map((item) => (
-        <li key={item.key} onClick={() => click(item.key)} className="flex items-center justify-between hover:bg-surface">
-          <button className="flex justify-between w-full items-center py-3 px-6">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined">{item.icon}</span>
-              <div className="text-start text-sm">
-                <p className="font-medium">{item.title}</p>
-                <p className="text-gray-500 dark:text-gray-400">{item.value}</p>
-              </div>
-            </div>
-            <span className="material-symbols-outlined">chevron_right</span>
-          </button>
-        </li>
+    <ul className="relative">
+      {SettingStore.settingsList.map((item) => (
+        <Setting
+          key={item.key}
+          id={item.key}
+          icon={item.icon}
+          title={item.title}
+          value={item.value}
+          options={item.options}
+          function={rootStore.log}
+        />
       ))}
     </ul>
   );
 });
 
-type SettingProps = { settingKey: string };
-
-const Setting: React.FC<SettingProps> = observer(({ settingKey }) => {
-  type SettingKey = "temperature" | "wind" | "pressure" | "language" | "interfaceTheme" | "formatTime";
-
-  const item = SettingStore.settingsList.find((setting) => setting.key === settingKey) as
-    | { key: SettingKey; icon: string; title: string; value: string; options: string[] }
-    | undefined;
-
-  if (!item) return null;
-
+const SettingSelect = observer(({ id, title, value, options, toggleSetting }: SettingProps) => {
   return (
-    <div className="flex flex-col gap-3">
-      <button onClick={() => rootStore.toggleSetting()} className="flex items-center gap-3 hover:bg-surface px-6 py-3">
-        <span className="material-symbols-outlined">chevron_left</span> {item.title}
+    <div className="absolute top-0 left-0 bg-background w-full h-full flex flex-col gap-3">
+      <button onClick={toggleSetting} className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full">
+        <span className="material-symbols-outlined">chevron_left</span> {title}
       </button>
-      <div className="flex flex-col gap-3 px-6">
-        {item.options.map((option) => (
+      <div className="flex flex-col gap-3 px-6 py-3">
+        {options.map((option) => (
           <label key={option} className="flex items-center gap-3 cursor-pointer">
             <input
               type="radio"
-              name={item.key}
+              name={id}
               value={option}
-              checked={item.value === option}
+              checked={value === option}
               onChange={() => {
-                rootStore.setSettings(item.key, option);
+                rootStore.setSettings(id, option);
                 SettingStore.setSettingsList();
               }}
               className="cursor-pointer"
@@ -76,3 +87,5 @@ const Setting: React.FC<SettingProps> = observer(({ settingKey }) => {
     </div>
   );
 });
+
+export { Settings };

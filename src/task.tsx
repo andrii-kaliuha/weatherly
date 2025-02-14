@@ -15,3 +15,32 @@
 // };
 
 // export { RadioButton };
+
+//console.log(JSON.stringify(this.settings, null, 2));
+
+// loadTheme() {
+//   const savedTheme = localStorage.getItem("theme") as "light" | "dark";
+//   if (savedTheme) {
+//     this.settings.interfaceTheme = savedTheme;
+//     document.documentElement.classList.toggle("dark", this.settings.interfaceTheme === "dark");
+//   }
+// }
+
+{
+  /* <Setting
+        id="interfaceTheme"
+        icon="dark_mode"
+        title="Interface theme"
+        value="Ukrainian"
+        options={["Light", "Dark"]}
+        function={rootStore.log}
+      />
+      <Setting
+        id={SettingStore.settingsList[4].key}
+        icon={SettingStore.settingsList[4].icon}
+        title={SettingStore.settingsList[4].title}
+        value={SettingStore.settingsList[4].value}
+        options={SettingStore.settingsList[4].options}
+        function={SettingStore.settingsList[4].fun}
+      /> */
+}

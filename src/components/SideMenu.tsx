@@ -3,8 +3,6 @@ import { Settings } from "./Settings";
 import rootStore from "../store/rootStore";
 
 const SideMenu = observer(() => {
-  const titles = ["About us", "User Agreement", "Legal information"];
-
   return (
     <div
       className="fixed top-0 left-0 bg-background text-on-surface sm:w-80 w-full h-full z-20 "
@@ -27,18 +25,6 @@ const SideMenu = observer(() => {
       </div>
 
       <Settings />
-      <ul
-        className="absolute bottom-0 text-[14px] pb-6 "
-        style={{
-          display: rootStore.isSettingVisible ? "none" : "block",
-        }}
-      >
-        {titles.map((title, index) => (
-          <li key={index}>
-            <a className="px-6">{title}</a>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 });
