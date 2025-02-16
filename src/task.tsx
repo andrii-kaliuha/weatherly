@@ -44,3 +44,7 @@
         function={SettingStore.settingsList[4].fun}
       /> */
 }
+
+//const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
+//використовувати не metric а стандарт
+//спробувати обєднати два request-а

@@ -10,7 +10,7 @@ const Header = observer(() => {
   const searchCity = (e: React.FormEvent) => {
     e.preventDefault();
     request.clearError();
-    request.getCityCoordinates(cityName);
+    request.getCityCoordinates(cityName, "uk");
   };
 
   const hideStartScreen = () => {

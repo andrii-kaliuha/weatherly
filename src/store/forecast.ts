@@ -1,8 +1,42 @@
 import { makeAutoObservable } from "mobx";
 
+const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius"): number => {
+  switch (temperatureUnit) {
+    case "fahrenheit":
+      return Math.round((value * 9) / 5 + 32);
+    case "kelvin":
+      return Math.round(value + 273.15);
+    default:
+      return Math.round(value);
+  }
+};
+
+const convertWindSpeed = (value: number, windSpeedUnit: "m/s" | "mph" | "km/h" = "m/s"): number => {
+  switch (windSpeedUnit) {
+    case "mph":
+      return Math.round(value * 2.236936);
+    case "km/h":
+      return Math.round(value * 3.6);
+    default:
+      return Math.round(value);
+  }
+};
+
+const convertPressure = (value: number, pressureUnit: "hPa" | "mmHg" = "hPa"): number => {
+  return pressureUnit === "mmHg" ? Math.round(value * 0.750061683) : Math.round(value);
+};
+
+const formatTime = (timestamp: number, format: "24-hour format" | "12-hour format" = "24-hour format") => {
+  return new Date(timestamp * 1000).toLocaleTimeString(format === "24-hour format" ? "uk-UA" : "en-US", {
+    hour: "numeric",
+    minute: "numeric",
+  });
+};
+
 class CurrentWeatherStore {
   cityName: string | null = null;
   date: string | null = null;
+  weekday: string | null = null;
   temperature: number | null = null;
   icon: string = "";
   description: string | null = null;
@@ -10,40 +44,51 @@ class CurrentWeatherStore {
   minTemp: number | null = null;
   summary: string | null = null;
   hourlyForecast: { temperature: number; icon: string; time: string }[] = [];
-  weatherConditions: { icon: string; value: string; label: string }[] = [];
+  weatherConditions: { icon: string; value: string; name: string }[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(data: any, cityName: string, temperatureUnit: string, pressureUnit: string, windSpeedUnit: string) {
+  updateCurrentWeather(
+    data: any,
+    cityName: string,
+    language: string,
+    temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius",
+    windSpeedUnit: "m/s" | "mph" | "km/h" = "m/s",
+    pressureUnit: "hPa" | "mmHg" = "hPa",
+    format: "24-hour format" | "12-hour format" = "24-hour format"
+  ) {
     this.cityName = cityName;
-    this.date = new Date(data.current.dt * 1000).toLocaleDateString("uk-UA", {
+    this.date = new Date(data.current.dt * 1000).toLocaleDateString(language, {
       day: "numeric",
       month: "long",
+    });
+    this.weekday = new Date(data.current.dt * 1000).toLocaleDateString(language, {
       weekday: "long",
     });
-    this.temperature = Math.round(data.current.temp);
+    this.temperature = convertTemperature(data.current.temp, temperatureUnit);
     this.icon = `./src/assets/icons/${data.current.weather[0].icon}.svg`;
     this.description = data.current.weather[0].description;
-    this.maxTemp = Math.round(data.daily[0].temp.max);
-    this.minTemp = Math.round(data.daily[0].temp.min);
+    this.maxTemp = convertTemperature(data.daily[0].temp.max, temperatureUnit);
+    this.minTemp = convertTemperature(data.daily[0].temp.min, temperatureUnit);
     this.summary = data.daily[0].summary;
     this.weatherConditions = [
-      { icon: "pressure", value: `${Math.round(data.current.pressure)} hPa`, label: "Pressure" },
-      { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, label: "Humidity" },
-      { icon: "wind", value: `${Math.round(data.current.wind_speed)} m/s`, label: "Wind" },
-      { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, label: "UV index" },
-      { icon: "precipitation", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, label: "Precipitation" },
-      { icon: "feels like", value: `${Math.round(data.current.feels_like)}°C`, label: "Feels like" },
+      { icon: "speed", value: `${convertPressure(data.current.pressure, pressureUnit)} ${pressureUnit}`, name: "Pressure" },
+      { icon: "humidity_mid", value: `${Math.round(data.current.humidity)} %`, name: "Humidity" },
+      { icon: "air", value: `${convertWindSpeed(data.current.wind_speed, windSpeedUnit)} ${windSpeedUnit}`, name: "Wind" },
+      { icon: "heat", value: `${Math.round(data.current.uvi)} / 12`, name: "UV index" },
+      { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, name: "Precipitation" },
+      {
+        icon: "thermometer",
+        value: `${convertTemperature(data.current.feels_like, temperatureUnit)}°${temperatureUnit.charAt(0).toUpperCase()}`,
+        name: "Feels like",
+      },
     ];
-    this.hourlyForecast = data.hourly.map((hour: any) => ({
-      time: new Date(hour.dt * 1000).toLocaleTimeString("uk-UA", {
-        hour: "numeric",
-        minute: "numeric",
-      }),
+    this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => ({
+      time: formatTime(hour.dt, format),
       icon: `./src/assets/icons/${hour.weather[0].icon}.svg`,
-      temperature: Math.round(hour.temp),
+      temperature: convertTemperature(hour.temp, temperatureUnit),
     }));
   }
 }
@@ -55,19 +100,19 @@ class WeeklyForecastStore {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: any) {
+  updateWeeklyForecast(data: any, language: string, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius") {
     this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
-      date: new Date(day.dt * 1000).toLocaleString("uk-UA", {
+      date: new Date(day.dt * 1000).toLocaleString(language, {
         day: "numeric",
         month: "long",
       }),
-      weekday: new Date(day.dt * 1000).toLocaleString("uk-UA", {
+      weekday: new Date(day.dt * 1000).toLocaleString(language, {
         weekday: "long",
       }),
-      minTemp: Math.round(day.temp.min),
-      maxTemp: Math.round(day.temp.max),
       icon: day.weather[0].icon,
       description: day.weather[0].description,
+      maxTemp: convertTemperature(day.temp.max, temperatureUnit),
+      minTemp: convertTemperature(day.temp.min, temperatureUnit),
     }));
   }
 }
@@ -84,49 +129,31 @@ class AstronomyStore {
     makeAutoObservable(this);
   }
 
-  updateAstronomyInfo(data: any) {
+  updateAstronomy(data: any, format: "24-hour format" | "12-hour format" = "24-hour format") {
     function getMoonPhase(moonPhase: number | null): string {
-      if (moonPhase === null) {
-        return "Фаза Місяця не визначена";
-      }
+      if (moonPhase === null) return "Фаза Місяця не визначена";
 
-      const moonPhases = [
-        { phase: "Новий Місяць", range: [0, 0.03] },
-        { phase: "Зростаючий Місяць", range: [0.04, 0.24] },
-        { phase: "Перша чверть", range: [0.25, 0.25] },
-        { phase: "Зростаючий опуклий", range: [0.26, 0.49] },
-        { phase: "Повний Місяць", range: [0.5, 0.5] },
-        { phase: "Спадаючий опуклий", range: [0.51, 0.74] },
-        { phase: "Остання чверть", range: [0.75, 0.75] },
-        { phase: "Спадаючий серп", range: [0.76, 0.99] },
-      ];
-
-      for (const { phase, range } of moonPhases) {
-        const [min, max] = range;
-        if (moonPhase >= min && moonPhase <= max) {
-          return phase;
-        }
-      }
-
-      return "Невідома фаза Місяця";
+      return (
+        (moonPhase <= 0.03 && "Новий Місяць") ||
+        (moonPhase <= 0.24 && "Зростаючий Місяць") ||
+        (moonPhase === 0.25 && "Перша чверть") ||
+        (moonPhase <= 0.49 && "Зростаючий опуклий") ||
+        (moonPhase === 0.5 && "Повний Місяць") ||
+        (moonPhase <= 0.74 && "Спадаючий опуклий") ||
+        (moonPhase === 0.75 && "Остання чверть") ||
+        (moonPhase <= 0.99 && "Спадаючий серп") ||
+        "Невідома фаза Місяця"
+      );
     }
 
-    function formatTime(timestamp: number) {
-      return new Date(timestamp * 1000).toLocaleTimeString("uk-UA", {
-        hour: "numeric",
-        minute: "numeric",
-      });
+    function calculateDuration(start: number, end: number): string {
+      return new Date((end - start) * 1000).toISOString().slice(11, 19);
     }
 
-    function calculateDuration(start: number, end: number) {
-      const durationInSeconds = end - start;
-      return new Date(durationInSeconds * 1000).toISOString().slice(11, 19);
-    }
-
-    this.sunrise = formatTime(data.daily[0].sunrise);
-    this.sunset = formatTime(data.daily[0].sunset);
-    this.moonrise = formatTime(data.daily[0].moonrise);
-    this.moonset = formatTime(data.daily[0].moonset);
+    this.sunrise = formatTime(data.daily[0].sunrise, format);
+    this.sunset = formatTime(data.daily[0].sunset, format);
+    this.moonrise = formatTime(data.daily[0].moonrise, format);
+    this.moonset = formatTime(data.daily[0].moonset, format);
     this.moonPhase = getMoonPhase(data.daily[0].moon_phase);
     this.durationDay = calculateDuration(data.daily[0].sunrise, data.daily[0].sunset);
   }
@@ -141,7 +168,7 @@ class AirQualityStore {
   airPollutants: { name: string; value: number; icon: string }[] = [];
   airQualityLevels = [
     {
-      id: 1,
+      aqi: 1,
       range: "AQI 0-50",
       color: "#a2d043",
       title: "Хороше повітря",
@@ -149,7 +176,7 @@ class AirQualityStore {
         "Повітря чисте, а рівень забруднення є мінімальним або не становить жодної загрози для здоров'я. Це безпечно для більшості людей.",
     },
     {
-      id: 2,
+      aqi: 2,
       range: "AQI 51-100",
       color: "#f8cc4a",
       title: "Задовільне повітря",
@@ -157,7 +184,7 @@ class AirQualityStore {
         "Якість повітря в цілому є прийнятною для більшості людей, проте деякі забруднювальні речовини можуть становити помірну загрозу для здоров'я дуже невеликої кількості людей, які надзвичайно чутливі до забруднення повітря.",
     },
     {
-      id: 3,
+      aqi: 3,
       range: "AQI 101-150",
       color: "#f19342",
       title: "Шкідливо для чутливих груп",
@@ -165,7 +192,7 @@ class AirQualityStore {
         "Забруднення повітря досягло високого рівня, воно є небезпечним для людей з підвищеною чутливістю. Якщо ви відчуєте утруднене дихання або подразнення горла, скоротите час перебування на вулиці.",
     },
     {
-      id: 4,
+      aqi: 4,
       range: "AQI 151-200",
       color: "#d85f38",
       title: "Нездорове повітря",
@@ -173,7 +200,7 @@ class AirQualityStore {
         "Люди з підвищеною чутливістю можуть відчувати себе погано. При тривалому знаходженні на вулиці здорові люди можуть відчути утруднене дихання або подразнення горла. Обмежте тривале перебування на вулиці.",
     },
     {
-      id: 5,
+      aqi: 5,
       range: "AQI 201-300",
       color: "#903c70",
       title: "Погане повітря",
@@ -189,7 +216,7 @@ class AirQualityStore {
   updateAirQuality(data: any, cityName: string) {
     this.cityName = cityName;
     this.aqi = data.list[0].main.aqi;
-    const currentAirQuality = this.airQualityLevels.find((item) => item.id === this.aqi) || this.airQualityLevels[4];
+    const currentAirQuality = this.airQualityLevels.find((item) => item.aqi === this.aqi) || this.airQualityLevels[4];
     this.color = currentAirQuality.color;
     this.title = currentAirQuality.title;
     this.description = currentAirQuality.description;

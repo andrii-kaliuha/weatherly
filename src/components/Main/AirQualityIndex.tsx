@@ -24,6 +24,9 @@ const AirQualityIndex = observer(() => {
         <ul className="flex justify-around w-full">
           {airPollutants.map((item, index) => (
             <li key={index} className="flex flex-col items-center">
+              {/* <svg fill={airQualityStore.color || "inherit"} width="24" height="24">
+                <use href={`./src/assets/images/air-polutants.svg#${item.icon}`}></use>
+              </svg> */}
               <span className="weatherly-icon-pack" style={{ color: airQualityStore.color || "inherit" }}>
                 {item.icon}
               </span>

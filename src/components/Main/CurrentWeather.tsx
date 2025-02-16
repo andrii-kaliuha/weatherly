@@ -4,11 +4,11 @@ import { currentWeatherStore } from "../../store/forecast";
 
 const CurrentWeather = observer(() => {
   return (
-    <section className="bg-white dark:bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
+    <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
         <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
         <p>
-          Погода {currentWeatherStore.cityName}, {currentWeatherStore.date}
+          Погода {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
         </p>
       </div>
       <CurrentTemperature />
@@ -82,9 +82,10 @@ const WeatherConditions = observer(() => {
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col">
-          <span className="weatherly-icon-pack">{item.icon}</span>
-          <p className="flex text-[16px]">{item.value}</p>
-          <span className="text-[12px]">{item.label}</span>
+          <span className="material-symbols-outlined">{item.icon}</span>
+          {/* <span className="weatherly-icon-pack text-[16x]">{item.icon}</span> */}
+          <p className="flex text-[14px]">{item.value}</p>
+          <span className="text-[12px]">{item.name}</span>
         </li>
       ))}
     </ul>

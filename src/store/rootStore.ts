@@ -42,54 +42,38 @@ class rootStore {
     this.isSelectVisible = !this.isSelectVisible;
   }
 
-  convertTemperature(value: number, temperatureUnit: string): number | null {
+  convertTemperature(value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius"): number {
     switch (temperatureUnit) {
-      case "celsius":
-        return Math.round(value);
       case "fahrenheit":
         return Math.round((value * 9) / 5 + 32);
       case "kelvin":
         return Math.round(value + 273.15);
       default:
-        return null;
+        return Math.round(value);
     }
   }
 
-  // convertTemperature(value: number): number | null {
-  //   switch (this.settings.temperature) {
-  //     case "celsius":
-  //       return Math.round(value);
-  //     case "fahrenheit":
-  //       return Math.round((value * 9) / 5 + 32);
-  //     case "kelvin":
-  //       return Math.round(value + 273.15);
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-  convertWindSpeed(value: number): number | null {
-    switch (this.settings.wind) {
-      case "m/s":
-        return Math.round(value);
+  convertWindSpeed(value: number, windSpeedUnit: "m/s" | "mph" | "km/h" = "m/s"): number {
+    switch (windSpeedUnit) {
       case "mph":
         return Math.round(value * 2.236936);
       case "km/h":
         return Math.round(value * 3.6);
       default:
-        return null;
+        return Math.round(value);
     }
   }
 
-  convertPressure(value: number): number | null {
-    switch (this.settings.pressure) {
-      case "hPa":
-        return Math.round(value);
-      case "mmHg":
-        return Math.round(value * 0.750061683);
-      default:
-        return null;
-    }
+  convertPressure(value: number, pressureUnit: "hPa" | "mmHg" = "hPa"): number {
+    return pressureUnit === "mmHg" ? Math.round(value * 0.750061683) : Math.round(value);
+  }
+
+  formatTime(timestamp: number, format: "24-hour format" | "12-hour format" = "24-hour format") {
+    return new Date(timestamp * 1000).toLocaleTimeString(format === "24-hour format" ? "uk-UA" : "en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: format === "12-hour format",
+    });
   }
 
   // changeLanguage(lang: string) {
@@ -112,14 +96,6 @@ class rootStore {
   //     minute: "numeric",
   //   });
   // }
-
-  formatTime(timestamp: number, format: "24-hour format" | "12-hour format" = "24-hour format") {
-    return new Date(timestamp * 1000).toLocaleTimeString(format === "24-hour format" ? "uk-UA" : "en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: format === "12-hour format",
-    });
-  }
 
   // setFormatTime() {
   //   currentWeatherStore.updateCurrentWeather;
