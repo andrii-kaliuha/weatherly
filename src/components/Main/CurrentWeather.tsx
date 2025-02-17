@@ -53,7 +53,7 @@ const HourlyForecast = observer(() => {
 
     const listElement = listRef.current;
     if (listElement) {
-      listElement.addEventListener("wheel", handleWheel);
+      listElement.addEventListener("wheel", handleWheel, { passive: false });
     }
 
     return () => {
@@ -83,7 +83,6 @@ const WeatherConditions = observer(() => {
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col">
           <span className="material-symbols-outlined">{item.icon}</span>
-          {/* <span className="weatherly-icon-pack text-[16x]">{item.icon}</span> */}
           <p className="flex text-[14px]">{item.value}</p>
           <span className="text-[12px]">{item.name}</span>
         </li>

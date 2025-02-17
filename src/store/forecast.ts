@@ -1,11 +1,11 @@
 import { makeAutoObservable } from "mobx";
 
-const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius"): number => {
+const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "kelvin"): number => {
   switch (temperatureUnit) {
+    case "celsius":
+      return Math.round(value - 273.15);
     case "fahrenheit":
-      return Math.round((value * 9) / 5 + 32);
-    case "kelvin":
-      return Math.round(value + 273.15);
+      return Math.round(((value - 273.15) * 9) / 5 + 32);
     default:
       return Math.round(value);
   }
@@ -33,6 +33,14 @@ const formatTime = (timestamp: number, format: "24-hour format" | "12-hour forma
   });
 };
 
+export type settings = {
+  language: "uk" | "en";
+  temperatureUnit: "celsius" | "fahrenheit" | "kelvin";
+  windSpeedUnit: "m/s" | "mph" | "km/h";
+  pressureUnit: "hPa" | "mmHg";
+  format: "24-hour format" | "12-hour format";
+};
+
 class CurrentWeatherStore {
   cityName: string | null = null;
   date: string | null = null;
@@ -50,15 +58,7 @@ class CurrentWeatherStore {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(
-    data: any,
-    cityName: string,
-    language: string,
-    temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius",
-    windSpeedUnit: "m/s" | "mph" | "km/h" = "m/s",
-    pressureUnit: "hPa" | "mmHg" = "hPa",
-    format: "24-hour format" | "12-hour format" = "24-hour format"
-  ) {
+  updateCurrentWeather(data: any, cityName: string, { language, temperatureUnit, windSpeedUnit, pressureUnit, format }: settings) {
     this.cityName = cityName;
     this.date = new Date(data.current.dt * 1000).toLocaleDateString(language, {
       day: "numeric",
@@ -100,7 +100,7 @@ class WeeklyForecastStore {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: any, language: string, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "celsius") {
+  updateWeeklyForecast(data: any, { language, temperatureUnit }: settings) {
     this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
       date: new Date(day.dt * 1000).toLocaleString(language, {
         day: "numeric",
@@ -129,7 +129,7 @@ class AstronomyStore {
     makeAutoObservable(this);
   }
 
-  updateAstronomy(data: any, format: "24-hour format" | "12-hour format" = "24-hour format") {
+  updateAstronomy(data: any, { format }: settings) {
     function getMoonPhase(moonPhase: number | null): string {
       if (moonPhase === null) return "Фаза Місяця не визначена";
 

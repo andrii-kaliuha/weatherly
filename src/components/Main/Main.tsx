@@ -4,7 +4,7 @@ import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
 import { StartScreen, LoadingScreen, ErrorScreen } from "../AppScreens";
 import { observer } from "mobx-react-lite";
-import { request } from "../../store/request";
+import request from "../../store/request";
 import rootStore from "../../store/rootStore";
 
 const Main = observer(() => {

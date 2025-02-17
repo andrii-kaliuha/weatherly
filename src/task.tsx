@@ -3,7 +3,7 @@
 //додати функціонал переключення мови за допомогою i18next
 //?додати історію запитів через input
 // add AQI Popup
-//дизайн about us буду робити схожим на https://gemini.google.com/updates
+//?використовувати не metric а стандарт
 
 // const RadioButton = () => {
 //   return (
@@ -44,7 +44,3 @@
         function={SettingStore.settingsList[4].fun}
       /> */
 }
-
-//const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
-//використовувати не metric а стандарт
-//спробувати обєднати два request-а

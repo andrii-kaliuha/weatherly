@@ -1,19 +1,29 @@
 import { useState } from "react";
-import { request } from "../store/request";
+import request from "../store/request";
 import { SideMenu } from "./SideMenu";
 import { observer } from "mobx-react-lite";
 import rootStore from "../store/rootStore";
+import { settings } from "../store/forecast";
 
 const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
 
-  const searchCity = (e: React.FormEvent) => {
-    e.preventDefault();
-    request.clearError();
-    request.getCityCoordinates(cityName, "uk");
+  const props: settings = {
+    language: "uk", // або "en"
+    temperatureUnit: "celsius", // або "fahrenheit" чи "kelvin"
+    windSpeedUnit: "m/s", // або "mph" чи "km/h"
+    pressureUnit: "mmHg", // або "mmHg"
+    format: "24-hour format", // або "12-hour format"
   };
 
-  const hideStartScreen = () => {
+  const searchCityByName = (e: React.FormEvent) => {
+    e.preventDefault();
+    request.fetchForecastByCityName(cityName, props);
+    rootStore.hideStartScreen();
+  };
+
+  const searchCityByLocation = () => {
+    request.fetchForecastByLocation(props);
     rootStore.hideStartScreen();
   };
 
@@ -23,7 +33,7 @@ const Header = observer(() => {
         <Button onClick={() => rootStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
 
         <SideMenu />
-        <form className="relative text-on-surface" onSubmit={searchCity}>
+        <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
             type="text"
             placeholder="Search city..."
@@ -32,18 +42,9 @@ const Header = observer(() => {
             onChange={(e) => setCity(e.target.value)}
             className="bg-surface text-on-surface pl-3 rounded-[24px] w-full sm:w-64 h-[48px] outline-transparent border-transparent"
           />
-          <Button onHide={hideStartScreen} icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
+          <Button icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
         </form>
-        <Button
-          onHide={hideStartScreen}
-          onClick={() => {
-            request.clearError();
-            request.getCurrentLocation();
-          }}
-          icon="my_location"
-          label="Current Location"
-          additionalClass="bg-primary gap-3"
-        />
+        <Button onClick={searchCityByLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
       </nav>
     </header>
   );
@@ -56,15 +57,11 @@ type ButtonProps = {
   label?: string;
   additionalClass?: string;
   onClick?: () => void;
-  onHide?: () => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ icon, label, additionalClass = "", onClick, onHide }) => (
+const Button: React.FC<ButtonProps> = ({ icon, label, additionalClass = "", onClick }) => (
   <button
-    onClick={() => {
-      if (onClick) onClick();
-      if (onHide) onHide();
-    }}
+    onClick={onClick}
     className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}
   >
     <span className="material-symbols-outlined">{icon}</span>

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { request } from "../store/request";
+import request from "../store/request";
 import { Loader2 } from "lucide-react";
 
 const StartScreen = () => {

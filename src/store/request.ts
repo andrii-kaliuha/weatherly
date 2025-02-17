@@ -1,17 +1,11 @@
 import { makeAutoObservable } from "mobx";
-import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore } from "./forecast";
+import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore, settings } from "./forecast";
 
 const API_KEY = "ada53a53546a12851a13875d932b485b";
 
-class Request {
-  cityName: string = "";
-  latitude: number | null = null;
-  longitude: number | null = null;
+class request {
   error: string | null = null;
   loading: boolean = false;
-
-  forecast: any;
-  airQuality: any;
 
   constructor() {
     makeAutoObservable(this);
@@ -29,125 +23,89 @@ class Request {
     this.loading = loading;
   }
 
-  async getCityCoordinates(cityName: string, language: string) {
-    this.setLoading(true);
+  async getCityCoordinates(city: string, language: "uk" | "en"): Promise<{ latitude: number; longitude: number; cityName: string }> {
     try {
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
       const coordinates = await response.json();
 
+      const cityName = coordinates[0].local_names[language];
       const { lat, lon } = coordinates[0];
-      this.getWeatherForecast(lat, lon);
-      this.getAirQuality(lat, lon);
-      this.cityName = coordinates[0].local_names[language];
+      return { latitude: lat, longitude: lon, cityName: cityName };
     } catch (error: any) {
-      this.addError(error.message || "Помилка при отриманні координат міста. Спробуйте пізніше.");
-    } finally {
-      this.setLoading(false);
+      throw new Error(error.message || "Помилка при отриманні координат міста. Спробуйте пізніше.");
     }
   }
 
-  async getCityNameByCoordinates(lat: number, lon: number, language: string) {
-    this.setLoading(true);
+  async getCityNameByCoordinates(lat: number, lon: number, language: "uk" | "en"): Promise<string> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`);
       const cityName = await response.json();
 
-      this.cityName = cityName[0].local_names[language];
+      return cityName[0].local_names[language];
     } catch (error: any) {
-      this.addError(error.message || "Помилка при отриманні даних міста. Спробуйте пізніше.");
-    } finally {
-      this.setLoading(false);
+      throw new Error(error.message || "Помилка при отриманні даних міста. Спробуйте пізніше.");
     }
   }
 
-  getCurrentLocation() {
-    if (navigator.geolocation) {
+  async getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+    if (!navigator.geolocation) {
+      return Promise.reject(new Error("Геолокація не підтримується цим браузером."));
+    }
+    return new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
-          this.latitude = latitude;
-          this.longitude = longitude;
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
         },
         (error) => {
-          if (error instanceof GeolocationPositionError) {
-            switch (error.code) {
-              case GeolocationPositionError.PERMISSION_DENIED:
-                this.addError("Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.");
-                break;
-              case GeolocationPositionError.POSITION_UNAVAILABLE:
-                this.addError("Не вдалося визначити місцезнаходження. Спробуйте пізніше.");
-                break;
-              case GeolocationPositionError.TIMEOUT:
-                this.addError("Час вичерпано при спробі визначити місцезнаходження.");
-                break;
-              default:
-                this.addError("Не вдалося отримати геолокацію. Спробуйте ще раз.");
-            }
-          } else {
-            this.addError("Помилка при отриманні геолокації");
-          }
+          const errorMessages: { [key: number]: string } = {
+            [GeolocationPositionError.PERMISSION_DENIED]: "Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.",
+            [GeolocationPositionError.POSITION_UNAVAILABLE]: "Не вдалося визначити місцезнаходження. Спробуйте пізніше.",
+            [GeolocationPositionError.TIMEOUT]: "Час вичерпано при спробі визначити місцезнаходження.",
+          };
+          const errorMessage = errorMessages[error.code] || "Не вдалося отримати геолокацію. Спробуйте ще раз.";
+          reject(new Error(errorMessage));
         }
       );
-    } else {
-      this.addError("Геолокація не підтримується цим браузером.");
+    });
+  }
+
+  async getWeatherForecast(lat: number, lon: number): Promise<any> {
+    try {
+      const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      return await response.json();
+    } catch (error: any) {
+      throw new Error(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
     }
   }
 
-  // getCurrentLocation = async (language: string) => {
-  //   this.setLoading(true);
+  async getAirQuality(lat: number, lon: number): Promise<any> {
+    try {
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      return await response.json();
+    } catch (error: any) {
+      throw new Error(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
+    }
+  }
 
-  //   if (!("geolocation" in navigator)) {
-  //     this.addError("Геолокація не підтримується вашим браузером.");
-  //     this.setLoading(false);
-  //     return;
-  //   }
+  updateForecast(forecast: any, airQuality: any, cityName: string, props: settings) {
+    currentWeatherStore.updateCurrentWeather(forecast, cityName, props);
+    astronomyStore.updateAstronomy(forecast, props);
+    airQualityStore.updateAirQuality(airQuality, cityName);
+    weeklyForecastStore.updateWeeklyForecast(forecast.daily, props);
+  }
 
-  //   try {
-  //     const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-  //       navigator.geolocation.getCurrentPosition(resolve, reject);
-  //     });
-
-  //     const { latitude, longitude } = position.coords;
-
-  //     await Promise.all([
-  //       this.getCityNameByCoordinates(latitude, longitude, language),
-  //       this.getWeatherForecast(latitude, longitude),
-  //       this.getAirQuality(latitude, longitude),
-  //     ]);
-  //   } catch (error: unknown) {
-  //     if (error instanceof GeolocationPositionError) {
-  //       switch (error.code) {
-  //         case GeolocationPositionError.PERMISSION_DENIED:
-  //           this.addError("Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.");
-  //           break;
-  //         case GeolocationPositionError.POSITION_UNAVAILABLE:
-  //           this.addError("Не вдалося визначити місцезнаходження. Спробуйте пізніше.");
-  //           break;
-  //         case GeolocationPositionError.TIMEOUT:
-  //           this.addError("Час вичерпано при спробі визначити місцезнаходження.");
-  //           break;
-  //         default:
-  //           this.addError("Не вдалося отримати геолокацію. Спробуйте ще раз.");
-  //       }
-  //     } else if (error instanceof Error) {
-  //       this.addError(`Сталася помилка: ${error.message}`);
-  //     } else {
-  //       this.addError("Сталася невідома помилка при отриманні геолокації.");
-  //     }
-  //   } finally {
-  //     this.setLoading(false);
-  //   }
-  // };
-
-  async getWeatherForecast(lat: number, lon: number) {
+  async fetchForecastByCityName(city: string, props: settings) {
     this.setLoading(true);
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
-      const forecast = await response.json();
+      const { latitude, longitude, cityName } = await this.getCityCoordinates(city, props.language);
+      const forecast = await this.getWeatherForecast(latitude, longitude);
+      const airQuality = await this.getAirQuality(latitude, longitude);
 
-      astronomyStore.updateAstronomy(forecast, "12-hour format");
-      weeklyForecastStore.updateWeeklyForecast(forecast.daily, "en", "fahrenheit");
-      currentWeatherStore.updateCurrentWeather(forecast, this.cityName, "uk", "kelvin", "km/h", "mmHg", "12-hour format");
+      this.updateForecast(forecast, airQuality, cityName, props);
+      this.clearError();
     } catch (error: any) {
       this.addError(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
     } finally {
@@ -155,19 +113,22 @@ class Request {
     }
   }
 
-  async getAirQuality(lat: number, lon: number) {
+  async fetchForecastByLocation(props: settings) {
     this.setLoading(true);
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-      const AQI = await response.json();
+      const { latitude, longitude } = await this.getCurrentLocation();
+      const cityName = await this.getCityNameByCoordinates(latitude, longitude, props.language);
+      const forecast = await this.getWeatherForecast(latitude, longitude);
+      const airQuality = await this.getAirQuality(latitude, longitude);
 
-      airQualityStore.updateAirQuality(AQI, this.cityName);
+      this.updateForecast(forecast, airQuality, cityName, props);
+      this.clearError();
     } catch (error: any) {
-      this.addError(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
+      this.addError(error.message || "Помилка отримання прогнозу.");
     } finally {
       this.setLoading(false);
     }
   }
 }
 
-export const request = new Request();
+export default new request();
