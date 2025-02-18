@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { airQualityStore } from "../../store/forecast";
 
-const AirQualityIndex = observer(() => {
+export const AirQualityIndex = observer(() => {
   const { airPollutants } = airQualityStore;
 
   return (
@@ -43,5 +43,3 @@ const AirQualityIndex = observer(() => {
     </section>
   );
 });
-
-export { AirQualityIndex };

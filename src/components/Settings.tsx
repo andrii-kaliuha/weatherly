@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import SettingStore from "../store/SettingStore";
-import rootStore from "../store/rootStore";
+import { useState } from "react";
 
 type SettingProps = {
   id: string;
@@ -8,14 +8,30 @@ type SettingProps = {
   title: string;
   value: string;
   options: string[];
-  function: (value: string) => void;
+  function?: any;
   toggleSetting?: () => void;
   isSelectVisible?: boolean;
 };
 
-import { useState } from "react";
+export const Settings = observer(() => {
+  return (
+    <ul className="relative">
+      {SettingStore.settingsList.map((item) => (
+        <Setting
+          key={item.key}
+          id={item.key}
+          icon={item.icon}
+          title={item.title}
+          value={item.value}
+          function={item.function}
+          options={item.options}
+        />
+      ))}
+    </ul>
+  );
+});
 
-const Setting = observer(({ id, icon, title, value, options, function: func }: SettingProps) => {
+const Setting = observer(({ id, icon, title, value, options }: SettingProps) => {
   const [isSelectVisible, setSelectVisible] = useState(false);
 
   const toggleSetting = () => {
@@ -35,28 +51,8 @@ const Setting = observer(({ id, icon, title, value, options, function: func }: S
         <span className="material-symbols-outlined">chevron_right</span>
       </button>
 
-      {isSelectVisible && (
-        <SettingSelect id={id} icon={icon} title={title} value={value} options={options} function={func} toggleSetting={toggleSetting} />
-      )}
+      {isSelectVisible && <SettingSelect id={id} icon={icon} title={title} value={value} options={options} toggleSetting={toggleSetting} />}
     </li>
-  );
-});
-
-const Settings = observer(() => {
-  return (
-    <ul className="relative">
-      {SettingStore.settingsList.map((item) => (
-        <Setting
-          key={item.key}
-          id={item.key}
-          icon={item.icon}
-          title={item.title}
-          value={item.value}
-          options={item.options}
-          function={rootStore.log}
-        />
-      ))}
-    </ul>
   );
 });
 
@@ -75,8 +71,9 @@ const SettingSelect = observer(({ id, title, value, options, toggleSetting }: Se
               value={option}
               checked={value === option}
               onChange={() => {
-                rootStore.setSettings(id, option);
+                SettingStore.setSettings(id, option);
                 SettingStore.setSettingsList();
+                SettingStore.updateUnits();
               }}
               className="cursor-pointer"
             />
@@ -87,5 +84,3 @@ const SettingSelect = observer(({ id, title, value, options, toggleSetting }: Se
     </div>
   );
 });
-
-export { Settings };

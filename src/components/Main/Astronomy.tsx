@@ -51,7 +51,7 @@ const Moon = observer(() => {
   );
 });
 
-const Astronomy = () => {
+export const Astronomy = () => {
   return (
     <section className="bg-surface text-on-surface p-6 rounded-3xl flex-1">
       <h2 className="mb-3">Сонце та Місяць</h2>
@@ -62,5 +62,3 @@ const Astronomy = () => {
     </section>
   );
 };
-
-export { Astronomy };

@@ -2,13 +2,11 @@ import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
 import rootStore from "../store/rootStore";
 
-const SideMenu = observer(() => {
+export const SideMenu = observer(() => {
   return (
     <div
       className="fixed top-0 left-0 bg-background text-on-surface sm:w-80 w-full h-full z-20 "
-      style={{
-        display: rootStore.isSideMenuVisible ? "block" : "none",
-      }}
+      style={{ display: rootStore.isSideMenuVisible ? "block" : "none" }}
     >
       <div className="relative flex items-center justify-between p-6">
         <div className="flex items-center gap-3">
@@ -28,5 +26,3 @@ const SideMenu = observer(() => {
     </div>
   );
 });
-
-export { SideMenu };

@@ -1,11 +1,15 @@
 import { makeAutoObservable } from "mobx";
-import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore, settings } from "./forecast";
+import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore, settingsProps } from "./forecast";
 
 const API_KEY = "ada53a53546a12851a13875d932b485b";
 
 class request {
   error: string | null = null;
   loading: boolean = false;
+
+  forecast: any = null;
+  airQuality: any = null;
+  cityName: string = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -28,9 +32,8 @@ class request {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
       const coordinates = await response.json();
 
-      const cityName = coordinates[0].local_names[language];
-      const { lat, lon } = coordinates[0];
-      return { latitude: lat, longitude: lon, cityName: cityName };
+      const { lat: latitude, lon: longitude, local_names } = coordinates[0];
+      return { latitude, longitude, cityName: local_names[language] };
     } catch (error: any) {
       throw new Error(error.message || "Помилка при отриманні координат міста. Спробуйте пізніше.");
     }
@@ -90,41 +93,51 @@ class request {
     }
   }
 
-  updateForecast(forecast: any, airQuality: any, cityName: string, props: settings) {
-    currentWeatherStore.updateCurrentWeather(forecast, cityName, props);
-    astronomyStore.updateAstronomy(forecast, props);
+  updateForecast(forecast: any, airQuality: any, cityName: string, settings: settingsProps) {
+    currentWeatherStore.updateCurrentWeather(forecast, cityName, settings);
+    astronomyStore.updateAstronomy(forecast, settings);
     airQualityStore.updateAirQuality(airQuality, cityName);
-    weeklyForecastStore.updateWeeklyForecast(forecast.daily, props);
+    weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings);
   }
 
-  async fetchForecastByCityName(city: string, props: settings) {
+  async fetchForecastByCityName(city: string, settings: settingsProps) {
     this.setLoading(true);
     try {
-      const { latitude, longitude, cityName } = await this.getCityCoordinates(city, props.language);
+      const { latitude, longitude, cityName } = await this.getCityCoordinates(city, settings.language);
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      this.updateForecast(forecast, airQuality, cityName, props);
+      this.forecast = forecast;
+      this.airQuality = airQuality;
+      this.cityName = cityName;
+      console.log(settings);
+
+      this.updateForecast(forecast, airQuality, cityName, settings);
       this.clearError();
     } catch (error: any) {
-      this.addError(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
+      this.addError(error.message || "Помилка отримання прогнозу погоди.");
     } finally {
       this.setLoading(false);
     }
   }
 
-  async fetchForecastByLocation(props: settings) {
+  async fetchForecastByLocation(settings: settingsProps) {
     this.setLoading(true);
     try {
       const { latitude, longitude } = await this.getCurrentLocation();
-      const cityName = await this.getCityNameByCoordinates(latitude, longitude, props.language);
+      const cityName = await this.getCityNameByCoordinates(latitude, longitude, settings.language);
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      this.updateForecast(forecast, airQuality, cityName, props);
+      this.forecast = forecast;
+      this.airQuality = airQuality;
+      this.cityName = cityName;
+      console.log(settings);
+
+      this.updateForecast(forecast, airQuality, cityName, settings);
       this.clearError();
     } catch (error: any) {
-      this.addError(error.message || "Помилка отримання прогнозу.");
+      this.addError(error.message || "Помилка отримання прогнозу погоди.");
     } finally {
       this.setLoading(false);
     }

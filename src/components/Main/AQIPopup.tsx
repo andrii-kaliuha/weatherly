@@ -1,6 +1,6 @@
 import { airQualityStore } from "../../store/forecast";
 
-const AQIPopup = () => {
+export const AQIPopup = () => {
   const { airQualityLevels } = airQualityStore;
 
   return (
@@ -13,11 +13,11 @@ const AQIPopup = () => {
       <div className="border-[2px] border-[#222]"></div>
       <ul className="flex flex-col gap-3 p-6 overflow-y-auto scroll-px-40 bg-surface">
         {airQualityLevels.map((item) => (
-          <li key={item.id} className="flex flex-col">
+          <li key={item.aqi} className="flex flex-col">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1" style={{ color: item.color || "inherit" }}>
                 <span className="material-symbols-outlined">air</span>
-                <p className="text-[24px] leading-none">{item.id}</p>
+                <p className="text-[24px] leading-none">{item.aqi}</p>
               </div>
               <span className="text-xs">{item.range}</span>
             </div>
@@ -33,5 +33,3 @@ const AQIPopup = () => {
     </section>
   );
 };
-
-export { AQIPopup };

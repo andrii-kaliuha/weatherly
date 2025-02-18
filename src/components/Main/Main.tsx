@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 import request from "../../store/request";
 import rootStore from "../../store/rootStore";
 
-const Main = observer(() => {
+export const Main = observer(() => {
   const { isStartScreenVisible } = rootStore;
   const { loading } = request;
   const { error } = request;
@@ -31,5 +31,3 @@ const Main = observer(() => {
     </main>
   );
 });
-
-export { Main };

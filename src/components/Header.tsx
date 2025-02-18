@@ -1,29 +1,29 @@
 import { useState } from "react";
-import request from "../store/request";
-import { SideMenu } from "./SideMenu";
 import { observer } from "mobx-react-lite";
+import { SideMenu } from "./SideMenu";
 import rootStore from "../store/rootStore";
-import { settings } from "../store/forecast";
+import request from "../store/request";
+import { settingsProps } from "../store/forecast";
 
-const Header = observer(() => {
+export const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
 
-  const props: settings = {
-    language: "uk", // або "en"
-    temperatureUnit: "celsius", // або "fahrenheit" чи "kelvin"
-    windSpeedUnit: "m/s", // або "mph" чи "km/h"
-    pressureUnit: "mmHg", // або "mmHg"
-    format: "24-hour format", // або "12-hour format"
+  const settings: settingsProps = {
+    temperatureUnit: "celsius",
+    windSpeedUnit: "m/s",
+    pressureUnit: "mmHg",
+    language: "uk",
+    format: "24-hour format",
   };
 
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
-    request.fetchForecastByCityName(cityName, props);
+    request.fetchForecastByCityName(cityName, settings);
     rootStore.hideStartScreen();
   };
 
   const searchCityByLocation = () => {
-    request.fetchForecastByLocation(props);
+    request.fetchForecastByLocation(settings);
     rootStore.hideStartScreen();
   };
 
@@ -31,7 +31,6 @@ const Header = observer(() => {
     <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
       <nav className="flex items-center justify-between p-3 gap-3">
         <Button onClick={() => rootStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
-
         <SideMenu />
         <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
@@ -42,15 +41,13 @@ const Header = observer(() => {
             onChange={(e) => setCity(e.target.value)}
             className="bg-surface text-on-surface pl-3 rounded-[24px] w-full sm:w-64 h-[48px] outline-transparent border-transparent"
           />
-          <Button icon="search" additionalClass="absolute right-0 top-0 bg-surface text-on-surface" />
+          <Button icon="search" additionalClass="absolute right-0 top-0" />
         </form>
         <Button onClick={searchCityByLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
       </nav>
     </header>
   );
 });
-
-export { Header };
 
 type ButtonProps = {
   icon: string;
@@ -59,7 +56,7 @@ type ButtonProps = {
   onClick?: () => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ icon, label, additionalClass = "", onClick }) => (
+const Button = ({ icon, label, additionalClass = "", onClick }: ButtonProps) => (
   <button
     onClick={onClick}
     className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}

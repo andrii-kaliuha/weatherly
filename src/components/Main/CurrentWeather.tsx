@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useRef, useEffect } from "react";
 import { currentWeatherStore } from "../../store/forecast";
 
-const CurrentWeather = observer(() => {
+export const CurrentWeather = observer(() => {
   return (
     <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
@@ -18,8 +18,6 @@ const CurrentWeather = observer(() => {
     </section>
   );
 });
-
-export { CurrentWeather };
 
 const CurrentTemperature = observer(() => {
   return (

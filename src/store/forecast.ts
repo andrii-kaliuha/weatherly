@@ -1,5 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
+export type settingsProps = {
+  temperatureUnit: "celsius" | "fahrenheit" | "kelvin";
+  windSpeedUnit: "m/s" | "mph" | "km/h";
+  pressureUnit: "hPa" | "mmHg";
+  language: "uk" | "en";
+  format: "24-hour format" | "12-hour format";
+};
+
 const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "kelvin"): number => {
   switch (temperatureUnit) {
     case "celsius":
@@ -33,14 +41,6 @@ const formatTime = (timestamp: number, format: "24-hour format" | "12-hour forma
   });
 };
 
-export type settings = {
-  language: "uk" | "en";
-  temperatureUnit: "celsius" | "fahrenheit" | "kelvin";
-  windSpeedUnit: "m/s" | "mph" | "km/h";
-  pressureUnit: "hPa" | "mmHg";
-  format: "24-hour format" | "12-hour format";
-};
-
 class CurrentWeatherStore {
   cityName: string | null = null;
   date: string | null = null;
@@ -58,13 +58,14 @@ class CurrentWeatherStore {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(data: any, cityName: string, { language, temperatureUnit, windSpeedUnit, pressureUnit, format }: settings) {
+  updateCurrentWeather(data: any, cityName: string, { language, temperatureUnit, windSpeedUnit, pressureUnit, format }: settingsProps) {
+    const locale = language === "uk" ? "uk-UA" : "en-US";
     this.cityName = cityName;
-    this.date = new Date(data.current.dt * 1000).toLocaleDateString(language, {
+    this.date = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
       day: "numeric",
       month: "long",
     });
-    this.weekday = new Date(data.current.dt * 1000).toLocaleDateString(language, {
+    this.weekday = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
       weekday: "long",
     });
     this.temperature = convertTemperature(data.current.temp, temperatureUnit);
@@ -100,13 +101,14 @@ class WeeklyForecastStore {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: any, { language, temperatureUnit }: settings) {
+  updateWeeklyForecast(data: any, { language, temperatureUnit }: settingsProps) {
+    const locale = language === "uk" ? "uk-UA" : "en-US";
     this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
-      date: new Date(day.dt * 1000).toLocaleString(language, {
+      date: new Date(day.dt * 1000).toLocaleString(locale, {
         day: "numeric",
         month: "long",
       }),
-      weekday: new Date(day.dt * 1000).toLocaleString(language, {
+      weekday: new Date(day.dt * 1000).toLocaleString(locale, {
         weekday: "long",
       }),
       icon: day.weather[0].icon,
@@ -129,7 +131,7 @@ class AstronomyStore {
     makeAutoObservable(this);
   }
 
-  updateAstronomy(data: any, { format }: settings) {
+  updateAstronomy(data: any, { format }: settingsProps) {
     function getMoonPhase(moonPhase: number | null): string {
       if (moonPhase === null) return "Фаза Місяця не визначена";
 

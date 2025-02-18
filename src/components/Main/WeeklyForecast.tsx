@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { weeklyForecastStore } from "../../store/forecast";
 
-const WeeklyForecast = observer(() => {
+export const WeeklyForecast = observer(() => {
   const { weeklyForecast } = weeklyForecastStore;
 
   return (
@@ -26,5 +26,3 @@ const WeeklyForecast = observer(() => {
     </section>
   );
 });
-
-export { WeeklyForecast };

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import request from "../store/request";
 import { Loader2 } from "lucide-react";
 
-const StartScreen = () => {
+export const StartScreen = () => {
   const title = "Шукаєте прогноз погоди? Введіть назву міста в поле пошуку";
   const subtitle = "або дозвольте визначити вашу геолокацію, щоб отримати точний прогноз для вашого регіону";
 
@@ -14,7 +14,7 @@ const StartScreen = () => {
   );
 };
 
-const LoadingScreen = () => {
+export const LoadingScreen = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Loader2 className="w-12 h-12 animate-spin text-[#8338ec]" />
@@ -23,7 +23,7 @@ const LoadingScreen = () => {
   );
 };
 
-const ErrorScreen = observer(() => {
+export const ErrorScreen = observer(() => {
   if (!request.error) return null;
   const title = "Сталася помилка!";
 
@@ -34,7 +34,3 @@ const ErrorScreen = observer(() => {
     </div>
   );
 });
-
-export { StartScreen };
-export { LoadingScreen };
-export { ErrorScreen };
