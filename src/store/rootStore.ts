@@ -5,7 +5,7 @@ import { makeAutoObservable } from "mobx";
 class rootStore {
   isStartScreenVisible = true;
   isSideMenuVisible = false;
-  isSelectVisible = false;
+  // isSelectVisible = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -19,9 +19,9 @@ class rootStore {
     this.isSideMenuVisible = !this.isSideMenuVisible;
   }
 
-  toggleSetting() {
-    this.isSelectVisible = !this.isSelectVisible;
-  }
+  // toggleSetting() {
+  //   this.isSelectVisible = !this.isSelectVisible;
+  // }
 
   // changeLanguage(lang: string) {
   //   this.settings.language = lang;

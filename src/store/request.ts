@@ -27,7 +27,7 @@ class request {
     this.loading = loading;
   }
 
-  async getCityCoordinates(city: string, language: "uk" | "en"): Promise<{ latitude: number; longitude: number; cityName: string }> {
+  async getCityCoordinates(city: string, language: string): Promise<{ latitude: number; longitude: number; cityName: string }> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
       const coordinates = await response.json();
@@ -39,7 +39,7 @@ class request {
     }
   }
 
-  async getCityNameByCoordinates(lat: number, lon: number, language: "uk" | "en"): Promise<string> {
+  async getCityNameByCoordinates(lat: number, lon: number, language: string): Promise<string> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`);
       const cityName = await response.json();

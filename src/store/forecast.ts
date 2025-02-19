@@ -1,14 +1,15 @@
 import { makeAutoObservable } from "mobx";
 
 export type settingsProps = {
-  temperatureUnit: "celsius" | "fahrenheit" | "kelvin";
-  windSpeedUnit: "m/s" | "mph" | "km/h";
-  pressureUnit: "hPa" | "mmHg";
-  language: "uk" | "en";
-  format: "24-hour format" | "12-hour format";
+  temperatureUnit: string;
+  windSpeedUnit: string;
+  pressureUnit: string;
+  language: string;
+  theme: string;
+  format: string;
 };
 
-const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenheit" | "kelvin" = "kelvin"): number => {
+const convertTemperature = (value: number, temperatureUnit: string): number => {
   switch (temperatureUnit) {
     case "celsius":
       return Math.round(value - 273.15);
@@ -19,7 +20,7 @@ const convertTemperature = (value: number, temperatureUnit: "celsius" | "fahrenh
   }
 };
 
-const convertWindSpeed = (value: number, windSpeedUnit: "m/s" | "mph" | "km/h" = "m/s"): number => {
+const convertWindSpeed = (value: number, windSpeedUnit: string): number => {
   switch (windSpeedUnit) {
     case "mph":
       return Math.round(value * 2.236936);
@@ -30,11 +31,11 @@ const convertWindSpeed = (value: number, windSpeedUnit: "m/s" | "mph" | "km/h" =
   }
 };
 
-const convertPressure = (value: number, pressureUnit: "hPa" | "mmHg" = "hPa"): number => {
+const convertPressure = (value: number, pressureUnit: string): number => {
   return pressureUnit === "mmHg" ? Math.round(value * 0.750061683) : Math.round(value);
 };
 
-const formatTime = (timestamp: number, format: "24-hour format" | "12-hour format" = "24-hour format") => {
+const formatTime = (timestamp: number, format: string) => {
   return new Date(timestamp * 1000).toLocaleTimeString(format === "24-hour format" ? "uk-UA" : "en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -223,26 +224,10 @@ class AirQualityStore {
     this.title = currentAirQuality.title;
     this.description = currentAirQuality.description;
     this.airPollutants = [
-      {
-        name: "PM 2.5",
-        value: Math.round(data.list[0].components.pm2_5),
-        icon: "pm2_5",
-      },
-      {
-        name: "PM 10",
-        value: Math.round(data.list[0].components.pm10),
-        icon: "pm10",
-      },
-      {
-        name: "SO2",
-        value: Math.round(data.list[0].components.so2),
-        icon: "so2",
-      },
-      {
-        name: "NO2",
-        value: Math.round(data.list[0].components.no2),
-        icon: "no2",
-      },
+      { name: "PM 2.5", value: Math.round(data.list[0].components.pm2_5), icon: "pm2_5" },
+      { name: "PM 10", value: Math.round(data.list[0].components.pm10), icon: "pm10" },
+      { name: "SO2", value: Math.round(data.list[0].components.so2), icon: "so2" },
+      { name: "NO2", value: Math.round(data.list[0].components.no2), icon: "no2" },
     ];
   }
 }

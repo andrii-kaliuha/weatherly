@@ -13,6 +13,7 @@ export const Header = observer(() => {
     windSpeedUnit: "m/s",
     pressureUnit: "mmHg",
     language: "uk",
+    theme: "light",
     format: "24-hour format",
   };
 
