@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import request from "./request";
+import i18n from "../i18n";
 
 type Settings = {
   temperatureUnit: string;
@@ -58,7 +59,7 @@ class settingStore {
       id: "language",
       icon: "translate",
       title: "Language",
-      value: "English",
+      value: "Ukrainian",
       options: ["English", "Ukrainian"],
     },
     {
@@ -83,6 +84,9 @@ class settingStore {
       this.settings = JSON.parse(savedSettings);
 
       document.documentElement.className = this.settings.theme;
+
+      const langCode = this.settings.language === "Ukrainian" ? "uk" : "en";
+      i18n.changeLanguage(langCode);
     }
   }
 
@@ -97,7 +101,15 @@ class settingStore {
     if (id === "theme") {
       document.documentElement.className = value;
     }
-    request.updateForecast(request.forecast, request.airQuality, request.cityName, this.settings);
+
+    if (id === "language") {
+      const langCode = value === "Ukrainian" ? "uk" : "en";
+      i18n.changeLanguage(langCode);
+    }
+
+    if (request.local_names !== null) {
+      request.updateForecast(request.forecast, request.airQuality, request.local_names, this.settings);
+    }
   }
 }
 

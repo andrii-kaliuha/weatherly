@@ -1,12 +1,16 @@
 import { observer } from "mobx-react-lite";
 import { airQualityStore } from "../../store/forecast";
+import { useTranslation } from "react-i18next";
 
 export const AirQualityIndex = observer(() => {
   const { airPollutants } = airQualityStore;
+  const { t } = useTranslation();
 
   return (
     <section className="relative bg-surface text-on-surface rounded-3xl p-6 flex-1">
-      <h2 className="text-center sm:text-left leading-6">Якість повітря в {airQualityStore.cityName}</h2>
+      <h2 className="text-center sm:text-left leading-6">
+        {t("air_quality_title")} {airQualityStore.cityName}
+      </h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">
         <div
           className="flex flex-col items-center justify-center border-4 rounded-full h-[90px] w-[90px] flex-shrink-0"

@@ -1,14 +1,17 @@
 import { observer } from "mobx-react-lite";
 import { useRef, useEffect } from "react";
 import { currentWeatherStore } from "../../store/forecast";
+import { useTranslation } from "react-i18next";
 
 export const CurrentWeather = observer(() => {
+  const { t } = useTranslation();
+
   return (
     <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
       <div>
-        <h2 className="text-[16px]">Прогноз на найближчу годину</h2>
+        <h2 className="text-[16px]">{t("current_weather_forecast")}</h2>
         <p>
-          Погода {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
+          {t("weather")} {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
         </p>
       </div>
       <CurrentTemperature />

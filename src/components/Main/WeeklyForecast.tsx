@@ -1,12 +1,14 @@
 import { observer } from "mobx-react-lite";
 import { weeklyForecastStore } from "../../store/forecast";
+import { useTranslation } from "react-i18next";
 
 export const WeeklyForecast = observer(() => {
   const { weeklyForecast } = weeklyForecastStore;
+  const { t } = useTranslation();
 
   return (
     <section className="bg-surface text-on-surface rounded-3xl">
-      <h2 className="text-[16px] px-6 pt-6 pb-3 leading-none">Прогноз погоди на тиждень</h2>
+      <h2 className="text-[16px] px-6 pt-6 pb-3 leading-none">{t("weekly_weather_forecast")}</h2>
       <ul className="flex flex-col">
         {weeklyForecast.map(
           (day: { date: string; weekday: string; minTemp: number; maxTemp: number; icon: string; description: string }, index: number) => (

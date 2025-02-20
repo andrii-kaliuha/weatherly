@@ -4,15 +4,17 @@ import { SideMenu } from "./SideMenu";
 import rootStore from "../store/rootStore";
 import request from "../store/request";
 import { settingsProps } from "../store/forecast";
+import { useTranslation } from "react-i18next";
 
 export const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
+  const { t } = useTranslation();
 
   const settings: settingsProps = {
     temperatureUnit: "celsius",
     windSpeedUnit: "m/s",
     pressureUnit: "mmHg",
-    language: "uk",
+    language: "Ukrainian",
     theme: "light",
     format: "24-hour format",
   };
@@ -36,7 +38,7 @@ export const Header = observer(() => {
         <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
             type="text"
-            placeholder="Search city..."
+            placeholder={t("search_city")}
             name="searchCity "
             value={cityName}
             onChange={(e) => setCity(e.target.value)}
@@ -44,7 +46,7 @@ export const Header = observer(() => {
           />
           <Button icon="search" additionalClass="absolute right-0 top-0" />
         </form>
-        <Button onClick={searchCityByLocation} icon="my_location" label="Current Location" additionalClass="bg-primary gap-3" />
+        <Button onClick={searchCityByLocation} icon="my_location" label={t("current_location")} additionalClass="bg-primary gap-3" />
       </nav>
     </header>
   );

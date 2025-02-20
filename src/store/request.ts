@@ -9,7 +9,7 @@ class request {
 
   forecast: any = null;
   airQuality: any = null;
-  cityName: string = "";
+  local_names: Record<string, string> | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -27,24 +27,32 @@ class request {
     this.loading = loading;
   }
 
-  async getCityCoordinates(city: string, language: string): Promise<{ latitude: number; longitude: number; cityName: string }> {
+  async getCityCoordinates(city: string): Promise<{ latitude: number; longitude: number; local_names: Record<string, string> }> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
       const coordinates = await response.json();
 
+      if (!coordinates.length) {
+        throw new Error("Місто не знайдено");
+      }
+
       const { lat: latitude, lon: longitude, local_names } = coordinates[0];
-      return { latitude, longitude, cityName: local_names[language] };
+      return { latitude, longitude, local_names };
     } catch (error: any) {
       throw new Error(error.message || "Помилка при отриманні координат міста. Спробуйте пізніше.");
     }
   }
 
-  async getCityNameByCoordinates(lat: number, lon: number, language: string): Promise<string> {
+  async getCityNameByCoordinates(lat: number, lon: number): Promise<{ [key: string]: string }> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`);
-      const cityName = await response.json();
+      const data = await response.json();
 
-      return cityName[0].local_names[language];
+      if (!data.length) {
+        throw new Error("Місто не знайдено");
+      }
+
+      return data[0].local_names;
     } catch (error: any) {
       throw new Error(error.message || "Помилка при отриманні даних міста. Спробуйте пізніше.");
     }
@@ -93,26 +101,25 @@ class request {
     }
   }
 
-  updateForecast(forecast: any, airQuality: any, cityName: string, settings: settingsProps) {
-    currentWeatherStore.updateCurrentWeather(forecast, cityName, settings);
+  updateForecast(forecast: any, airQuality: any, local_names: Record<string, string>, settings: settingsProps) {
+    currentWeatherStore.updateCurrentWeather(forecast, local_names, settings);
     astronomyStore.updateAstronomy(forecast, settings);
-    airQualityStore.updateAirQuality(airQuality, cityName);
+    airQualityStore.updateAirQuality(airQuality, local_names, settings);
     weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings);
   }
 
   async fetchForecastByCityName(city: string, settings: settingsProps) {
     this.setLoading(true);
     try {
-      const { latitude, longitude, cityName } = await this.getCityCoordinates(city, settings.language);
+      const { latitude, longitude, local_names } = await this.getCityCoordinates(city);
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
       this.forecast = forecast;
       this.airQuality = airQuality;
-      this.cityName = cityName;
-      console.log(settings);
+      this.local_names = local_names;
 
-      this.updateForecast(forecast, airQuality, cityName, settings);
+      this.updateForecast(forecast, airQuality, local_names, settings);
       this.clearError();
     } catch (error: any) {
       this.addError(error.message || "Помилка отримання прогнозу погоди.");
@@ -125,16 +132,15 @@ class request {
     this.setLoading(true);
     try {
       const { latitude, longitude } = await this.getCurrentLocation();
-      const cityName = await this.getCityNameByCoordinates(latitude, longitude, settings.language);
+      const local_names = await this.getCityNameByCoordinates(latitude, longitude);
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
       this.forecast = forecast;
       this.airQuality = airQuality;
-      this.cityName = cityName;
-      console.log(settings);
+      this.local_names = local_names;
 
-      this.updateForecast(forecast, airQuality, cityName, settings);
+      this.updateForecast(forecast, airQuality, local_names, settings);
       this.clearError();
     } catch (error: any) {
       this.addError(error.message || "Помилка отримання прогнозу погоди.");
