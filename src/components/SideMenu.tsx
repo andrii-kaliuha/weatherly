@@ -1,12 +1,16 @@
 import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
-import rootStore from "../store/rootStore";
 
-export const SideMenu = observer(() => {
+type SideMenuProps = {
+  sideMenu: boolean;
+  toggleSideMenu: () => void;
+};
+
+export const SideMenu = observer(({ sideMenu, toggleSideMenu }: SideMenuProps) => {
   return (
     <div
       className="fixed top-0 left-0 bg-background text-on-surface sm:w-80 w-full h-full z-20 "
-      style={{ display: rootStore.isSideMenuVisible ? "block" : "none" }}
+      style={{ display: sideMenu ? "block" : "none" }}
     >
       <div className="relative flex items-center justify-between p-6">
         <div className="flex items-center gap-3">
@@ -16,7 +20,7 @@ export const SideMenu = observer(() => {
 
         <button
           className="flex justify-center items-center absolute right-3 h-12 w-12 rounded-full hover:bg-surface"
-          onClick={() => rootStore.toggleSideMenu()}
+          onClick={() => toggleSideMenu()}
         >
           <span className="material-symbols-outlined">close</span>
         </button>

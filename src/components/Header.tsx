@@ -1,40 +1,37 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { SideMenu } from "./SideMenu";
-import rootStore from "../store/rootStore";
 import request from "../store/request";
-import { settingsProps } from "../store/forecast";
 import { useTranslation } from "react-i18next";
+import { Button } from "./ui";
+import settings from "../store/settings";
 
 export const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
   const { t } = useTranslation();
 
-  const settings: settingsProps = {
-    temperatureUnit: "celsius",
-    windSpeedUnit: "m/s",
-    pressureUnit: "mmHg",
-    language: "Ukrainian",
-    theme: "light",
-    format: "24-hour format",
+  const [sideMenu, openSideMenu] = useState(false);
+
+  const toggleSideMenu = () => {
+    openSideMenu(!sideMenu);
   };
 
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
-    request.fetchForecastByCityName(cityName, settings);
-    rootStore.hideStartScreen();
+    request.fetchForecastByCityName(cityName, settings.settings);
+    request.hideStartScreen();
   };
 
   const searchCityByLocation = () => {
-    request.fetchForecastByLocation(settings);
-    rootStore.hideStartScreen();
+    request.fetchForecastByLocation(settings.settings);
+    request.hideStartScreen();
   };
 
   return (
     <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
       <nav className="flex items-center justify-between p-3 gap-3">
-        <Button onClick={() => rootStore.toggleSideMenu()} icon="menu" additionalClass="bg-surface text-on-surface" />
-        <SideMenu />
+        <Button onClick={() => toggleSideMenu()} icon={"menu"} additionalClass="bg-surface text-on-surface" />
+        <SideMenu sideMenu={sideMenu} toggleSideMenu={toggleSideMenu} />
         <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
             type="text"
@@ -51,20 +48,3 @@ export const Header = observer(() => {
     </header>
   );
 });
-
-type ButtonProps = {
-  icon: string;
-  label?: string;
-  additionalClass?: string;
-  onClick?: () => void;
-};
-
-const Button = ({ icon, label, additionalClass = "", onClick }: ButtonProps) => (
-  <button
-    onClick={onClick}
-    className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}
-  >
-    <span className="material-symbols-outlined">{icon}</span>
-    {label && <p className="md:block hidden">{label}</p>}
-  </button>
-);

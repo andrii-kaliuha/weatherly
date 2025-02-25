@@ -98,9 +98,9 @@ class CurrentWeatherStore {
     this.summary = data.daily[0].summary;
     this.weatherConditions = [
       { icon: "speed", value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${settings.pressureUnit}`, name: "Pressure" },
-      { icon: "humidity_mid", value: `${Math.round(data.current.humidity)} %`, name: "Humidity" },
+      { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: "Humidity" },
       { icon: "air", value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${settings.windSpeedUnit}`, name: "Wind" },
-      { icon: "heat", value: `${Math.round(data.current.uvi)} / 12`, name: "UV index" },
+      { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: "UV index" },
       { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, name: "Precipitation" },
       {
         icon: "thermometer",

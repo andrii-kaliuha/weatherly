@@ -21,7 +21,7 @@ type Setting = {
 
 class settingStore {
   settings: Settings = {
-    temperatureUnit: "celsius",
+    temperatureUnit: "kelvin",
     windSpeedUnit: "m/s",
     pressureUnit: "mmHg",
     language: "Ukrainian",
@@ -36,7 +36,7 @@ class settingStore {
   settingsList: Setting[] = [
     {
       id: "temperatureUnit",
-      icon: "thermostat",
+      icon: "thermometer",
       title: "Temperature",
       value: "celsius",
       options: ["celsius", "fahrenheit", "kelvin"],
@@ -103,8 +103,7 @@ class settingStore {
     }
 
     if (id === "language") {
-      const langCode = value === "Ukrainian" ? "uk" : "en";
-      i18n.changeLanguage(langCode);
+      i18n.changeLanguage(value === "Ukrainian" ? "uk" : "en");
     }
 
     if (request.local_names !== null) {

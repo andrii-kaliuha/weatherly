@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useRef, useEffect } from "react";
 import { currentWeatherStore } from "../../store/forecast";
 import { useTranslation } from "react-i18next";
+import { SVG } from "../ui";
 
 export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
@@ -82,8 +83,9 @@ const WeatherConditions = observer(() => {
   return (
     <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
       {weatherConditions.map((item, index) => (
-        <li key={index} className="rounded-lg flex items-center flex-col">
-          <span className="material-symbols-outlined">{item.icon}</span>
+        <li key={index} className="rounded-lg flex items-center flex-col leading-none gap-2">
+          <SVG name={item.icon} size={20} />
+          {/* <span className="material-symbols-outlined">{item.icon}</span> */}
           <p className="flex text-[14px]">{item.value}</p>
           <span className="text-[12px]">{item.name}</span>
         </li>

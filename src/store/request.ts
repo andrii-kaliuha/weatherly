@@ -4,8 +4,9 @@ import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherSto
 const API_KEY = "ada53a53546a12851a13875d932b485b";
 
 class request {
-  error: string | null = null;
+  startScreen: boolean = true;
   loading: boolean = false;
+  error: string | null = null;
 
   forecast: any = null;
   airQuality: any = null;
@@ -15,16 +16,20 @@ class request {
     makeAutoObservable(this);
   }
 
+  hideStartScreen() {
+    this.startScreen = false;
+  }
+
+  setLoading(loading: boolean) {
+    this.loading = loading;
+  }
+
   addError(message: string) {
     this.error = message;
   }
 
   clearError() {
     this.error = null;
-  }
-
-  setLoading(loading: boolean) {
-    this.loading = loading;
   }
 
   async getCityCoordinates(city: string): Promise<{ latitude: number; longitude: number; local_names: Record<string, string> }> {
