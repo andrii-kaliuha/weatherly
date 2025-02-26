@@ -20,8 +20,9 @@ type Setting = {
 };
 
 class settingStore {
+  sideMenuOpen: boolean = false;
   settings: Settings = {
-    temperatureUnit: "kelvin",
+    temperatureUnit: "celsius",
     windSpeedUnit: "m/s",
     pressureUnit: "mmHg",
     language: "Ukrainian",
@@ -77,6 +78,10 @@ class settingStore {
       options: ["12-hour format", "24-hour format"],
     },
   ];
+
+  toggleSideMenu() {
+    this.sideMenuOpen = !this.sideMenuOpen;
+  }
 
   loadSettings() {
     const savedSettings = localStorage.getItem("settings");

@@ -9,7 +9,7 @@ export const AirQualityIndex = observer(() => {
 
   return (
     <section className="relative bg-surface text-on-surface rounded-3xl p-6 flex-1">
-      <h2 className="text-center sm:text-left leading-6">
+      <h2 className="leading-6">
         {t("air_quality_title")} {airQualityStore.cityName}
       </h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">

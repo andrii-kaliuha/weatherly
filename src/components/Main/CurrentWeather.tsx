@@ -1,8 +1,7 @@
 import { observer } from "mobx-react-lite";
-import { useRef, useEffect } from "react";
 import { currentWeatherStore } from "../../store/forecast";
+import { SVG, useHorizontalScroll } from "../ui";
 import { useTranslation } from "react-i18next";
-import { SVG } from "../ui";
 
 export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
@@ -27,7 +26,7 @@ const CurrentTemperature = observer(() => {
   return (
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
-        <p className="text-[56px] leading-none">{currentWeatherStore.temperature}&deg;</p>
+        <p className="text-[56px] leading-none">{currentWeatherStore.temperature}°</p>
         <img src={currentWeatherStore.icon} alt="" height={64} width={64} />
       </div>
       <ul className="text-right flex flex-col justify-center">
@@ -42,28 +41,7 @@ const CurrentTemperature = observer(() => {
 
 const HourlyForecast = observer(() => {
   const { hourlyForecast } = currentWeatherStore;
-
-  const listRef = useRef<HTMLUListElement | null>(null);
-
-  useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      if (listRef.current) {
-        listRef.current.scrollLeft += event.deltaY;
-      }
-    };
-
-    const listElement = listRef.current;
-    if (listElement) {
-      listElement.addEventListener("wheel", handleWheel, { passive: false });
-    }
-
-    return () => {
-      if (listElement) {
-        listElement.removeEventListener("wheel", handleWheel);
-      }
-    };
-  }, []);
+  const listRef = useHorizontalScroll<HTMLUListElement>();
 
   return (
     <ul ref={listRef} className="flex justify-between overflow-x-auto gap-4">
@@ -81,11 +59,10 @@ const HourlyForecast = observer(() => {
 const WeatherConditions = observer(() => {
   const { weatherConditions } = currentWeatherStore;
   return (
-    <ul className="grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-3">
+    <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col leading-none gap-2">
           <SVG name={item.icon} size={20} />
-          {/* <span className="material-symbols-outlined">{item.icon}</span> */}
           <p className="flex text-[14px]">{item.value}</p>
           <span className="text-[12px]">{item.name}</span>
         </li>

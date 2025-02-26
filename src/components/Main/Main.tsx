@@ -2,7 +2,7 @@ import { CurrentWeather } from "./CurrentWeather";
 import { AirQualityIndex } from "./AirQualityIndex";
 import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
-import { StartScreen, LoadingScreen, ErrorScreen } from "../AppScreens";
+import { StartScreen, LoadingScreen, ErrorScreen } from "../ui";
 import { observer } from "mobx-react-lite";
 import request from "../../store/request";
 import { AQIPopup } from "./AQIPopup";

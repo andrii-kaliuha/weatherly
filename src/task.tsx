@@ -1,29 +1,9 @@
-//API_KEY to env
-//Київ прибрати з стандартного вибору міст
-//додати валідацію для поля пошуку
-//?додати історію запитів через input
+// API_KEY to env
+// Київ прибрати з поля введення міста
+// ?додати історію запитів через input
 // add AQI Popup
-
-// const RadioButton = () => {
-//   return (
-//     <div className="relative group">
-//       <div className="h-6 w-6 border-[3px] border-on-surface opacity-0 rounded-full group-hover:opacity-100"></div>
-//       <div className="absolute top-1/2 left-1/2 bg-on-surface h-3 w-3 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
-//     </div>
-//   );
-// };
-
-// export { RadioButton };
-
-// // Конфігурація MobX
-// configure({
-//   enforceActions: "never", // Вимикає strict mode
-// });
-
 // створити окремий файл для типів
-// перекласти назви помилок а також summary та description
-// додати базовий стиль для білої теми
-//виправити помилку при пустому полі пошуку
-// подумати над нормальним використанням export
-// подумати над використанням useState можливо змінити на store
-// перенести tailwind через установку vite замість cli
+// перекласти назви помилок а також summary, description, weather conditions settings
+// перенести в index.css всі стилі з @config "../tailwind.config.js";
+// створити окремі файли en.json та uk.json для перекладу тексту
+// вирішити проблему з перекладом AQIPopup

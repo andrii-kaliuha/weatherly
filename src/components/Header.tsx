@@ -10,12 +10,6 @@ export const Header = observer(() => {
   const [cityName, setCity] = useState("Київ");
   const { t } = useTranslation();
 
-  const [sideMenu, openSideMenu] = useState(false);
-
-  const toggleSideMenu = () => {
-    openSideMenu(!sideMenu);
-  };
-
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
     request.fetchForecastByCityName(cityName, settings.settings);
@@ -30,8 +24,8 @@ export const Header = observer(() => {
   return (
     <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
       <nav className="flex items-center justify-between p-3 gap-3">
-        <Button onClick={() => toggleSideMenu()} icon={"menu"} additionalClass="bg-surface text-on-surface" />
-        <SideMenu sideMenu={sideMenu} toggleSideMenu={toggleSideMenu} />
+        <Button onClick={() => settings.toggleSideMenu()} icon={"menu"} additionalClass="bg-surface text-on-surface" />
+        <SideMenu />
         <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
             type="text"

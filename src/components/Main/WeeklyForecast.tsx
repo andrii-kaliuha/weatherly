@@ -28,11 +28,3 @@ export const WeeklyForecast = observer(() => {
     </section>
   );
 });
-
-const SVG = ({ name, size = 24, color = "currentColor" }: { name: string; size?: number; color?: string }) => {
-  return (
-    <svg width={size} height={size} fill={color} aria-hidden="true">
-      <use href={`/sprite.svg#${name}`} />
-    </svg>
-  );
-};

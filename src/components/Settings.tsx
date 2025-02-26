@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import SettingStore from "../store/settings";
 import { useState } from "react";
+import { RadioButton } from "./ui";
 
 export const Settings = observer(() => {
   return (
@@ -50,17 +51,10 @@ const SettingSelect = observer(({ item, onClose }: SettingSelectProps) => {
         {item.title}
       </button>
 
-      <div className="flex flex-col gap-3 px-6 py-3">
+      <div className="flex flex-col gap-3 px-6">
         {item.options.map((option: any) => (
-          <label key={option} className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="radio"
-              name={item.title}
-              value={option}
-              checked={SettingStore.settings[item.id] === option}
-              onChange={() => SettingStore.updateSetting(item.id, option)}
-              className="cursor-pointer"
-            />
+          <label key={option} className="group flex items-center gap-3 cursor-pointer">
+            <RadioButton checked={SettingStore.settings[item.id] === option} onChange={() => SettingStore.updateSetting(item.id, option)} />
             <span>{option}</span>
           </label>
         ))}

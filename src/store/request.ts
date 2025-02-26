@@ -32,6 +32,21 @@ class request {
     this.error = null;
   }
 
+  validateCity(city: string): boolean {
+    if (!city.trim()) {
+      this.addError("Будь ласка, введіть назву міста.");
+      return false;
+    }
+
+    if (!/^[a-zA-Zа-яА-ЯіЇїІєЄўЎґҐ'’\s-]+$/.test(city.trim())) {
+      this.addError("Будь ласка, введіть дійсну назву міста.");
+      return false;
+    }
+
+    this.clearError();
+    return true;
+  }
+
   async getCityCoordinates(city: string): Promise<{ latitude: number; longitude: number; local_names: Record<string, string> }> {
     try {
       const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
@@ -114,6 +129,10 @@ class request {
   }
 
   async fetchForecastByCityName(city: string, settings: settingsProps) {
+    if (!this.validateCity(city)) {
+      return;
+    }
+
     this.setLoading(true);
     try {
       const { latitude, longitude, local_names } = await this.getCityCoordinates(city);
