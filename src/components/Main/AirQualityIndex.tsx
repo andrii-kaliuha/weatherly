@@ -17,13 +17,10 @@ export const AirQualityIndex = observer(() => {
           className="flex flex-col items-center justify-center border-4 rounded-full h-[90px] w-[90px] flex-shrink-0"
           style={{ borderColor: airQualityStore.color || "inherit" }}
         >
-          <div className="flex items-center leading-none gap-1" style={{ color: airQualityStore.color || "inherit" }}>
-            <SVG name={"air"} size={20} />
-            <b className="text-[24px]">{airQualityStore.aqi}</b>
-          </div>
+          <SVG name={"air"} size={32} color={airQualityStore.color || "inherit"} />
           <div className="flex items-center leading-none gap-1">
-            <p className="text-[16px]">AQI</p>
-            <SVG name={"info"} size={14} />
+            <p>AQI</p>
+            <b style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.aqi}</b>
           </div>
         </div>
         <ul className="flex justify-around w-full">

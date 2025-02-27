@@ -1,11 +1,18 @@
 import { Header } from "./components/Header.tsx";
 import { Main } from "./components/Main/Main.tsx";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import settingStore from "../src/store/settings.ts";
 
-export const App = () => {
+export const App = observer(() => {
+  useEffect(() => {
+    settingStore.loadSettings();
+  }, []);
+
   return (
     <div className="max-w-[1024px] w-full">
       <Header />
       <Main />
     </div>
   );
-};
+});

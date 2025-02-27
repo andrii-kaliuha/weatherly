@@ -5,7 +5,6 @@ import { WeeklyForecast } from "./WeeklyForecast";
 import { StartScreen, LoadingScreen, ErrorScreen } from "../ui";
 import { observer } from "mobx-react-lite";
 import request from "../../store/request";
-import { AQIPopup } from "./AQIPopup";
 
 export const Main = observer(() => {
   const { startScreen } = request;
@@ -18,7 +17,6 @@ export const Main = observer(() => {
 
   return (
     <main className="mx-3 mb-3">
-      {/* <AQIPopup /> */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-col lg:flex-row gap-3">
           <CurrentWeather />

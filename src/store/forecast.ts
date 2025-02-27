@@ -37,10 +37,14 @@ const convertPressure = (value: number, pressureUnit: string): number => {
 };
 
 const formatTime = (timestamp: number, format: string) => {
-  return new Date(timestamp * 1000).toLocaleTimeString(format === "24-hour format" ? "uk-UA" : "en-US", {
+  return new Date(timestamp * 1000).toLocaleTimeString(format === "24_hour" ? "uk-UA" : "en-US", {
     hour: "numeric",
     minute: "numeric",
   });
+};
+
+const translate = (description: string, locale: string): string => {
+  return locale === "uk-UA" ? descriptions[description.toLowerCase()] || description : description;
 };
 
 const descriptions: Record<string, string> = {
@@ -84,13 +88,6 @@ const descriptions: Record<string, string> = {
   tornado: "торнадо",
 };
 
-const translate = (description: string, locale: string): string => {
-  if (locale === "uk-UA") {
-    return descriptions[description.toLowerCase()] || description;
-  }
-  return description;
-};
-
 class CurrentWeatherStore {
   cityName: string | null = null;
   date: string | null = null;
@@ -109,7 +106,7 @@ class CurrentWeatherStore {
   }
 
   updateCurrentWeather(data: any, local_names: Record<string, string>, settings: settingsProps) {
-    const locale = settings.language === "Ukrainian" ? "uk-UA" : "en-US";
+    const locale = settings.language === "ukrainian" ? "uk-UA" : "en-US";
     this.cityName = local_names[settings.language.slice(0, 2).toLowerCase()] || local_names.en;
     this.date = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
       day: "numeric",
@@ -125,15 +122,23 @@ class CurrentWeatherStore {
     this.minTemp = convertTemperature(data.daily[0].temp.min, settings.temperatureUnit);
     this.summary = data.daily[0].summary;
     this.weatherConditions = [
-      { icon: "speed", value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${settings.pressureUnit}`, name: "Pressure" },
-      { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: "Humidity" },
-      { icon: "air", value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${settings.windSpeedUnit}`, name: "Wind" },
-      { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: "UV index" },
-      { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} mm`, name: "Precipitation" },
+      {
+        icon: "speed",
+        value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${t(settings.pressureUnit)}`,
+        name: t("pressure"),
+      },
+      { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: t("humidity") },
+      {
+        icon: "air",
+        value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${t(settings.windSpeedUnit)}`,
+        name: t("wind"),
+      },
+      { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: t("uv_index") },
+      { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} ${t("mm")}`, name: t("precipitation") },
       {
         icon: "thermometer",
         value: `${convertTemperature(data.current.feels_like, settings.temperatureUnit)}°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
-        name: "Feels like",
+        name: t("feels_like"),
       },
     ];
     this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => ({
@@ -158,18 +163,18 @@ class AstronomyStore {
 
   updateAstronomy(data: any, { format }: settingsProps) {
     function getMoonPhase(moonPhase: number | null): string {
-      if (moonPhase === null) return "Фаза Місяця не визначена";
+      if (moonPhase === null) return t("moon_phase_is_undefined");
 
       return (
-        (moonPhase <= 0.03 && "Новий Місяць") ||
-        (moonPhase <= 0.24 && "Зростаючий Місяць") ||
-        (moonPhase === 0.25 && "Перша чверть") ||
-        (moonPhase <= 0.49 && "Зростаючий опуклий") ||
-        (moonPhase === 0.5 && "Повний Місяць") ||
-        (moonPhase <= 0.74 && "Спадаючий опуклий") ||
-        (moonPhase === 0.75 && "Остання чверть") ||
-        (moonPhase <= 0.99 && "Спадаючий серп") ||
-        "Невідома фаза Місяця"
+        (moonPhase <= 0.03 && t("new_moon")) ||
+        (moonPhase <= 0.24 && t("waxing_crescent")) ||
+        (moonPhase === 0.25 && t("first_quarter")) ||
+        (moonPhase <= 0.49 && t("waxing_gibbous")) ||
+        (moonPhase === 0.5 && t("full_moon")) ||
+        (moonPhase <= 0.74 && t("waning_gibbous")) ||
+        (moonPhase === 0.75 && t("last_quarter")) ||
+        (moonPhase <= 0.99 && t("waning_crescent")) ||
+        t("unknown_moon_phase")
       );
     }
 
@@ -218,13 +223,6 @@ class AirQualityStore {
       { name: "SO2", value: Math.round(data.list[0].components.so2), icon: "so2" },
       { name: "NO2", value: Math.round(data.list[0].components.no2), icon: "no2" },
     ];
-    this.airQualityLevels = [
-      { aqi: 1, range: "AQI 0-50", color: "#a2d043", title: t("good_air_title"), description: t("good_air_description") },
-      { aqi: 2, range: "AQI 51-100", color: "#f8cc4a", title: t("satisfactory_air_title"), description: t("satisfactory_air_description") },
-      { aqi: 3, range: "AQI 101-150", color: "#f19342", title: t("harmful_air_title"), description: t("harmful_air_description") },
-      { aqi: 4, range: "AQI 151-200", color: "#d85f38", title: t("unhealthy_air_title"), description: t("unhealthy_air_description") },
-      { aqi: 5, range: "AQI 201-300", color: "#903c70", title: t("bad_air_title"), description: t("bad_air_description") },
-    ];
   }
 }
 
@@ -236,7 +234,7 @@ class WeeklyForecastStore {
   }
 
   updateWeeklyForecast(data: any, { language, temperatureUnit }: settingsProps) {
-    const locale = language === "Ukrainian" ? "uk-UA" : "en-US";
+    const locale = language === "ukrainian" ? "uk-UA" : "en-US";
     this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
       date: new Date(day.dt * 1000).toLocaleString(locale, {
         day: "numeric",

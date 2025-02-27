@@ -1,9 +1,8 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
+@config "../tailwind.config.ts";
 
 body {
   background-color: var(--color-background);
-  /* background-color: #131214; */
   font-family: "Roboto", sans-serif;
 }
 
@@ -15,10 +14,10 @@ body > #root {
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
+  background-color: #ffffff14;
 }
 
 ::-webkit-scrollbar-thumb {
-  /* background-color: #ffffff14; */
   background-color: var(--color-primary);
 }
 
@@ -39,106 +38,3 @@ body > #root {
   --color-surface: #1d1c1f;
   --color-on-surface: #dddae5;
 }
-/* 
-@layer utilities {
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-
-  .text-primary {
-    color: var(--color-primary);
-  }
-
-  .border-primary {
-    border-color: var(--color-primary);
-  }
-
-  .bg-on-primary {
-    background-color: var(--color-on-primary);
-  }
-
-  .text-on-primary {
-    color: var(--color-on-primary);
-  }
-
-  .border-on-primary {
-    border-color: var(--color-on-primary);
-  }
-
-  .bg-background {
-    background-color: var(--color-background);
-  }
-
-  .text-on-background {
-    color: var(--color-on-background);
-  }
-
-  .border-background {
-    border-color: var(--color-background);
-  }
-
-  .bg-surface {
-    background-color: var(--color-surface);
-  }
-
-  .text-on-surface {
-    color: var(--color-on-surface);
-  }
-
-  .border-surface {
-    border-color: var(--color-surface);
-  }
-}
-
-/* 
-:root {
-  --color-primary: #b5a1e2;
-  --color-on-primary: #100e17;
-  --color-background: #ffffff;
-  --color-on-background: #000000;
-  --color-surface: #f9f9f9;
-  --color-on-surface: #000000;
-}
-
-.dark {
-  --color-primary: #b5a1e2;
-  --color-on-primary: #100e17;
-  --color-background: #131214;
-  --color-on-background: #eae6f2;
-  --color-surface: #1d1c1f;
-  --color-on-surface: #dddae5;
-}
-
-@layer utilities {
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-
-  .text-primary {
-    color: var(--color-primary);
-  }
-
-  .bg-on-primary {
-    background-color: var(--color-on-primary);
-  }
-
-  .text-on-primary {
-    color: var(--color-on-primary);
-  }
-
-  .bg-background {
-    background-color: var(--color-background);
-  }
-
-  .text-on-background {
-    color: var(--color-on-background);
-  }
-
-  .bg-surface {
-    background-color: var(--color-surface);
-  }
-
-  .text-on-surface {
-    color: var(--color-on-surface);
-  }
-} */
