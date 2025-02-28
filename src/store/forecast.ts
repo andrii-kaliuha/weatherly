@@ -43,50 +43,49 @@ const formatTime = (timestamp: number, format: string) => {
   });
 };
 
-const translate = (description: string, locale: string): string => {
-  return locale === "uk-UA" ? descriptions[description.toLowerCase()] || description : description;
-};
+function findDescriptionById(id: string) {
+  return descriptions.find((item) => item.id === id);
+}
 
-const descriptions: Record<string, string> = {
-  "clear sky": "ясне небо",
-  "few clouds": "мало хмар",
-  "scattered clouds": "розсіяні хмари",
-  "broken clouds": "рвані хмари",
-  "overcast clouds": "хмарно",
-  "shower rain": "зливовий дощ",
-  "light rain": "легкий дощ",
-  "moderate rain": "помірний дощ",
-  "heavy intensity rain": "сильний дощ",
-  "very heavy rain": "дуже сильний дощ",
-  "extreme rain": "екстремальний дощ",
-  "freezing rain": "крижаний дощ",
-  "light intensity shower rain": "легкий зливовий дощ",
-  "heavy intensity shower rain": "сильний зливовий дощ",
-  "ragged shower rain": "рваний зливовий дощ",
-  rain: "дощ",
-  thunderstorm: "гроза",
-  snow: "сніг",
-  "light snow": "легкий сніг",
-  "heavy snow": "сильний сніг",
-  sleet: "мокрий сніг",
-  "light shower sleet": "легкий зливовий мокрий сніг",
-  "shower sleet": "зливовий мокрий сніг",
-  "light rain and snow": "легкий дощ зі снігом",
-  "rain and snow": "дощ зі снігом",
-  "light shower snow": "легкий зливовий сніг",
-  "shower snow": "зливовий сніг",
-  "heavy shower snow": "сильний зливовий сніг",
-  mist: "туман",
-  haze: "імла",
-  fog: "туман",
-  smoke: "дим",
-  "sand/ dust whirls": "пилові/пісчані вихори",
-  sand: "пісок",
-  dust: "пил",
-  "volcanic ash": "вулканічний попіл",
-  squalls: "шквали",
-  tornado: "торнадо",
-};
+const descriptions = [
+  { id: "clear sky", description: "description_clear_sky", summary: "clear_sky" },
+  { id: "few clouds", description: "description_few_clouds", summary: "few_clouds" },
+  { id: "scattered clouds", description: "description_scattered_clouds", summary: "scattered_clouds" },
+  { id: "broken clouds", description: "description_broken_clouds", summary: "broken_clouds" },
+  { id: "overcast clouds", description: "description_overcast_clouds", summary: "overcast_clouds" },
+  { id: "shower rain", description: "description_shower_rain", summary: "shower_rain" },
+  { id: "rain", description: "description_rain", summary: "rain" },
+  { id: "thunderstorm", description: "description_thunderstorm", summary: "thunderstorm" },
+  { id: "snow", description: "description_snow", summary: "snow" },
+  { id: "mist", description: "description_mist", summary: "mist" },
+  { id: "fog", description: "description_fog", summary: "fog" },
+  { id: "drizzle", description: "description_drizzle", summary: "drizzle" },
+  { id: "light rain", description: "description_light_rain", summary: "light_rain" },
+  { id: "moderate rain", description: "description_moderate_rain", summary: "moderate_rain" },
+  { id: "heavy intensity rain", description: "description_heavy_intensity_rain", summary: "heavy_intensity_rain" },
+  { id: "very heavy rain", description: "description_very_heavy_rain", summary: "very_heavy_rain" },
+  { id: "extreme rain", description: "description_extreme_rain", summary: "extreme_rain" },
+  { id: "freezing rain", description: "description_freezing_rain", summary: "freezing_rain" },
+  { id: "light intensity shower rain", description: "description_light_intensity_shower_rain", summary: "light_intensity_shower_rain" },
+  { id: "heavy intensity shower rain", description: "description_heavy_intensity_shower_rain", summary: "heavy_intensity_shower_rain" },
+  { id: "light snow", description: "description_light_snow", summary: "light_snow" },
+  { id: "heavy snow", description: "description_heavy_snow", summary: "heavy_snow" },
+  { id: "sleet", description: "description_sleet", summary: "sleet" },
+  { id: "light shower sleet", description: "description_light_shower_sleet", summary: "light_shower_sleet" },
+  { id: "shower sleet", description: "description_shower_sleet", summary: "shower_sleet" },
+  { id: "light rain and snow", description: "description_light_rain_and_snow", summary: "light_rain_and_snow" },
+  { id: "rain and snow", description: "description_rain_and_snow", summary: "rain_and_snow" },
+  { id: "light shower snow", description: "description_light_shower_snow", summary: "light_shower_snow" },
+  { id: "shower snow", description: "description_shower_snow", summary: "shower_snow" },
+  { id: "heavy shower snow", description: "description_heavy_shower_snow", summary: "heavy_shower_snow" },
+  { id: "haze", description: "description_haze", summary: "haze" },
+  { id: "smoke", description: "description_smoke", summary: "smoke" },
+  { id: "dust", description: "description_dust", summary: "dust" },
+  { id: "sand", description: "description_sand", summary: "sand" },
+  { id: "volcanic ash", description: "description_volcanic_ash", summary: "volcanic_ash" },
+  { id: "squalls", description: "description_squalls", summary: "squalls" },
+  { id: "tornado", description: "description_tornado", summary: "tornado" },
+];
 
 class CurrentWeatherStore {
   cityName: string | null = null;
@@ -117,10 +116,13 @@ class CurrentWeatherStore {
     });
     this.temperature = convertTemperature(data.current.temp, settings.temperatureUnit);
     this.icon = `./src/assets/icons/${data.current.weather[0].icon}.svg`;
-    this.description = translate(data.current.weather[0].description, locale);
     this.maxTemp = convertTemperature(data.daily[0].temp.max, settings.temperatureUnit);
     this.minTemp = convertTemperature(data.daily[0].temp.min, settings.temperatureUnit);
-    this.summary = data.daily[0].summary;
+
+    const descData = findDescriptionById(data.current.weather[0].description);
+    this.summary = t(`${descData?.summary}`);
+    this.description = t(`${descData?.description}`);
+
     this.weatherConditions = [
       {
         icon: "speed",
@@ -136,7 +138,7 @@ class CurrentWeatherStore {
       { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: t("uv_index") },
       { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} ${t("mm")}`, name: t("precipitation") },
       {
-        icon: "thermometer",
+        icon: "thermostat",
         value: `${convertTemperature(data.current.feels_like, settings.temperatureUnit)}°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
         name: t("feels_like"),
       },
@@ -235,19 +237,25 @@ class WeeklyForecastStore {
 
   updateWeeklyForecast(data: any, { language, temperatureUnit }: settingsProps) {
     const locale = language === "ukrainian" ? "uk-UA" : "en-US";
-    this.weeklyForecast = data.slice(0, 7).map((day: any) => ({
-      date: new Date(day.dt * 1000).toLocaleString(locale, {
-        day: "numeric",
-        month: "long",
-      }),
-      weekday: new Date(day.dt * 1000).toLocaleString(locale, {
-        weekday: "long",
-      }),
-      icon: day.weather[0].icon,
-      description: translate(day.weather[0].description, locale),
-      maxTemp: convertTemperature(day.temp.max, temperatureUnit),
-      minTemp: convertTemperature(day.temp.min, temperatureUnit),
-    }));
+
+    this.weeklyForecast = data.slice(0, 7).map((day: any) => {
+      const descriptionData = findDescriptionById(day.weather[0].description);
+      const description = descriptionData ? t(descriptionData.description) : day.weather[0].description;
+
+      return {
+        date: new Date(day.dt * 1000).toLocaleString(locale, {
+          day: "numeric",
+          month: "long",
+        }),
+        weekday: new Date(day.dt * 1000).toLocaleString(locale, {
+          weekday: "long",
+        }),
+        icon: day.weather[0].icon,
+        description: description,
+        maxTemp: convertTemperature(day.temp.max, temperatureUnit),
+        minTemp: convertTemperature(day.temp.min, temperatureUnit),
+      };
+    });
   }
 }
 

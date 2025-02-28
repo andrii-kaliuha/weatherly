@@ -34,12 +34,12 @@ class request {
 
   validateCity(city: string): boolean {
     if (!city.trim()) {
-      this.addError("Будь ласка, введіть назву міста.");
+      this.addError("empty_city");
       return false;
     }
 
     if (!/^[a-zA-Zа-яА-ЯіЇїІєЄўЎґҐ'’\s-]+$/.test(city.trim())) {
-      this.addError("Будь ласка, введіть дійсну назву міста.");
+      this.addError("invalid_city");
       return false;
     }
 
@@ -53,13 +53,13 @@ class request {
       const coordinates = await response.json();
 
       if (!coordinates.length) {
-        throw new Error("Місто не знайдено");
+        throw new Error("city_not_found");
       }
 
       const { lat: latitude, lon: longitude, local_names } = coordinates[0];
       return { latitude, longitude, local_names };
     } catch (error: any) {
-      throw new Error(error.message || "Помилка при отриманні координат міста. Спробуйте пізніше.");
+      throw new Error(error.message || "coordinates_error");
     }
   }
 
@@ -69,18 +69,18 @@ class request {
       const data = await response.json();
 
       if (!data.length) {
-        throw new Error("Місто не знайдено");
+        throw new Error("city_not_found");
       }
 
       return data[0].local_names;
     } catch (error: any) {
-      throw new Error(error.message || "Помилка при отриманні даних міста. Спробуйте пізніше.");
+      throw new Error(error.message || "city_data_error");
     }
   }
 
   async getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
     if (!navigator.geolocation) {
-      return Promise.reject(new Error("Геолокація не підтримується цим браузером."));
+      return Promise.reject(new Error("geolocation_not_supported"));
     }
     return new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -92,11 +92,11 @@ class request {
         },
         (error) => {
           const errorMessages: { [key: number]: string } = {
-            [GeolocationPositionError.PERMISSION_DENIED]: "Доступ до геолокації відхилено. Будь ласка, надайте дозвіл.",
-            [GeolocationPositionError.POSITION_UNAVAILABLE]: "Не вдалося визначити місцезнаходження. Спробуйте пізніше.",
-            [GeolocationPositionError.TIMEOUT]: "Час вичерпано при спробі визначити місцезнаходження.",
+            [GeolocationPositionError.PERMISSION_DENIED]: "geolocation_permission_denied",
+            [GeolocationPositionError.POSITION_UNAVAILABLE]: "geolocation_unavailable",
+            [GeolocationPositionError.TIMEOUT]: "geolocation_timeout",
           };
-          const errorMessage = errorMessages[error.code] || "Не вдалося отримати геолокацію. Спробуйте ще раз.";
+          const errorMessage = errorMessages[error.code] || "geolocation_generic_error";
           reject(new Error(errorMessage));
         }
       );
@@ -108,7 +108,7 @@ class request {
       const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
       return await response.json();
     } catch (error: any) {
-      throw new Error(error.message || "Помилка при отриманні даних прогнозу погоди. Спробуйте пізніше.");
+      throw new Error(error.message || "weather_forecast_error");
     }
   }
 
@@ -117,7 +117,7 @@ class request {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
       return await response.json();
     } catch (error: any) {
-      throw new Error(error.message || "Помилка при отриманні даних якості повітря. Спробуйте пізніше.");
+      throw new Error(error.message || "air_quality_error");
     }
   }
 
@@ -146,7 +146,7 @@ class request {
       this.updateForecast(forecast, airQuality, local_names, settings);
       this.clearError();
     } catch (error: any) {
-      this.addError(error.message || "Помилка отримання прогнозу погоди.");
+      this.addError(error.message || "generic_error");
     } finally {
       this.setLoading(false);
     }
@@ -167,7 +167,7 @@ class request {
       this.updateForecast(forecast, airQuality, local_names, settings);
       this.clearError();
     } catch (error: any) {
-      this.addError(error.message || "Помилка отримання прогнозу погоди.");
+      this.addError(error.message || "generic_error");
     } finally {
       this.setLoading(false);
     }

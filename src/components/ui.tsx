@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 export const SVG = ({ name, size = 24, color = "currentColor" }: { name: string; size?: number; color?: string }) => {
   return (
     <svg width={size} height={size} fill={color} aria-hidden="true">
-      <use href={`./src/assets/images/air_polutants.svg#${name}`} />
+      <use href={`./src/assets/images/icons.svg#${name}`} />
     </svg>
   );
 };
@@ -85,12 +85,10 @@ export const ErrorScreen = observer(() => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background text-on-background text-center gap-3 px-3">
       <h1 className="text-2xl md:text-3xl font-semibold">{t("error_screen_title")}</h1>
-      <p className="text-lg text-gray-500">{request.error}</p>
+      <p className="text-lg text-gray-500">{t(request.error)}</p>
     </div>
   );
 });
-
-import React from "react";
 
 type RadioButtonProps = {
   checked?: boolean;

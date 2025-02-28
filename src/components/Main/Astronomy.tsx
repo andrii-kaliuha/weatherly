@@ -11,7 +11,7 @@ const Sun = observer(() => {
       <img src="./src/assets/images/sun-circle-eclipse.svg" alt="" />
       <div className="absolute bottom-0 flex flex-col items-center">
         <span>{t("duration_day")}</span>
-        <span className="text-[20px] leading-none font-semibold">{astronomyStore.durationDay}</span>
+        <span className="leading-none text-[#FCCF2E]">{astronomyStore.durationDay}</span>
       </div>
       <div className="flex items-center justify-between w-[232px] mt-3">
         <div className="flex flex-col items-center">
