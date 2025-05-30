@@ -44,7 +44,7 @@ const HourlyForecast = observer(() => {
   const listRef = useHorizontalScroll<HTMLUListElement>();
 
   return (
-    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-4">
+    <ul ref={listRef} className="flex justify-between overflow-x-auto gap-6">
       {hourlyForecast.map((item, index) => (
         <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-[48px] flex-shrink-0">
           <span>{item.time}</span>
@@ -59,7 +59,7 @@ const HourlyForecast = observer(() => {
 const WeatherConditions = observer(() => {
   const { weatherConditions } = currentWeatherStore;
   return (
-    <ul className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-3 gap-3 min-w-max">
+    <ul className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-3 gap-3">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col leading-none gap-2">
           <SVG name={item.icon} size={20} />

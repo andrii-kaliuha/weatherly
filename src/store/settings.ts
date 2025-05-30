@@ -2,14 +2,11 @@ import { makeAutoObservable } from "mobx";
 import request from "./request";
 import i18n from "../i18n";
 import { t } from "i18next";
-
-type Settings = { temperatureUnit: string; windSpeedUnit: string; pressureUnit: string; language: string; theme: string; format: string };
-type Setting = { id: keyof Settings; icon: string; title: string; value: string; options: SettingOption[] };
-type SettingOption = { title: string; value: string };
+import type { SettingsProps, Setting } from "../types";
 
 class settingStore {
   sideMenuOpen: boolean = false;
-  settings: Settings = {
+  settings: SettingsProps = {
     temperatureUnit: "celsius",
     windSpeedUnit: "m_s",
     pressureUnit: "hPa",
@@ -111,7 +108,7 @@ class settingStore {
     localStorage.setItem("settings", JSON.stringify(this.settings));
   }
 
-  updateSetting(id: keyof Settings, value: string) {
+  updateSetting(id: keyof SettingsProps, value: string) {
     this.settings[id] = value;
     this.saveSettings();
 

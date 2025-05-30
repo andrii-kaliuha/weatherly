@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { SideMenu } from "./SideMenu";
-import request from "../store/request";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui";
+import request from "../store/request";
 import settings from "../store/settings";
 
 export const Header = observer(() => {
-  const [cityName, setCity] = useState("Київ");
+  const [cityName, setCity] = useState("");
   const { t } = useTranslation();
 
   const searchCityByName = (e: React.FormEvent) => {

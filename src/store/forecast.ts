@@ -1,14 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { t } from "i18next";
-
-export type settingsProps = {
-  temperatureUnit: string;
-  windSpeedUnit: string;
-  pressureUnit: string;
-  language: string;
-  theme: string;
-  format: string;
-};
+import type { SettingsProps } from "../types";
 
 const convertTemperature = (value: number, temperatureUnit: string): number => {
   switch (temperatureUnit) {
@@ -104,7 +96,7 @@ class CurrentWeatherStore {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(data: any, local_names: Record<string, string>, settings: settingsProps) {
+  updateCurrentWeather(data: any, local_names: Record<string, string>, settings: SettingsProps) {
     const locale = settings.language === "ukrainian" ? "uk-UA" : "en-US";
     this.cityName = local_names[settings.language.slice(0, 2).toLowerCase()] || local_names.en;
     this.date = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
@@ -163,7 +155,7 @@ class AstronomyStore {
     makeAutoObservable(this);
   }
 
-  updateAstronomy(data: any, { format }: settingsProps) {
+  updateAstronomy(data: any, { format }: SettingsProps) {
     function getMoonPhase(moonPhase: number | null): string {
       if (moonPhase === null) return t("moon_phase_is_undefined");
 
@@ -212,7 +204,7 @@ class AirQualityStore {
     makeAutoObservable(this);
   }
 
-  updateAirQuality(data: any, local_names: Record<string, string>, { language }: settingsProps) {
+  updateAirQuality(data: any, local_names: Record<string, string>, { language }: SettingsProps) {
     this.cityName = local_names[language.slice(0, 2).toLowerCase()];
     this.aqi = data.list[0].main.aqi;
     const currentAirQuality = this.airQualityLevels.find((item) => item.aqi === this.aqi) || this.airQualityLevels[4];
@@ -235,7 +227,7 @@ class WeeklyForecastStore {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: any, { language, temperatureUnit }: settingsProps) {
+  updateWeeklyForecast(data: any, { language, temperatureUnit }: SettingsProps) {
     const locale = language === "ukrainian" ? "uk-UA" : "en-US";
 
     this.weeklyForecast = data.slice(0, 7).map((day: any) => {

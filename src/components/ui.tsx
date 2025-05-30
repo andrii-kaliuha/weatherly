@@ -2,6 +2,7 @@ import { useRef, useEffect, RefObject } from "react";
 import { observer } from "mobx-react-lite";
 import request from "../store/request";
 import { useTranslation } from "react-i18next";
+import type { ButtonProps, RadioButtonProps } from "../types";
 
 export const SVG = ({ name, size = 24, color = "currentColor" }: { name: string; size?: number; color?: string }) => {
   return (
@@ -10,8 +11,6 @@ export const SVG = ({ name, size = 24, color = "currentColor" }: { name: string;
     </svg>
   );
 };
-
-type ButtonProps = { icon: string; label?: string; additionalClass?: string; onClick?: () => void };
 
 export const Button = ({ icon, label, additionalClass = "", onClick }: ButtonProps) => (
   <button
@@ -85,22 +84,16 @@ export const ErrorScreen = observer(() => {
   );
 });
 
-type RadioButtonProps = { checked?: boolean; onChange?: () => void };
-
 export const RadioButton: React.FC<RadioButtonProps> = ({ checked, onChange }) => {
   return (
     <button
       role="radio"
       aria-checked={checked}
       onClick={onChange}
-      className="relative flex justify-center items-center w-6 h-6 rounded-full
-        transition-opacity opacity-55 hover:opacity-100 focus-visible:opacity-100"
+      className="relative flex justify-center items-center w-6 h-6 rounded-full transition-opacity opacity-55 hover:opacity-100 focus-visible:opacity-100"
       style={{ opacity: checked ? 1 : 0.55 }}
     >
-      <div
-        className="absolute inset-0 rounded-full border-2 border-on-surface opacity-0
-        transition-opacity pointer-events-none group-hover:opacity-100"
-      ></div>
+      <div className="absolute inset-0 rounded-full border-2 border-on-surface opacity-0 transition-opacity pointer-events-none group-hover:opacity-100"></div>
       <div className="w-3 h-3 bg-on-surface rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
     </button>
   );

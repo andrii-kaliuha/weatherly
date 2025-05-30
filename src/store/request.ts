@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore, settingsProps } from "./forecast";
+import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore } from "./forecast";
+import type { SettingsProps } from "../types";
 
 const API_KEY = "ada53a53546a12851a13875d932b485b";
 
@@ -121,14 +122,14 @@ class request {
     }
   }
 
-  updateForecast(forecast: any, airQuality: any, local_names: Record<string, string>, settings: settingsProps) {
+  updateForecast(forecast: any, airQuality: any, local_names: Record<string, string>, settings: SettingsProps) {
     currentWeatherStore.updateCurrentWeather(forecast, local_names, settings);
     astronomyStore.updateAstronomy(forecast, settings);
     airQualityStore.updateAirQuality(airQuality, local_names, settings);
     weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings);
   }
 
-  async fetchForecastByCityName(city: string, settings: settingsProps) {
+  async fetchForecastByCityName(city: string, settings: SettingsProps) {
     if (!this.validateCity(city)) {
       return;
     }
@@ -152,7 +153,7 @@ class request {
     }
   }
 
-  async fetchForecastByLocation(settings: settingsProps) {
+  async fetchForecastByLocation(settings: SettingsProps) {
     this.setLoading(true);
     try {
       const { latitude, longitude } = await this.getCurrentLocation();

@@ -2,9 +2,7 @@ import { observer } from "mobx-react-lite";
 import SettingStore from "../store/settings";
 import { useState } from "react";
 import { RadioButton } from "./ui";
-
-type SettingProps = { item: (typeof SettingStore.settingsList)[number] };
-type SettingSelectProps = { item: (typeof SettingStore.settingsList)[number]; onClose: () => void };
+import type { SettingProps, SettingSelectProps } from "../types";
 
 export const Settings = observer(() => {
   return (
