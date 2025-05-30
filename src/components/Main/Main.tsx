@@ -1,5 +1,5 @@
 import { CurrentWeather } from "./CurrentWeather";
-import { AirQualityIndex } from "./AirQualityIndex";
+import { AirQuality } from "./AirQuality";
 import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
 import { StartScreen, LoadingScreen, ErrorScreen } from "../ui";
@@ -7,9 +7,7 @@ import { observer } from "mobx-react-lite";
 import request from "../../store/request";
 
 export const Main = observer(() => {
-  const { startScreen } = request;
-  const { loading } = request;
-  const { error } = request;
+  const { startScreen, loading, error } = request;
 
   if (startScreen === true) return <StartScreen />;
   if (loading) return <LoadingScreen />;
@@ -17,16 +15,10 @@ export const Main = observer(() => {
 
   return (
     <main className="mx-3 mb-3">
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col lg:flex-row gap-3">
-          <CurrentWeather />
-          <div className="flex flex-col gap-3 flex-1">
-            <Astronomy />
-            <AirQualityIndex />
-          </div>
-        </div>
-        <WeeklyForecast />
-      </div>
+      <CurrentWeather />
+      <Astronomy />
+      <AirQuality />
+      <WeeklyForecast />
     </main>
   );
 });

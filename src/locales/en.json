@@ -9,7 +9,7 @@
   "current_location": "Current Location",
   "search_city": "Search city...",
 
-  "sun_and_moon": "Sun and Moon",
+  "astronomy_section_title": "Sun and Moon",
   "sunrise": "Sunrise",
   "sunset": "Sunset",
   "moonrise": "Moonrise",
@@ -30,7 +30,7 @@
   "unhealthy_air_description": "Pollution has reached a high level, it is dangerous for people with increased sensitivity. If you experience difficulty breathing or throat irritation, reduce your time outdoors.",
   "harmful_air_description": "People with increased sensitivity may feel unwell. With prolonged exposure to the outdoors, healthy people may experience difficulty breathing or throat irritation. Limit prolonged outdoor exposure.",
   "bad_air_description": "Everyone may begin to feel the effects on their health, members of sensitive groups may feel more serious effects. Increased likelihood of heart and lung function deterioration. Limit outdoor exposure.",
-  "weekly_weather_forecast": "Weekly weather forecast",
+  "weekly_forecast_title": "Weekly weather forecast",
 
   "moon_phase_is_undefined": "Moon phase is undefined",
   "new_moon": "New Moon",

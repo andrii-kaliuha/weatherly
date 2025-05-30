@@ -60,8 +60,8 @@ export const Astronomy = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface text-on-surface p-6 rounded-3xl flex-1">
-      <h2 className="mb-3">{t("sun_and_moon")}</h2>
+    <section className="bg-surface text-on-surface p-6 rounded-3xl astronomy-section">
+      <h2 className="mb-3">{t("astronomy_section_title")}</h2>
       <div className="flex flex-col sm:flex-row justify-around gap-3">
         <Sun />
         <Moon />

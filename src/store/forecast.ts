@@ -43,9 +43,9 @@ const formatTime = (timestamp: number, format: string) => {
   });
 };
 
-function findDescriptionById(id: string) {
+const findDescriptionById = (id: string) => {
   return descriptions.find((item) => item.id === id);
-}
+};
 
 const descriptions = [
   { id: "clear sky", description: "description_clear_sky", summary: "clear_sky" },

@@ -14,7 +14,7 @@ export const SideMenu = observer(() => {
           <img src="./src/assets/images/logo.svg" alt="Weatherly logo" className="w-8 h-8" />
           <h1 className="text-[20px] font-bold leading-none">weatherly</h1>
         </div>
-        <Button icon="close" onClick={() => settings.toggleSideMenu()} additionalClass="absolute   right-3 hover:bg-surface" />
+        <Button icon="close" onClick={() => settings.toggleSideMenu()} additionalClass="absolute right-3 hover:bg-surface" />
       </div>
       <Settings />
     </div>

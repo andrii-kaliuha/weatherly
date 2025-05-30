@@ -3,6 +3,9 @@ import SettingStore from "../store/settings";
 import { useState } from "react";
 import { RadioButton } from "./ui";
 
+type SettingProps = { item: (typeof SettingStore.settingsList)[number] };
+type SettingSelectProps = { item: (typeof SettingStore.settingsList)[number]; onClose: () => void };
+
 export const Settings = observer(() => {
   return (
     <ul className="relative">
@@ -12,10 +15,6 @@ export const Settings = observer(() => {
     </ul>
   );
 });
-
-type SettingProps = {
-  item: (typeof SettingStore.settingsList)[number];
-};
 
 const Setting = observer(({ item }: SettingProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState(false);
@@ -27,7 +26,6 @@ const Setting = observer(({ item }: SettingProps) => {
           <span className="material-symbols-outlined">{item.icon}</span>
           <div className="text-start text-sm">
             <p className="font-medium">{item.title}</p>
-            {/* <p className="text-gray-500 dark:text-gray-400">{SettingStore.settings[item.id]}</p> */}
             <p className="text-gray-500 dark:text-gray-400">{item.value}</p>
           </div>
         </div>
@@ -38,11 +36,6 @@ const Setting = observer(({ item }: SettingProps) => {
     </li>
   );
 });
-
-type SettingSelectProps = {
-  item: (typeof SettingStore.settingsList)[number];
-  onClose: () => void;
-};
 
 const SettingSelect = observer(({ item, onClose }: SettingSelectProps) => {
   return (
@@ -66,5 +59,3 @@ const SettingSelect = observer(({ item, onClose }: SettingSelectProps) => {
     </div>
   );
 });
-
-export default Settings;

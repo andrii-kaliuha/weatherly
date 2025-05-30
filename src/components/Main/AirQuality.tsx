@@ -1,14 +1,14 @@
 import { observer } from "mobx-react-lite";
-import { airQualityStore } from "../../store/forecast";
+import { airQualityStore } from "../../store/forecast.ts";
 import { useTranslation } from "react-i18next";
 import { SVG } from "../ui.tsx";
 
-export const AirQualityIndex = observer(() => {
+export const AirQuality = observer(() => {
   const { airPollutants } = airQualityStore;
   const { t } = useTranslation();
 
   return (
-    <section className="relative bg-surface text-on-surface rounded-3xl p-6 flex-1">
+    <section className="relative bg-surface text-on-surface rounded-3xl p-6 air-quality-section">
       <h2 className="leading-6">
         {t("air_quality_title")} {airQualityStore.cityName}
       </h2>
@@ -20,7 +20,7 @@ export const AirQualityIndex = observer(() => {
           <SVG name={"air"} size={32} color={airQualityStore.color || "inherit"} />
           <div className="flex items-center leading-none gap-1">
             <p>AQI</p>
-            <b style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.aqi}</b>
+            <strong style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.aqi}</strong>
           </div>
         </div>
         <ul className="flex justify-around w-full">

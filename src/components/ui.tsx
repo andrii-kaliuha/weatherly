@@ -11,12 +11,7 @@ export const SVG = ({ name, size = 24, color = "currentColor" }: { name: string;
   );
 };
 
-type ButtonProps = {
-  icon: string;
-  label?: string;
-  additionalClass?: string;
-  onClick?: () => void;
-};
+type ButtonProps = { icon: string; label?: string; additionalClass?: string; onClick?: () => void };
 
 export const Button = ({ icon, label, additionalClass = "", onClick }: ButtonProps) => (
   <button
@@ -90,10 +85,7 @@ export const ErrorScreen = observer(() => {
   );
 });
 
-type RadioButtonProps = {
-  checked?: boolean;
-  onChange?: () => void;
-};
+type RadioButtonProps = { checked?: boolean; onChange?: () => void };
 
 export const RadioButton: React.FC<RadioButtonProps> = ({ checked, onChange }) => {
   return (

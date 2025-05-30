@@ -7,7 +7,7 @@ export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 lg:w-[296px] flex-shrink flex flex-col justify-between gap-3">
+    <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 flex flex-col justify-between gap-3 current-weather-section">
       <div>
         <h2 className="text-[16px]">{t("current_weather_forecast")}</h2>
         <p>
@@ -26,7 +26,7 @@ const CurrentTemperature = observer(() => {
   return (
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
-        <p className="text-[56px] leading-none">{currentWeatherStore.temperature}°</p>
+        <strong className="text-[56px] leading-none">{currentWeatherStore.temperature}°</strong>
         <img src={currentWeatherStore.icon} alt="" height={64} width={64} />
       </div>
       <ul className="text-right flex flex-col justify-center">
@@ -59,7 +59,7 @@ const HourlyForecast = observer(() => {
 const WeatherConditions = observer(() => {
   const { weatherConditions } = currentWeatherStore;
   return (
-    <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3">
+    <ul className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-3 gap-3 min-w-max">
       {weatherConditions.map((item, index) => (
         <li key={index} className="rounded-lg flex items-center flex-col leading-none gap-2">
           <SVG name={item.icon} size={20} />

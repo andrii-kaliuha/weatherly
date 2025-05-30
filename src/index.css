@@ -38,3 +38,44 @@ body > #root {
   --color-surface: #1d1c1f;
   --color-on-surface: #dddae5;
 }
+
+main {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr) auto;
+  grid-template-areas:
+    "a a b b b b"
+    "a a b b b b"
+    "a a c c c c"
+    "a a c c c c"
+    "d d d d d d";
+}
+
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      "a a"
+      "b b"
+      "c c"
+      "d d";
+  }
+}
+
+.current-weather-section {
+  grid-area: a;
+}
+
+.astronomy-section {
+  grid-area: b;
+}
+
+.air-quality-section {
+  grid-area: c;
+}
+
+.weekly-forecast-section {
+  grid-area: d;
+}

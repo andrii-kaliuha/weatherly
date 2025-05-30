@@ -3,27 +3,9 @@ import request from "./request";
 import i18n from "../i18n";
 import { t } from "i18next";
 
-type Settings = {
-  temperatureUnit: string;
-  windSpeedUnit: string;
-  pressureUnit: string;
-  language: string;
-  theme: string;
-  format: string;
-};
-
-type SettingOption = {
-  title: string;
-  value: string;
-};
-
-type Setting = {
-  id: keyof Settings;
-  icon: string;
-  title: string;
-  value: string;
-  options: SettingOption[];
-};
+type Settings = { temperatureUnit: string; windSpeedUnit: string; pressureUnit: string; language: string; theme: string; format: string };
+type Setting = { id: keyof Settings; icon: string; title: string; value: string; options: SettingOption[] };
+type SettingOption = { title: string; value: string };
 
 class settingStore {
   sideMenuOpen: boolean = false;
