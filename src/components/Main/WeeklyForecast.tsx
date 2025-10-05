@@ -3,6 +3,7 @@ import { weeklyForecastStore } from "../../store/forecast";
 import { useTranslation } from "react-i18next";
 import "./WeeklyForecast.css";
 import { ForecastDay } from "../../types";
+import settings from "../../store/settings";
 
 export const WeeklyForecast = observer(() => {
   const { weeklyForecast } = weeklyForecastStore;
@@ -19,7 +20,9 @@ export const WeeklyForecast = observer(() => {
               <p>{day.weekday}</p>
             </div>
             <div className="flex items-center gap-3 weekly-forecast-description">
-              <img src={`./src/assets/icons/${day.icon}.svg`} alt="" height={32} width={32} />
+              <svg width={32} height={32}>
+                <use href={`./src/assets/weather-icons/${settings.settings.theme === "dark" ? "dark" : "light"}/${day.icon}.svg`}></use>
+              </svg>
               <p className="leading-none hidden md:block">{day.description}</p>
             </div>
             <p className="text-[20px] text-center weekly-forecast-temp-max">{day.maxTemp}°</p>

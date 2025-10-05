@@ -17,7 +17,7 @@ export const AirQuality = observer(() => {
           className="flex flex-col items-center justify-center border-4 rounded-full h-[90px] w-[90px] flex-shrink-0"
           style={{ borderColor: airQualityStore.color || "inherit" }}
         >
-          <SVG name={"air"} size={32} color={airQualityStore.color || "inherit"} />
+          <SVG name={"air"} width={32} height={32} color={airQualityStore.color || "inherit"} />
           <div className="flex items-center leading-none gap-1">
             <p>AQI</p>
             <strong style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.aqi}</strong>
@@ -26,7 +26,7 @@ export const AirQuality = observer(() => {
         <ul className="flex justify-around w-full">
           {airPollutants.map((item, index) => (
             <li key={index} className="flex flex-col items-center leading-none gap-2">
-              <SVG name={item.icon} color={airQualityStore.color || "inherit"} size={20} />
+              <SVG name={item.icon} color={airQualityStore.color || "inherit"} width={20} height={20} />
               <p>{item.value}</p>
               <span>{item.name}</span>
             </li>

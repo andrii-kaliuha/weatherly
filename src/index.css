@@ -24,9 +24,9 @@ body > #root {
 :root {
   --color-primary: #b5a1e2;
   --color-on-primary: #1d1c1f;
-  --color-background: oklch(92% 0.013 255.508);
+  --color-background: #dfe5ed;
   --color-on-background: #1d1c1f;
-  --color-surface: oklch(96% 0.007 247.896);
+  --color-surface: #eef2f6;
   --color-on-surface: #1d1c1f;
 }
 
@@ -43,7 +43,6 @@ main {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(4, 1fr) auto;
   grid-template-areas:
     "a a b b b b"
     "a a b b b b"

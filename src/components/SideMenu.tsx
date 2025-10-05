@@ -11,7 +11,9 @@ export const SideMenu = observer(() => {
     >
       <div className="relative flex items-center justify-between p-6">
         <div className="flex items-center gap-3">
-          <img src="./src/assets/images/logo.svg" alt="Weatherly logo" className="w-8 h-8" />
+          <svg width={32} height={32}>
+            <use href="./src/assets/images/logo.svg"></use>
+          </svg>
           <h1 className="text-[20px] font-bold leading-none">weatherly</h1>
         </div>
         <Button icon="close" onClick={() => settings.toggleSideMenu()} additionalClass="absolute right-3 hover:bg-surface" />

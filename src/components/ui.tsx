@@ -4,9 +4,19 @@ import request from "../store/request";
 import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
 
-export const SVG = ({ name, size = 24, color = "currentColor" }: { name: string; size?: number; color?: string }) => {
+export const SVG = ({
+  name,
+  width = 24,
+  height = 20,
+  color = "currentColor",
+}: {
+  name: string;
+  width?: number;
+  height?: number;
+  color?: string;
+}) => {
   return (
-    <svg width={size} height={size} fill={color} aria-hidden="true">
+    <svg width={width} height={height} fill={color} aria-hidden="true">
       <use href={`./src/assets/images/icons.svg#${name}`} />
     </svg>
   );

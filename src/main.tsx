@@ -4,9 +4,8 @@ import { configure } from "mobx";
 import "./index.css";
 import { App } from "./App.tsx";
 
-// Конфігурація MobX
 configure({
-  enforceActions: "never", // Вимикає strict mode
+  enforceActions: "never",
 });
 
 createRoot(document.getElementById("root")!).render(
