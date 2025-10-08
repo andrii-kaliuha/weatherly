@@ -2,8 +2,8 @@
   "current_weather_forecast": "Forecast for the next hour",
   "weather": "Weather in",
 
-  "start_screen_title": "Looking for a weather forecast? Enter the name of the city in the search field.",
-  "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region.",
+  "start_screen_title": "Looking for a weather forecast? Enter a city name in the search field",
+  "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region",
   "loading": "Loading...",
 
   "current_location": "Current Location",
@@ -31,7 +31,7 @@
   "bad_air_description": "Everyone may begin to feel the effects on their health, members of sensitive groups may feel more serious effects. Increased likelihood of heart and lung function deterioration. Limit outdoor exposure.",
   "weekly_forecast_title": "Weekly weather forecast",
 
-  "moon_phase_is_undefined": "Moon phase is undefined",
+  "moon_phase_is_undefined": "Undefined",
   "new_moon": "New Moon",
   "waxing_crescent": "Waxing Crescent",
   "first_quarter": "First Quarter",
@@ -40,7 +40,7 @@
   "waning_gibbous": "Waning Gibbous",
   "last_quarter": "Last Quarter",
   "waning_crescent": "Waning Crescent",
-  "unknown_moon_phase": "Unknown Moon phase",
+  "unknown_moon_phase": "Unknown",
 
   "pressure": "Pressure",
   "humidity": "Humidity",

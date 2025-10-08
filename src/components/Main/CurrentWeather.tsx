@@ -7,9 +7,9 @@ export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface text-on-surface text-[14px] rounded-3xl p-6 flex flex-col justify-between gap-3 current-weather-section">
+    <section className="bg-surface text-on-surface text-sm rounded-3xl p-6 flex flex-col justify-between gap-3 current-weather-section">
       <div>
-        <h2 className="text-[16px]">{t("current_weather_forecast")}</h2>
+        <h2 className="text-base">{t("current_weather_forecast")}</h2>
         <p>
           {t("weather")} {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
         </p>
@@ -26,7 +26,7 @@ const CurrentTemperature = observer(() => {
   return (
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
-        <strong className="text-[56px] leading-none">{currentWeatherStore.temperature}°</strong>
+        <strong className="text-6xl leading-none">{currentWeatherStore.temperature}°</strong>
         <svg width={64} height={64}>
           <use href={currentWeatherStore.icon}></use>
         </svg>
@@ -48,7 +48,7 @@ const HourlyForecast = observer(() => {
   return (
     <ul ref={listRef} className="flex justify-between overflow-x-auto gap-6">
       {hourlyForecast.map((item, index) => (
-        <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-[48px] flex-shrink-0">
+        <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-12 flex-shrink-0">
           <span>{item.time}</span>
           <svg width={32} height={32}>
             <use href={item.icon}></use>
@@ -65,10 +65,12 @@ const WeatherConditions = observer(() => {
   return (
     <ul className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-3 gap-3">
       {weatherConditions.map((item, index) => (
-        <li key={index} className="rounded-lg flex items-center flex-col leading-none gap-2">
-          <SVG name={item.icon} height={20} width={20} />
-          <p className="flex text-[14px]">{item.value}</p>
-          <span className="text-[12px]">{item.name}</span>
+        <li key={index} className="flex flex-col items-center leading-none rounded-lg gap-2">
+          <dl className="contents">
+            <SVG name={item.icon} height={20} width={20} />
+            <dt className="flex text-sm">{item.value}</dt>
+            <dd className="text-xs">{item.name}</dd>
+          </dl>
         </li>
       ))}
     </ul>

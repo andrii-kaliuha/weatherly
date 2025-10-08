@@ -188,7 +188,7 @@ class AstronomyStore {
 class AirQualityStore {
   cityName: string | null = null;
   aqi: number | null = null;
-  color: string | null = null;
+  color: string | "inherit" = "inherit";
   title: string | null = null;
   description: string | null = null;
   airPollutants: { name: string; value: number; icon: string }[] = [];
@@ -252,6 +252,6 @@ class WeeklyForecastStore {
 }
 
 export const currentWeatherStore = new CurrentWeatherStore();
-export const weeklyForecastStore = new WeeklyForecastStore();
 export const astronomyStore = new AstronomyStore();
 export const airQualityStore = new AirQualityStore();
+export const weeklyForecastStore = new WeeklyForecastStore();

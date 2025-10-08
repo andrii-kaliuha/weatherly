@@ -2,41 +2,53 @@ import { observer } from "mobx-react-lite";
 import { airQualityStore } from "../../store/forecast.ts";
 import { useTranslation } from "react-i18next";
 import { SVG } from "../ui.tsx";
+import { AirPollutantsListProps, CircleProps } from "../../types.ts";
 
 export const AirQuality = observer(() => {
-  const { airPollutants } = airQualityStore;
+  const { cityName, color, aqi, airPollutants, title, description } = airQualityStore;
   const { t } = useTranslation();
 
   return (
     <section className="relative bg-surface text-on-surface rounded-3xl p-6 air-quality-section">
-      <h2 className="leading-6">
-        {t("air_quality_title")} {airQualityStore.cityName}
+      <h2>
+        {t("air_quality_title")} {cityName}
       </h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">
-        <div
-          className="flex flex-col items-center justify-center border-4 rounded-full h-[90px] w-[90px] flex-shrink-0"
-          style={{ borderColor: airQualityStore.color || "inherit" }}
-        >
-          <SVG name={"air"} width={32} height={32} color={airQualityStore.color || "inherit"} />
-          <div className="flex items-center leading-none gap-1">
-            <p>AQI</p>
-            <strong style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.aqi}</strong>
-          </div>
-        </div>
-        <ul className="flex justify-around w-full">
-          {airPollutants.map((item, index) => (
-            <li key={index} className="flex flex-col items-center leading-none gap-2">
-              <SVG name={item.icon} color={airQualityStore.color || "inherit"} width={20} height={20} />
-              <p>{item.value}</p>
-              <span>{item.name}</span>
-            </li>
-          ))}
-        </ul>
+        <Circle color={color} aqi={aqi} />
+        <AirPollutantsList color={color} list={airPollutants} />
       </div>
       <div>
-        <h3 style={{ color: airQualityStore.color || "inherit" }}>{airQualityStore.title}</h3>
-        <p className="text-sm">{airQualityStore.description}</p>
+        <h3 style={{ color: color }}>{title}</h3>
+        <p className="text-sm">{description}</p>
       </div>
     </section>
   );
 });
+
+const Circle = ({ color, aqi }: CircleProps) => {
+  return (
+    <div className={`flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0`} style={{ borderColor: color }}>
+      <SVG name={"air"} color={color} width={32} height={32} />
+      <dl className="flex justify-between w-10">
+        <dt>AQI</dt>
+        <dd style={{ color: color }}>{aqi}</dd>
+      </dl>
+    </div>
+  );
+};
+
+const AirPollutantsList = ({ color, list }: AirPollutantsListProps) => {
+  return (
+    <ul className="flex justify-around w-full">
+      {list.map((item, index) => (
+        <li key={index} className="flex flex-col items-center leading-none gap-2">
+          <dl className="contents">
+            <SVG name={item.icon} color={color} width={20} height={20} />
+            <dt>{item.value}</dt>
+            <dd>{item.name}</dd>
+          </dl>
+        </li>
+      ))}
+    </ul>
+  );
+};

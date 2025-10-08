@@ -22,10 +22,9 @@ export const Header = observer(() => {
   };
 
   return (
-    <header className="sticky top-0 z-10 bg-background max-w-[1024px]">
-      <nav className="flex items-center justify-between p-3 gap-3">
-        <Button onClick={() => settings.toggleSideMenu()} icon={"menu"} additionalClass="bg-surface text-on-surface" />
-        <SideMenu />
+    <header className="sticky top-0 z-1 bg-background">
+      <nav className="flex items-center justify-between gap-3 p-3">
+        <Button onClick={() => settings.toggleSideMenu()} icon={"menu"} style="bg-surface text-on-surface" />
         <form className="relative text-on-surface" onSubmit={searchCityByName}>
           <input
             type="text"
@@ -33,12 +32,13 @@ export const Header = observer(() => {
             name="searchCity "
             value={cityName}
             onChange={(e) => setCity(e.target.value)}
-            className="bg-surface text-on-surface pl-3 rounded-[24px] w-full sm:w-64 h-[48px] outline-transparent border-transparent"
+            className="bg-surface text-on-surface w-full sm:w-64 h-12 pl-3 rounded-3xl outline-transparent border-transparent"
           />
-          <Button icon="search" additionalClass="absolute right-0 top-0" />
+          <Button icon="search" style="absolute right-0 top-0" />
         </form>
-        <Button onClick={searchCityByLocation} icon="my_location" label={t("current_location")} additionalClass="bg-primary gap-3" />
+        <Button onClick={searchCityByLocation} icon="my-location" label={t("current_location")} style="bg-primary gap-3" />
       </nav>
+      <SideMenu />
     </header>
   );
 });

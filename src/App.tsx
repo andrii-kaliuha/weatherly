@@ -10,7 +10,7 @@ export const App = observer(() => {
   }, []);
 
   return (
-    <div className="max-w-[1024px] w-full">
+    <div className="max-w-5xl w-full">
       <Header />
       <Main />
     </div>

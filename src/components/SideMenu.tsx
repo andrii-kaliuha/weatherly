@@ -6,7 +6,7 @@ import { Button } from "./ui";
 export const SideMenu = observer(() => {
   return (
     <div
-      className="fixed top-0 left-0 bg-background text-on-surface sm:w-80 w-full h-full z-20 "
+      className="fixed top-0 left-0 z-2 bg-background text-on-surface sm:w-80 w-full h-full"
       style={{ display: settings.sideMenuOpen ? "block" : "none" }}
     >
       <div className="relative flex items-center justify-between p-6">
@@ -14,9 +14,9 @@ export const SideMenu = observer(() => {
           <svg width={32} height={32}>
             <use href="./src/assets/images/logo.svg"></use>
           </svg>
-          <h1 className="text-[20px] font-bold leading-none">weatherly</h1>
+          <h1 className="text-xl font-medium leading-none">weatherly</h1>
         </div>
-        <Button icon="close" onClick={() => settings.toggleSideMenu()} additionalClass="absolute right-3 hover:bg-surface" />
+        <Button icon="close" onClick={() => settings.toggleSideMenu()} style="absolute right-3 hover:bg-surface" />
       </div>
       <Settings />
     </div>

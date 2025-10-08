@@ -1,5 +1,22 @@
 @import "tailwindcss";
-@config "../tailwind.config.ts";
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-background: var(--color-background);
+  --color-on-background: var(--color-on-background);
+  --color-surface: var(--color-surface);
+  --color-on-surface: var(--color-on-surface);
+
+  --color-sun: #ffd600;
+  --color-moon: #aec0d8;
+
+  --color-good-air: var(--color-good-air);
+  --color-satisfactory-air: var(--color-satisfactory-air);
+  --color-harmful-air: var(--color-harmful-air);
+  --color-unhealthy-air: var(--color-unhealthy-air);
+  --color-bad-air: var(--color-bad-air);
+}
 
 body {
   background-color: var(--color-background);
@@ -28,6 +45,12 @@ body > #root {
   --color-on-background: #1d1c1f;
   --color-surface: #eef2f6;
   --color-on-surface: #1d1c1f;
+
+  --color-good-air: #a2d043;
+  --color-satisfactory-air: #f8cc4a;
+  --color-harmful-air: #f19342;
+  --color-unhealthy-air: #d85f38;
+  --color-bad-air: #903c70;
 }
 
 .dark {
@@ -37,6 +60,12 @@ body > #root {
   --color-on-background: #eae6f2;
   --color-surface: #1d1c1f;
   --color-on-surface: #dddae5;
+
+  --color-good-air: #a2d043;
+  --color-satisfactory-air: #f8cc4a;
+  --color-harmful-air: #f19342;
+  --color-unhealthy-air: #d85f38;
+  --color-bad-air: #903c70;
 }
 
 main {

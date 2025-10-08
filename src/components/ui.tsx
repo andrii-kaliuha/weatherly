@@ -4,17 +4,9 @@ import request from "../store/request";
 import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
 
-export const SVG = ({
-  name,
-  width = 24,
-  height = 20,
-  color = "currentColor",
-}: {
-  name: string;
-  width?: number;
-  height?: number;
-  color?: string;
-}) => {
+type SVGProps = { name: string; width?: number; height?: number; color?: string };
+
+export const SVG = ({ name, width = 24, height = 20, color = "currentColor" }: SVGProps) => {
   return (
     <svg width={width} height={height} fill={color} aria-hidden="true">
       <use href={`./src/assets/images/icons.svg#${name}`} />
@@ -22,12 +14,12 @@ export const SVG = ({
   );
 };
 
-export const Button = ({ icon, label, additionalClass = "", onClick }: ButtonProps) => (
+export const Button = ({ icon, label, style = "", onClick }: ButtonProps) => (
   <button
     onClick={onClick}
-    className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${additionalClass}`}
+    className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${style}`}
   >
-    <span className="material-symbols-outlined">{icon}</span>
+    <SVG name={icon} height={24} width={24} />
     {label && <p className="md:block hidden">{label}</p>}
   </button>
 );
@@ -63,8 +55,8 @@ export const StartScreen = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background text-on-background text-center gap-3 px-3">
-      <h1 className="text-2xl md:text-3xl font-semibold ">{t("start_screen_title")}</h1>
-      <p className="text-lg text-gray-500">{t("start_screen_subtitle")}</p>
+      <h1 className="text-2xl md:text-3xl font-medium text-wrap">{t("start_screen_title")}</h1>
+      <p className="text-lg opacity-55">{t("start_screen_subtitle")}</p>
     </div>
   );
 };
@@ -88,8 +80,8 @@ export const ErrorScreen = observer(() => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background text-on-background text-center gap-3 px-3">
-      <h1 className="text-2xl md:text-3xl font-semibold">{t("error_screen_title")}</h1>
-      <p className="text-lg text-gray-500">{t(request.error)}</p>
+      <h1 className="text-2xl md:text-3xl font-medium break-word">{t("error_screen_title")}</h1>
+      <p className="text-lg opacity-55">{t(request.error)}</p>
     </div>
   );
 });

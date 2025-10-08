@@ -5,7 +5,7 @@
   margin: 0;
 }
 
-.weekly-forecast-list-item {
+.weekly-forecast-item {
   display: grid;
   grid-template-columns: subgrid;
   grid-column: 1 / -1;

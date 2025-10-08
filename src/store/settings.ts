@@ -65,7 +65,7 @@ class settingStore {
       },
       {
         id: "theme",
-        icon: "dark_mode",
+        icon: "dark-mode",
         title: t("interface_theme"),
         value: t(this.settings.theme),
         options: [
