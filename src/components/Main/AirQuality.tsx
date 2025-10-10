@@ -11,7 +11,7 @@ export const AirQuality = observer(() => {
   return (
     <section className="relative bg-surface text-on-surface rounded-3xl p-6 air-quality-section">
       <h2>
-        {t("air_quality_title")} {cityName}
+        {t("air_quality_section_title")} {cityName}
       </h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">
         <Circle color={color} aqi={aqi} />

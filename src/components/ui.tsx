@@ -17,10 +17,10 @@ export const SVG = ({ name, width = 24, height = 20, color = "currentColor" }: S
 export const Button = ({ icon, label, style = "", onClick }: ButtonProps) => (
   <button
     onClick={onClick}
-    className={`flex items-center justify-center p-3 rounded-full cursor-pointer border-transparent outline-transparent ${style}`}
+    className={`flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent ${style}`}
   >
     <SVG name={icon} height={24} width={24} />
-    {label && <p className="md:block hidden">{label}</p>}
+    {label && <p className="hidden md:block">{label}</p>}
   </button>
 );
 
@@ -30,20 +30,14 @@ export function useHorizontalScroll<T extends HTMLElement>(): RefObject<T> {
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
-      if (scrollRef.current) {
-        scrollRef.current.scrollLeft += event.deltaY;
-      }
+      if (scrollRef.current) scrollRef.current.scrollLeft += event.deltaY;
     };
 
     const element = scrollRef.current;
-    if (element) {
-      element.addEventListener("wheel", handleWheel, { passive: false });
-    }
+    if (element) element.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
-      if (element) {
-        element.removeEventListener("wheel", handleWheel);
-      }
+      if (element) element.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
@@ -54,8 +48,8 @@ export const StartScreen = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-background text-on-background text-center gap-3 px-3">
-      <h1 className="text-2xl md:text-3xl font-medium text-wrap">{t("start_screen_title")}</h1>
+    <div className="flex flex-col justify-center items-center h-height-app bg-background text-on-background text-center gap-3 px-3">
+      <h1 className="text-2xl md:text-3xl font-medium">{t("start_screen_title")}</h1>
       <p className="text-lg opacity-55">{t("start_screen_subtitle")}</p>
     </div>
   );
@@ -65,7 +59,7 @@ export const LoadingScreen = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center justify-center gap-3 h-screen">
+    <div className="flex flex-col justify-center items-center gap-3 h-height-app">
       <div className="flex justify-center items-center">
         <div className="w-8 h-8 border-4 border-t-transparent border-primary rounded-full animate-spin"></div>
       </div>
@@ -79,7 +73,7 @@ export const ErrorScreen = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-background text-on-background text-center gap-3 px-3">
+    <div className="flex flex-col items-center justify-center h-height-app bg-background text-on-background text-center gap-3 px-3">
       <h1 className="text-2xl md:text-3xl font-medium break-word">{t("error_screen_title")}</h1>
       <p className="text-lg opacity-55">{t(request.error)}</p>
     </div>

@@ -1,6 +1,6 @@
 {
   "current_weather_forecast": "Прогноз на найближчу годину",
-  "weather": "Погода в",
+  "weather_in": "Погода в",
 
   "start_screen_title": "Шукаєте прогноз погоди? Введіть назву міста в поле пошуку",
   "start_screen_subtitle": "або дозвольте визначити вашу геолокацію, щоб отримати точний прогноз для вашого регіону",
@@ -17,7 +17,7 @@
   "moon_phase": "Фаза Місяця",
   "duration_day": "Тривалість дня",
 
-  "air_quality_title": "Якість повітря в",
+  "air_quality_section_title": "Якість повітря в",
   "good_air_title": "Хороше повітря",
   "satisfactory_air_title": "Задовільне повітря",
   "harmful_air_title": "Шкідливо для чутливих груп",

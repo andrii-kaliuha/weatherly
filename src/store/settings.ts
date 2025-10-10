@@ -92,11 +92,8 @@ class settingStore {
 
   loadSettings() {
     const savedSettings = localStorage.getItem("settings");
-    if (savedSettings) {
-      this.settings = JSON.parse(savedSettings);
-    } else {
-      this.saveSettings();
-    }
+    if (savedSettings) this.settings = JSON.parse(savedSettings);
+    else this.saveSettings();
 
     document.documentElement.className = this.settings.theme;
 
@@ -112,17 +109,10 @@ class settingStore {
     this.settings[id] = value;
     this.saveSettings();
 
-    if (id === "theme") {
-      document.documentElement.className = value;
-    }
+    if (id === "theme") document.documentElement.className = value;
 
-    if (id === "language") {
-      i18n.changeLanguage(value === "ukrainian" ? "uk" : "en");
-    }
-
-    if (request.local_names !== null) {
-      request.updateForecast(request.forecast, request.airQuality, request.local_names, this.settings);
-    }
+    if (id === "language") i18n.changeLanguage(value === "ukrainian" ? "uk" : "en");
+    if (request.local_names !== null) request.updateForecast(request.forecast, request.airQuality, request.local_names, this.settings);
   }
 }
 

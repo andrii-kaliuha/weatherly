@@ -1,6 +1,6 @@
 {
   "current_weather_forecast": "Forecast for the next hour",
-  "weather": "Weather in",
+  "weather_in": "Weather in",
 
   "start_screen_title": "Looking for a weather forecast? Enter a city name in the search field",
   "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region",
@@ -17,12 +17,12 @@
   "moon_phase": "Moon phase",
   "duration_day": "Day duration",
 
-  "air_quality_title": "Air quality in",
-  "good_air_title": "good air",
-  "satisfactory_air_title": "satisfactory air",
-  "harmful_air_title": "harmful to sensitive groups",
-  "unhealthy_air_title": "unhealthy air",
-  "bad_air_title": "bad air",
+  "air_quality_section_title": "Air quality in",
+  "good_air_title": "Good air",
+  "satisfactory_air_title": "Satisfactory air",
+  "harmful_air_title": "Harmful to sensitive groups",
+  "unhealthy_air_title": "Unhealthy air",
+  "bad_air_title": "Bad air",
 
   "good_air_description": "The air is clean and the level of pollution is minimal or does not pose any health risk. It is safe for most people.",
   "satisfactory_air_description": "Air quality is generally acceptable for most people, but some pollutants may pose a moderate health risk to a very small number of people who are extremely sensitive to air pollution.",

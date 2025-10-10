@@ -11,11 +11,13 @@
   --color-sun: #ffd600;
   --color-moon: #aec0d8;
 
-  --color-good-air: var(--color-good-air);
-  --color-satisfactory-air: var(--color-satisfactory-air);
-  --color-harmful-air: var(--color-harmful-air);
-  --color-unhealthy-air: var(--color-unhealthy-air);
-  --color-bad-air: var(--color-bad-air);
+  --color-good-air: #a2d043;
+  --color-satisfactory-air: #f8cc4a;
+  --color-harmful-air: #f19342;
+  --color-unhealthy-air: #d85f38;
+  --color-bad-air: #903c70;
+
+  --height-height-app: calc(100vh - 72px);
 }
 
 body {
@@ -45,12 +47,6 @@ body > #root {
   --color-on-background: #1d1c1f;
   --color-surface: #eef2f6;
   --color-on-surface: #1d1c1f;
-
-  --color-good-air: #a2d043;
-  --color-satisfactory-air: #f8cc4a;
-  --color-harmful-air: #f19342;
-  --color-unhealthy-air: #d85f38;
-  --color-bad-air: #903c70;
 }
 
 .dark {
@@ -60,12 +56,6 @@ body > #root {
   --color-on-background: #eae6f2;
   --color-surface: #1d1c1f;
   --color-on-surface: #dddae5;
-
-  --color-good-air: #a2d043;
-  --color-satisfactory-air: #f8cc4a;
-  --color-harmful-air: #f19342;
-  --color-unhealthy-air: #d85f38;
-  --color-bad-air: #903c70;
 }
 
 main {
@@ -83,7 +73,6 @@ main {
 @media (max-width: 1000px) {
   main {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
     grid-template-areas:
       "a a"
       "b b"

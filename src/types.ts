@@ -8,6 +8,7 @@ export type SettingsProps = {
   theme: string;
   format: string;
 };
+
 export type Setting = { id: keyof SettingsProps; icon: string; title: string; value: string; options: SettingOption[] };
 export type SettingOption = { title: string; value: string };
 

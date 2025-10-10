@@ -18,14 +18,14 @@ const Setting = observer(({ item }: SettingProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
   return (
-    <li className="flex flex-col items-center justify-between hover:bg-surface">
-      <button className="flex justify-between items-center w-full py-3 px-6" onClick={() => setIsSelectOpen(true)}>
+    <li className="flex flex-col justify-between items-center hover:bg-surface">
+      <button className="flex justify-between items-center px-6 py-3 w-full" onClick={() => setIsSelectOpen(true)}>
         <div className="flex items-center gap-3">
           <SVG name={item.icon} width={24} height={24} />
-          <dl className="text-start text-sm">
-            <dt className="font-medium">{item.title}</dt>
-            <dd className="opacity-55">{item.value}</dd>
-          </dl>
+          <div className="text-start text-sm">
+            <p className="font-medium">{item.title}</p>
+            <p className="opacity-55">{item.value}</p>
+          </div>
         </div>
         <SVG name="chevron-right" width={24} height={24} />
       </button>
@@ -37,7 +37,7 @@ const Setting = observer(({ item }: SettingProps) => {
 
 const SettingSelect = observer(({ item, onClose }: SettingSelectProps) => {
   return (
-    <div className="absolute top-0 left-0 z-3 bg-background w-full h-full flex flex-col gap-3">
+    <div className="absolute top-0 left-0 z-3 flex flex-col gap-3 bg-background w-full h-full">
       <button className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full" onClick={onClose}>
         <SVG name="chevron-left" width={24} height={24} />
         {item.title}

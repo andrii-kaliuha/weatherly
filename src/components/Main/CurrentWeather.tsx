@@ -11,7 +11,7 @@ export const CurrentWeather = observer(() => {
       <div>
         <h2 className="text-base">{t("current_weather_forecast")}</h2>
         <p>
-          {t("weather")} {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
+          {t("weather_in")} {currentWeatherStore.cityName}, {currentWeatherStore.weekday}, {currentWeatherStore.date}
         </p>
       </div>
       <CurrentTemperature />
