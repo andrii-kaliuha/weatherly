@@ -3,23 +3,32 @@ import { observer } from "mobx-react-lite";
 import request from "../store/request";
 import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
+import iconsUrl from "../assets/icons.svg?url";
 
-type SVGProps = { name: string; width?: number; height?: number; color?: string };
+type SVGProps = { source: string; width?: number; height?: number; style?: string };
 
-export const SVG = ({ name, width = 24, height = 20, color = "currentColor" }: SVGProps) => {
+export const SVG = ({ source, width, height, style }: SVGProps) => {
   return (
-    <svg width={width} height={height} fill={color} aria-hidden="true">
-      <use href={`./src/assets/images/icons.svg#${name}`} />
+    <svg className={style} width={width} height={height} aria-hidden="true">
+      <use href={source} />
     </svg>
   );
 };
+
+type IconProps = { name: string; width?: number; height?: number; color?: string };
+
+export const Icon = ({ name, width, height, color = "currentColor" }: IconProps) => (
+  <svg width={width} height={height} fill={color} aria-hidden="true">
+    <use href={`${iconsUrl}#${name}`} />
+  </svg>
+);
 
 export const Button = ({ icon, label, style = "", onClick }: ButtonProps) => (
   <button
     onClick={onClick}
     className={`flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent ${style}`}
   >
-    <SVG name={icon} height={24} width={24} />
+    <Icon name={icon} height={24} width={24} />
     {label && <p className="hidden md:block">{label}</p>}
   </button>
 );

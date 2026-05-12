@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
 import settings from "../store/settings";
 import { Button } from "./ui";
+import Logo from "../assets/logo.svg?react";
 
 export const SideMenu = observer(() => {
   return (
@@ -11,9 +12,7 @@ export const SideMenu = observer(() => {
     >
       <div className="relative flex items-center justify-between p-6">
         <div className="flex items-center gap-3">
-          <svg width={32} height={32}>
-            <use href="./src/assets/images/logo.svg"></use>
-          </svg>
+          <Logo />
           <h1 className="text-xl font-medium leading-none">weatherly</h1>
         </div>
         <Button icon="close" onClick={() => settings.toggleSideMenu()} style="absolute right-3 hover:bg-surface" />

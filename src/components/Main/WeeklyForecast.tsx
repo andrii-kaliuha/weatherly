@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { WeeklyForecastListProps, WeeklyForecastItemProps } from "../../types";
 import "./WeeklyForecast.css";
+import { SVG } from "../ui";
 
 export const WeeklyForecast = observer(({ theme, weeklyForecastList }: WeeklyForecastListProps) => {
   const { t } = useTranslation();
@@ -17,9 +18,7 @@ export const WeeklyForecast = observer(({ theme, weeklyForecastList }: WeeklyFor
               <p>{day.weekday}</p>
             </div>
             <div className="flex items-center gap-3 weekly-forecast-description">
-              <svg width={32} height={32}>
-                <use href={`./src/assets/weather-icons/${theme === "dark" ? "dark" : "light"}/${day.icon}.svg`}></use>
-              </svg>
+              <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${day.icon}.svg`} width={32} height={32} />
               <p className="leading-none hidden md:block">{day.description}</p>
             </div>
             <p className="text-xl text-center weekly-forecast-temp-max">{day.maxTemp}°</p>

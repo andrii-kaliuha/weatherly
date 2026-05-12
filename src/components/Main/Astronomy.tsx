@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { astronomyStore } from "../../store/forecast";
 import { useTranslation } from "react-i18next";
 import { AstronomyDataItemProps, AstronomyIconProps } from "../../types";
+import { SVG } from "../ui";
 
 export const Astronomy = () => {
   const { t } = useTranslation();
@@ -57,22 +58,14 @@ const Moon = observer(() => {
   );
 });
 
-const AstronomyIcon = ({ style, width, height, icon }: AstronomyIconProps) => {
-  return (
-    <svg className={style} width={width} height={height} aria-hidden="true">
-      <use href={`./src/assets/weather-icons/astronomy/${icon}.svg`}></use>
-    </svg>
-  );
-};
+const AstronomyIcon = ({ style, width, height, icon }: AstronomyIconProps) => (
+  <SVG source={`/weather-icons/astronomy/${icon}.svg`} width={width} height={height} style={style} />
+);
 
-const AstronomyDataItem = ({ icon, label, value }: AstronomyDataItemProps) => {
-  return (
-    <dl className="flex flex-col items-center">
-      <svg width={32} height={32} aria-hidden="true">
-        <use href={`./src/assets/weather-icons/astronomy/${icon}.svg`}></use>
-      </svg>
-      <dt className="text-sm text-center w-16">{label}</dt>
-      <dd className="text-sm">{value}</dd>
-    </dl>
-  );
-};
+const AstronomyDataItem = ({ icon, label, value }: AstronomyDataItemProps) => (
+  <dl className="flex flex-col items-center">
+    <AstronomyIcon icon={icon} width={32} height={32} />
+    <dt className="text-sm text-center w-16">{label}</dt>
+    <dd className="text-sm">{value}</dd>
+  </dl>
+);

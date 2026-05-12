@@ -107,7 +107,7 @@ class CurrentWeatherStore {
       weekday: "long",
     });
     this.temperature = convertTemperature(data.current.temp, settings.temperatureUnit);
-    this.icon = `./src/assets/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${data.current.weather[0].icon}.svg`;
+    this.icon = `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${data.current.weather[0].icon}.svg`;
     this.maxTemp = convertTemperature(data.daily[0].temp.max, settings.temperatureUnit);
     this.minTemp = convertTemperature(data.daily[0].temp.min, settings.temperatureUnit);
 
@@ -137,7 +137,7 @@ class CurrentWeatherStore {
     ];
     this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => ({
       time: formatTime(hour.dt, settings.format),
-      icon: `./src/assets/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hour.weather[0].icon}.svg`,
+      icon: `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hour.weather[0].icon}.svg`,
       temperature: convertTemperature(hour.temp, settings.temperatureUnit),
     }));
   }

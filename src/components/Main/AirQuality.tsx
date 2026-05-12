@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { airQualityStore } from "../../store/forecast.ts";
 import { useTranslation } from "react-i18next";
-import { SVG } from "../ui.tsx";
+import { Icon } from "../ui.tsx";
 import { AirPollutantsListProps, CircleProps } from "../../types.ts";
 
 export const AirQuality = observer(() => {
@@ -28,7 +28,7 @@ export const AirQuality = observer(() => {
 const Circle = ({ color, aqi }: CircleProps) => {
   return (
     <div className={`flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0`} style={{ borderColor: color }}>
-      <SVG name={"air"} color={color} width={32} height={32} />
+      <Icon name={"air"} color={color} width={32} height={32} />
       <dl className="flex justify-between w-10">
         <dt>AQI</dt>
         <dd style={{ color: color }}>{aqi}</dd>
@@ -43,7 +43,7 @@ const AirPollutantsList = ({ color, list }: AirPollutantsListProps) => {
       {list.map((item, index) => (
         <li key={index} className="flex flex-col items-center leading-none gap-2">
           <dl className="contents">
-            <SVG name={item.icon} color={color} width={20} height={20} />
+            <Icon name={item.icon} color={color} width={20} height={20} />
             <dt>{item.value}</dt>
             <dd>{item.name}</dd>
           </dl>

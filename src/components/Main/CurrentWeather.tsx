@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { currentWeatherStore } from "../../store/forecast";
-import { SVG, useHorizontalScroll } from "../ui";
+import { Icon, SVG, useHorizontalScroll } from "../ui";
 import { useTranslation } from "react-i18next";
 
 export const CurrentWeather = observer(() => {
@@ -27,9 +27,7 @@ const CurrentTemperature = observer(() => {
     <div className="flex justify-between gap-3">
       <div className="flex items-center">
         <strong className="text-6xl leading-none">{currentWeatherStore.temperature}°</strong>
-        <svg width={64} height={64}>
-          <use href={currentWeatherStore.icon}></use>
-        </svg>
+        <SVG source={currentWeatherStore.icon} width={64} height={64} />
       </div>
       <ul className="text-right flex flex-col justify-center">
         <li>{currentWeatherStore.description}</li>
@@ -50,9 +48,7 @@ const HourlyForecast = observer(() => {
       {hourlyForecast.map((item, index) => (
         <li key={index} className="flex flex-col items-center justify-between gap-3 rounded-3xl min-w-12 flex-shrink-0">
           <span>{item.time}</span>
-          <svg width={32} height={32}>
-            <use href={item.icon}></use>
-          </svg>
+          <SVG source={item.icon} width={32} height={32} />
           <p>{item.temperature}°</p>
         </li>
       ))}
@@ -67,7 +63,7 @@ const WeatherConditions = observer(() => {
       {weatherConditions.map((item, index) => (
         <li key={index} className="flex flex-col items-center leading-none rounded-lg gap-2">
           <dl className="contents">
-            <SVG name={item.icon} height={20} width={20} />
+            <Icon name={item.icon} height={20} width={20} />
             <dt className="flex text-sm">{item.value}</dt>
             <dd className="text-xs">{item.name}</dd>
           </dl>

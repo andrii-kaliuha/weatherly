@@ -5,11 +5,11 @@ import "./index.css";
 import { App } from "./App.tsx";
 
 configure({
-  enforceActions: "never",
+  enforceActions: "always",
 });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
 );

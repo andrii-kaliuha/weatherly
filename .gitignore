@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 **/task.tsx
+
+.env
+.env.local
+.env*.local
+.vercel

@@ -1,8 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore } from "./forecast";
 import type { SettingsProps } from "../types";
-
-const API_KEY = "ada53a53546a12851a13875d932b485b";
 
 class request {
   startScreen: boolean = true;
@@ -39,7 +37,7 @@ class request {
       return false;
     }
 
-    if (!/^[a-zA-Zа-яА-ЯіЇїІєЄўЎґҐ'’\s-]+$/.test(city.trim())) {
+    if (!/^[a-zA-Zа-яА-ЯіЇїІєЄўЎґҐ''\s-]+$/.test(city.trim())) {
       this.addError("invalid_city");
       return false;
     }
@@ -50,13 +48,9 @@ class request {
 
   async getCityCoordinates(city: string): Promise<{ latitude: number; longitude: number; local_names: Record<string, string> }> {
     try {
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
+      const response = await fetch(`/api/weather?endpoint=geocoding&q=${encodeURIComponent(city)}&limit=1`);
       const coordinates = await response.json();
-
-      if (!coordinates.length) {
-        throw new Error("city_not_found");
-      }
-
+      if (!coordinates.length) throw new Error("city_not_found");
       const { lat: latitude, lon: longitude, local_names } = coordinates[0];
       return { latitude, longitude, local_names };
     } catch (error: any) {
@@ -66,13 +60,9 @@ class request {
 
   async getCityNameByCoordinates(lat: number, lon: number): Promise<{ [key: string]: string }> {
     try {
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`);
+      const response = await fetch(`/api/weather?endpoint=reverse&lat=${lat}&lon=${lon}&limit=1`);
       const data = await response.json();
-
-      if (!data.length) {
-        throw new Error("city_not_found");
-      }
-
+      if (!data.length) throw new Error("city_not_found");
       return data[0].local_names;
     } catch (error: any) {
       throw new Error(error.message || "city_data_error");
@@ -99,14 +89,14 @@ class request {
           };
           const errorMessage = errorMessages[error.code] || "geolocation_generic_error";
           reject(new Error(errorMessage));
-        }
+        },
       );
     });
   }
 
   async getWeatherForecast(lat: number, lon: number): Promise<any> {
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      const response = await fetch(`/api/weather?endpoint=forecast&lat=${lat}&lon=${lon}`);
       return await response.json();
     } catch (error: any) {
       throw new Error(error.message || "weather_forecast_error");
@@ -115,7 +105,7 @@ class request {
 
   async getAirQuality(lat: number, lon: number): Promise<any> {
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      const response = await fetch(`/api/weather?endpoint=air&lat=${lat}&lon=${lon}`);
       return await response.json();
     } catch (error: any) {
       throw new Error(error.message || "air_quality_error");
@@ -140,16 +130,30 @@ class request {
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      this.forecast = forecast;
-      this.airQuality = airQuality;
-      this.local_names = local_names;
+      // this.forecast = forecast;
+      // this.airQuality = airQuality;
+      // this.local_names = local_names;
 
-      this.updateForecast(forecast, airQuality, local_names, settings);
-      this.clearError();
+      // this.updateForecast(forecast, airQuality, local_names, settings);
+      // this.clearError();
+
+      // Всі зміни observable-полів ПІСЛЯ await мають бути в runInAction
+      runInAction(() => {
+        this.forecast = forecast;
+        this.airQuality = airQuality;
+        this.local_names = local_names;
+
+        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.clearError();
+      });
     } catch (error: any) {
-      this.addError(error.message || "generic_error");
+      runInAction(() => {
+        this.addError(error.message || "generic_error");
+      });
     } finally {
-      this.setLoading(false);
+      runInAction(() => {
+        this.setLoading(false);
+      });
     }
   }
 
@@ -161,16 +165,29 @@ class request {
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      this.forecast = forecast;
-      this.airQuality = airQuality;
-      this.local_names = local_names;
+      // this.forecast = forecast;
+      // this.airQuality = airQuality;
+      // this.local_names = local_names;
 
-      this.updateForecast(forecast, airQuality, local_names, settings);
-      this.clearError();
+      // this.updateForecast(forecast, airQuality, local_names, settings);
+      // this.clearError();
+
+      runInAction(() => {
+        this.forecast = forecast;
+        this.airQuality = airQuality;
+        this.local_names = local_names;
+
+        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.clearError();
+      });
     } catch (error: any) {
-      this.addError(error.message || "generic_error");
+      runInAction(() => {
+        this.addError(error.message || "generic_error");
+      });
     } finally {
-      this.setLoading(false);
+      runInAction(() => {
+        this.setLoading(false);
+      });
     }
   }
 }
