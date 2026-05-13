@@ -1,12 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: var(--color-primary);
-  --color-on-primary: var(--color-on-primary);
   --color-background: var(--color-background);
-  --color-on-background: var(--color-on-background);
   --color-surface: var(--color-surface);
-  --color-on-surface: var(--color-on-surface);
+
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+
+  --color-accent: var(--color-accent);
+  --color-on-accent: var(--color-on-accent);
+
+  --color-border: var(--color-border);
 
   --color-sun: #ffd600;
   --color-moon: #aec0d8;
@@ -37,25 +41,29 @@ body > #root {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
 }
 
 :root {
-  --color-primary: #b5a1e2;
-  --color-on-primary: #1d1c1f;
-  --color-background: #dfe5ed;
-  --color-on-background: #1d1c1f;
-  --color-surface: #eef2f6;
-  --color-on-surface: #1d1c1f;
+  --color-background: #f0f2f5;
+  --color-surface: #ffffff;
+
+  --color-primary: #1d1c1f;
+  --color-secondary: #65676b;
+
+  --color-accent: #a78bfa;
+  --color-on-accent: #ffffff;
 }
 
 .dark {
-  --color-primary: #b5a1e2;
-  --color-on-primary: #100e17;
-  --color-background: #131214;
-  --color-on-background: #eae6f2;
+  --color-background: #0f0e11;
   --color-surface: #1d1c1f;
-  --color-on-surface: #dddae5;
+
+  --color-primary: #dddae5;
+  --color-secondary: #9da3ae;
+
+  --color-accent: #b5a1e2;
+  --color-on-accent: #0f0e11;
 }
 
 main {

@@ -8,7 +8,7 @@ export const WeeklyForecast = observer(({ theme, weeklyForecastList }: WeeklyFor
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface text-on-surface rounded-3xl weekly-forecast-section">
+    <section className="bg-surface text-primary rounded-3xl weekly-forecast-section">
       <h2 className="px-6 pt-6 pb-3 leading-none">{t("weekly_forecast_title")}</h2>
       <ul className="weekly-forecast-list">
         {weeklyForecastList.map((day: WeeklyForecastItemProps, index: number) => (

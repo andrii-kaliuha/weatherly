@@ -1,6 +1,6 @@
 # About Weatherly
 
-[**Weatherly**](https://andrii-kaliuha.github.io/weatherly/) is a web application that provides real-time weather information. Also provides detailed astronomical data, air quality, and weekly weather forecasts.
+[**Weatherly**](https://weatherly-forecast.vercel.app) is a web application that provides real-time weather information. Also provides detailed astronomical data, air quality, and weekly weather forecasts.
 
 ## ✨ Features
 

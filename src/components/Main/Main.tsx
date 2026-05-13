@@ -18,7 +18,7 @@ export const Main = observer(() => {
   if (error) return <ErrorScreen />;
 
   return (
-    <main className="mx-3 mb-3">
+    <main className="mx-3 mb-6">
       <CurrentWeather />
       <Astronomy />
       <AirQuality />

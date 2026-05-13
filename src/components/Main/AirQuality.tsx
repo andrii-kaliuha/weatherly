@@ -9,7 +9,7 @@ export const AirQuality = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative bg-surface text-on-surface rounded-3xl p-6 air-quality-section">
+    <section className="relative bg-surface text-primary rounded-3xl p-6 air-quality-section">
       <h2>
         {t("air_quality_section_title")} {cityName}
       </h2>

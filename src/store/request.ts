@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore } from "./forecast";
 import type { SettingsProps } from "../types";
+import { cityValidation } from "../shared/utils/cityValidation";
 
 class request {
   startScreen: boolean = true;
@@ -32,13 +33,10 @@ class request {
   }
 
   validateCity(city: string): boolean {
-    if (!city.trim()) {
-      this.addError("empty_city");
-      return false;
-    }
+    const { isValid, error } = cityValidation(city);
 
-    if (!/^[a-zA-Zа-яА-ЯіЇїІєЄўЎґҐ''\s-]+$/.test(city.trim())) {
-      this.addError("invalid_city");
+    if (!isValid && error) {
+      this.addError(error);
       return false;
     }
 
@@ -120,9 +118,7 @@ class request {
   }
 
   async fetchForecastByCityName(city: string, settings: SettingsProps) {
-    if (!this.validateCity(city)) {
-      return;
-    }
+    if (!this.validateCity(city)) return;
 
     this.setLoading(true);
     try {
@@ -130,14 +126,6 @@ class request {
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      // this.forecast = forecast;
-      // this.airQuality = airQuality;
-      // this.local_names = local_names;
-
-      // this.updateForecast(forecast, airQuality, local_names, settings);
-      // this.clearError();
-
-      // Всі зміни observable-полів ПІСЛЯ await мають бути в runInAction
       runInAction(() => {
         this.forecast = forecast;
         this.airQuality = airQuality;
@@ -147,13 +135,9 @@ class request {
         this.clearError();
       });
     } catch (error: any) {
-      runInAction(() => {
-        this.addError(error.message || "generic_error");
-      });
+      runInAction(() => this.addError(error.message || "generic_error"));
     } finally {
-      runInAction(() => {
-        this.setLoading(false);
-      });
+      runInAction(() => this.setLoading(false));
     }
   }
 
@@ -165,13 +149,6 @@ class request {
       const forecast = await this.getWeatherForecast(latitude, longitude);
       const airQuality = await this.getAirQuality(latitude, longitude);
 
-      // this.forecast = forecast;
-      // this.airQuality = airQuality;
-      // this.local_names = local_names;
-
-      // this.updateForecast(forecast, airQuality, local_names, settings);
-      // this.clearError();
-
       runInAction(() => {
         this.forecast = forecast;
         this.airQuality = airQuality;
@@ -181,13 +158,9 @@ class request {
         this.clearError();
       });
     } catch (error: any) {
-      runInAction(() => {
-        this.addError(error.message || "generic_error");
-      });
+      runInAction(() => this.addError(error.message || "generic_error"));
     } finally {
-      runInAction(() => {
-        this.setLoading(false);
-      });
+      runInAction(() => this.setLoading(false));
     }
   }
 }

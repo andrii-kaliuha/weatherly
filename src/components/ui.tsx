@@ -57,7 +57,7 @@ export const StartScreen = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col justify-center items-center h-height-app bg-background text-on-background text-center gap-3 px-3">
+    <div className="flex flex-col justify-center items-center h-height-app bg-background text-primary text-center gap-3 px-3">
       <h1 className="text-2xl md:text-3xl font-medium">{t("start_screen_title")}</h1>
       <p className="text-lg opacity-55">{t("start_screen_subtitle")}</p>
     </div>
@@ -70,9 +70,9 @@ export const LoadingScreen = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-3 h-height-app">
       <div className="flex justify-center items-center">
-        <div className="w-8 h-8 border-4 border-t-transparent border-primary rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-t-transparent border-accent rounded-full animate-spin"></div>
       </div>
-      <p className="text-lg font-semibold text-on-surface opacity-55">{t("loading")}</p>
+      <p className="text-lg font-semibold text-primary opacity-55">{t("loading")}</p>
     </div>
   );
 };
@@ -82,9 +82,9 @@ export const ErrorScreen = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col items-center justify-center h-height-app bg-background text-on-background text-center gap-3 px-3">
-      <h1 className="text-2xl md:text-3xl font-medium break-word">{t("error_screen_title")}</h1>
-      <p className="text-lg opacity-55">{t(request.error)}</p>
+    <div className="flex flex-col items-center justify-center h-height-app bg-background text-primary text-center gap-3 px-3">
+      <h1 className="text-2xl md:text-3xl font-medium break-word">{t("errors.title")}</h1>
+      <p className="text-lg opacity-55">{t(`errors.${request.error}`)}</p>
     </div>
   );
 });
@@ -98,8 +98,8 @@ export const RadioButton: React.FC<RadioButtonProps> = ({ checked, onChange }) =
       className="relative flex justify-center items-center w-6 h-6 rounded-full transition-opacity opacity-55 hover:opacity-100 focus-visible:opacity-100"
       style={{ opacity: checked ? 1 : 0.55 }}
     >
-      <div className="absolute inset-0 rounded-full border-2 border-on-surface opacity-0 transition-opacity pointer-events-none group-hover:opacity-100"></div>
-      <div className="w-3 h-3 bg-on-surface rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute inset-0 rounded-full border-2 border-primary opacity-0 transition-opacity pointer-events-none group-hover:opacity-100"></div>
+      <div className="w-3 h-3 bg-primary rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
     </button>
   );
 };

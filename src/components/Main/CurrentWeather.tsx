@@ -7,7 +7,7 @@ export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-surface text-on-surface text-sm rounded-3xl p-6 flex flex-col justify-between gap-3 current-weather-section">
+    <section className="bg-surface text-primary text-sm rounded-3xl p-6 flex flex-col justify-between gap-3 current-weather-section">
       <div>
         <h2 className="text-base">{t("current_weather_forecast")}</h2>
         <p>

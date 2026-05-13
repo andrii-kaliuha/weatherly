@@ -7,7 +7,7 @@ import Logo from "../assets/logo.svg?react";
 export const SideMenu = observer(() => {
   return (
     <div
-      className="fixed top-0 left-0 z-2 bg-background text-on-surface sm:w-80 w-full h-full"
+      className="fixed top-0 left-0 z-2 bg-background text-primary sm:w-80 w-full h-full"
       style={{ display: settings.sideMenuOpen ? "block" : "none" }}
     >
       <div className="relative flex items-center justify-between p-6">

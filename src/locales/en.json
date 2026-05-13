@@ -152,18 +152,23 @@
   "squalls": "Sudden strong wind gusts, possibly with precipitation",
   "tornado": "Tornado conditions, extremely dangerous rotating windstorm",
 
-  "error_screen_title": "An error occurred!",
-  "empty_city": "Please enter a city name.",
-  "invalid_city": "Please enter a valid city name.",
-  "city_not_found": "City not found",
-  "coordinates_error": "Error retrieving city coordinates. Please try again later.",
-  "city_data_error": "Error retrieving city data. Please try again later.",
-  "geolocation_not_supported": "Geolocation is not supported by this browser.",
-  "geolocation_permission_denied": "Geolocation access denied. Please grant permission.",
-  "geolocation_unavailable": "Unable to determine location. Please try again later.",
-  "geolocation_timeout": "Timeout while trying to determine location.",
-  "geolocation_generic_error": "Failed to get geolocation. Please try again.",
-  "weather_forecast_error": "Error retrieving weather forecast data. Please try again later.",
-  "air_quality_error": "Error retrieving air quality data. Please try again later.",
-  "generic_error": "Error retrieving weather forecast."
+  "errors": {
+    "title": "An error occurred!",
+    "empty_city": "Please enter a city name",
+    "invalid_city_symbols": "Use only letters, hyphens, or apostrophes",
+    "invalid_city_numbers": "City name cannot contain numbers",
+    "too_long_city": "City name is too long",
+    "city_not_found": "City not found",
+    "failed_to_fetch": "Network error. Please try again later",
+    "coordinates_error": "Error retrieving city coordinates. Please try again later.",
+    "city_data_error": "Error retrieving city data. Please try again later.",
+    "geolocation_not_supported": "Geolocation is not supported by this browser.",
+    "geolocation_permission_denied": "Geolocation access denied. Please grant permission.",
+    "geolocation_unavailable": "Unable to determine location. Please try again later.",
+    "geolocation_timeout": "Timeout while trying to determine location.",
+    "geolocation_generic_error": "Failed to get geolocation. Please try again.",
+    "weather_forecast_error": "Error retrieving weather forecast data. Please try again later.",
+    "air_quality_error": "Error retrieving air quality data. Please try again later.",
+    "generic_error": "Error retrieving weather forecast."
+  }
 }
