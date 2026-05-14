@@ -3,8 +3,8 @@ import { observer } from "mobx-react-lite";
 import { SideMenu } from "./SideMenu";
 import { useTranslation } from "react-i18next";
 import { Button, Icon } from "./ui";
-import request from "../store/request";
 import settings from "../store/settings";
+import requestStore from "../store/request/requestStore";
 
 export const Header = observer(() => {
   const [cityName, setCity] = useState("");
@@ -12,13 +12,13 @@ export const Header = observer(() => {
 
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
-    request.fetchForecastByCityName(cityName, settings.settings);
-    request.hideStartScreen();
+    requestStore.fetchForecastByCityName(cityName, settings.settings);
+    requestStore.hideStartScreen();
   };
 
   const searchCityByLocation = () => {
-    request.fetchForecastByLocation(settings.settings);
-    request.hideStartScreen();
+    requestStore.fetchForecastByLocation(settings.settings);
+    requestStore.hideStartScreen();
   };
 
   return (

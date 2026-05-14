@@ -4,12 +4,15 @@ import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
 import { StartScreen, LoadingScreen, ErrorScreen } from "../ui";
 import { observer } from "mobx-react-lite";
-import request from "../../store/request";
+import requestStore from "../../store/request/requestStore";
 import { weeklyForecastStore } from "../../store/forecast";
 import settings from "../../store/settings";
 
+import { GpsRefinementToast } from "../Modal";
+import DevPanel from "../DevPanel";
+
 export const Main = observer(() => {
-  const { startScreen, loading, error } = request;
+  const { startScreen, loading, error } = requestStore;
 
   const { weeklyForecast } = weeklyForecastStore;
 
@@ -23,6 +26,9 @@ export const Main = observer(() => {
       <Astronomy />
       <AirQuality />
       <WeeklyForecast theme={settings.settings.theme} weeklyForecastList={weeklyForecast} />
+
+      <GpsRefinementToast />
+      <DevPanel />
     </main>
   );
 });

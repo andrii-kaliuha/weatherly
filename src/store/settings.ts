@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import request from "./request";
+import requestStore from "./request/requestStore";
 import i18n from "../i18n";
 import { t } from "i18next";
 import type { SettingsProps, Setting } from "../types";
@@ -112,7 +112,8 @@ class settingStore {
     if (id === "theme") document.documentElement.className = value;
 
     if (id === "language") i18n.changeLanguage(value === "ukrainian" ? "uk" : "en");
-    if (request.local_names !== null) request.updateForecast(request.forecast, request.airQuality, request.local_names, this.settings);
+    if (requestStore.local_names !== null)
+      requestStore.updateForecast(requestStore.forecast, requestStore.airQuality, requestStore.local_names, this.settings);
   }
 }
 

@@ -1,6 +1,6 @@
 import { useRef, useEffect, RefObject } from "react";
 import { observer } from "mobx-react-lite";
-import request from "../store/request";
+import requestStore from "../store/request/requestStore";
 import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
 import iconsUrl from "../assets/icons.svg?url";
@@ -78,13 +78,13 @@ export const LoadingScreen = () => {
 };
 
 export const ErrorScreen = observer(() => {
-  if (!request.error) return null;
+  if (!requestStore.error) return null;
   const { t } = useTranslation();
 
   return (
     <div className="flex flex-col items-center justify-center h-height-app bg-background text-primary text-center gap-3 px-3">
       <h1 className="text-2xl md:text-3xl font-medium break-word">{t("errors.title")}</h1>
-      <p className="text-lg opacity-55">{t(`errors.${request.error}`)}</p>
+      <p className="text-lg opacity-55">{t(`errors.${requestStore.error}`)}</p>
     </div>
   );
 });
