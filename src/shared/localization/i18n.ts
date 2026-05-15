@@ -1,12 +1,12 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import en from "./locales/en.json";
-import uk from "./locales/uk.json";
+import ukrainian from "./locales/ukrainian.json";
+import english from "./locales/english.json";
 
 const resources = {
-  en: { translation: en },
-  uk: { translation: uk },
+  uk: { translation: ukrainian },
+  en: { translation: english },
 };
 
 i18n

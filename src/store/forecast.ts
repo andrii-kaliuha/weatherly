@@ -89,7 +89,7 @@ class CurrentWeatherStore {
   maxTemp: number | null = null;
   minTemp: number | null = null;
   summary: string | null = null;
-  hourlyForecast: { temperature: number; icon: string; time: string }[] = [];
+  hourlyForecast: { temperature: number; icon: string; time: string; fullDateISO: string; description: string }[] = [];
   weatherConditions: { icon: string; value: string; name: string }[] = [];
 
   constructor() {
@@ -135,11 +135,17 @@ class CurrentWeatherStore {
         name: t("feels_like"),
       },
     ];
-    this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => ({
-      time: formatTime(hour.dt, settings.format),
-      icon: `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hour.weather[0].icon}.svg`,
-      temperature: convertTemperature(hour.temp, settings.temperatureUnit),
-    }));
+    this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => {
+      const descData = findDescriptionById(hour.weather[0].description);
+
+      return {
+        time: formatTime(hour.dt, settings.format),
+        fullDateISO: new Date(hour.dt * 1000).toISOString(),
+        icon: `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hour.weather[0].icon}.svg`,
+        temperature: convertTemperature(hour.temp, settings.temperatureUnit),
+        description: descData ? t(descData.description) : hour.weather[0].description,
+      };
+    });
   }
 }
 

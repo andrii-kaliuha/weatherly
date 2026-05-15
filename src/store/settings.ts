@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import requestStore from "./request/requestStore";
-import i18n from "../i18n";
+import i18n from "../shared/localization/i18n";
 import { t } from "i18next";
 import type { SettingsProps, Setting } from "../types";
 
@@ -9,10 +9,10 @@ class settingStore {
   settings: SettingsProps = {
     temperatureUnit: "celsius",
     windSpeedUnit: "m_s",
-    pressureUnit: "hPa",
+    pressureUnit: "mmHg",
     language: "english",
-    theme: "dark",
-    format: "12_hour",
+    theme: "light",
+    format: "24_hour",
   };
 
   constructor() {

@@ -9,7 +9,7 @@ import { weeklyForecastStore } from "../../store/forecast";
 import settings from "../../store/settings";
 
 import { GpsRefinementToast } from "../Modal";
-import DevPanel from "../DevPanel";
+// import DevPanel from "../DevPanel";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
@@ -28,7 +28,7 @@ export const Main = observer(() => {
       <WeeklyForecast theme={settings.settings.theme} weeklyForecastList={weeklyForecast} />
 
       <GpsRefinementToast />
-      <DevPanel />
+      {/* <DevPanel /> */}
     </main>
   );
 });

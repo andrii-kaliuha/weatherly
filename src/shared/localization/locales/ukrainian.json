@@ -1,4 +1,45 @@
 {
+  "header": {
+    "search_placeholder": "Пошук міста...",
+    "search_button": "Знайти погоду",
+    "geolocation_button": "Місцезнаходження",
+    "menu_button": "Відкрити меню",
+    "nav_landmark": "Головна навігація",
+    "search_form": "Пошук міста",
+    "side_menu_title": "Меню",
+    "close_menu_button": "Закрити меню",
+    "logo": "Weatherly — логотип"
+  },
+
+  "weather": {
+    "in": "Погода в",
+    "current": {
+      "forecast_label": "Прогноз на найближчу годину",
+      "feels_like": "Відчувається",
+      "humidity": "Вологість",
+      "wind": "Вітер",
+      "pressure": "Тиск",
+      "uv_index": "УФ індекс",
+      "precipitation": "Опади",
+      "aria": {
+        "conditions": "Погодні умови",
+        "section": "Поточна погода",
+        "temperature": "Поточна температура",
+        "feels_like": "Відчувається як",
+        "humidity": "Відносна вологість повітря",
+        "wind": "Швидкість і напрям вітру",
+        "pressure": "Атмосферний тиск",
+        "uv_index": "Ультрафіолетовий індекс",
+        "precipitation": "Кількість опадів",
+        "weather_icon": "Іконка погоди: {{description}}",
+        "temp_range": "Температурний діапазон"
+      }
+    },
+    "hourly": {
+      "title": "Погодинний прогноз погоди"
+    }
+  },
+
   "current_weather_forecast": "Прогноз на найближчу годину",
   "weather_in": "Погода в",
 
@@ -70,12 +111,6 @@
   "12_hour": "12-годинний формат",
   "24_hour": "24-годинний формат",
   "mm": "мм",
-
-  "weather": {
-    "hourly": {
-      "title": "Погодинний прогноз погоди"
-    }
-  },
 
   "description_clear_sky": "чисте небо",
   "description_few_clouds": "невелика хмарність",

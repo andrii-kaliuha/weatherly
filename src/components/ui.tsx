@@ -5,11 +5,12 @@ import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
 import iconsUrl from "../assets/icons.svg?url";
 
-type SVGProps = { source: string; width?: number; height?: number; style?: string };
+type SVGProps = { source: string; width?: number; height?: number; style?: string; label?: string };
 
-export const SVG = ({ source, width, height, style }: SVGProps) => {
+export const SVG = ({ source, width, height, style, label }: SVGProps) => {
   return (
-    <svg className={style} width={width} height={height} aria-hidden="true">
+    <svg className={style} width={width} height={height} role={label ? "img" : "presentation"} aria-hidden={!label}>
+      {label && <title>{label}</title>}
       <use href={source} />
     </svg>
   );
@@ -72,6 +73,7 @@ export const LoadingScreen = () => {
       <div className="flex justify-center items-center">
         <div className="w-8 h-8 border-4 border-t-transparent border-accent rounded-full animate-spin"></div>
       </div>
+
       <p className="text-lg font-semibold text-primary opacity-55">{t("loading")}</p>
     </div>
   );

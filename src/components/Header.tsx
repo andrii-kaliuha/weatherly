@@ -22,28 +22,28 @@ export const Header = observer(() => {
   };
 
   return (
-    <header className="sticky top-0 z-1 bg-background">
-      <nav className="flex items-center justify-between gap-3 p-3">
-        <Button onClick={() => settings.toggleSideMenu()} icon={"menu"} style="bg-surface text-primary" />
-        {/* <form className="relative text-primary" onSubmit={searchCityByName}>
-          <input
-            type="text"
-            placeholder={t("search_city")}
-            name="searchCity "
-            value={cityName}
-            onChange={(e) => setCity(e.target.value)}
-            maxLength={32}
-            className="bg-surface text-primary w-full sm:w-64 h-12 pl-3 pr-12 rounded-3xl outline-transparent border-transparent"
-          />
-          <Button icon="search" style="absolute right-0 top-0" />
-        </form> */}
+    <header className="sticky top-0 z-1 bg-background" aria-label={t("header.landmark")}>
+      <nav className="flex items-center justify-between gap-3 p-3" aria-label={t("header.nav_landmark")}>
+        <button
+          onClick={() => settings.toggleSideMenu()}
+          aria-label={t("header.menu_button")}
+          aria-expanded={settings.sideMenuOpen}
+          aria-controls="side-menu"
+          className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent bg-surface text-primary"
+        >
+          <Icon name="menu" height={24} width={24} />
+        </button>
+
         <form
+          role="search"
+          aria-label={t("header.search_form")}
           className="group relative flex items-center bg-surface text-primary w-full sm:w-80 h-12 rounded-full border border-transparent transition-all focus-within:border-accent focus-within:ring-1 focus-within:ring-accent hover:bg-opacity-80"
           onSubmit={searchCityByName}
         >
           <input
             type="text"
-            placeholder={t("search_city")}
+            aria-label={t("header.search_placeholder")}
+            placeholder={t("header.search_placeholder")}
             name="searchCity"
             value={cityName}
             onChange={(e) => setCity(e.target.value)}
@@ -52,17 +52,33 @@ export const Header = observer(() => {
           />
 
           <button
+            type="submit"
             tabIndex={-1}
-            className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-none outline-none absolute 
-            right-1 top-1/2 -translate-y-1/2 bg-transparent"
+            className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-none outline-none absolute
+             right-1 top-1/2 -translate-y-1/2 bg-transparent"
           >
             <Icon name="search" height={24} width={24} color="var(--color-secondary)" />
           </button>
         </form>
 
-        <Button onClick={searchCityByLocation} icon="my-location" label={t("current_location")} style="bg-accent gap-3" />
+        {/* <Button
+          onClick={searchCityByLocation}
+          icon="my-location"
+          label={t("header.geolocation_button")}
+          aria-label={t("header.geolocation_button")}
+          style="bg-accent gap-3"
+        /> */}
+
+        <button
+          onClick={searchCityByLocation}
+          aria-label={t("header.geolocation_button")}
+          className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent text-on-accent bg-accent gap-3"
+        >
+          <Icon name="my-location" height={24} width={24} />
+          <p className="hidden md:block">{t("header.geolocation_button")}</p>
+        </button>
       </nav>
-      <SideMenu />
+      <SideMenu id="side-menu" isOpen={settings.sideMenuOpen} onClose={() => settings.toggleSideMenu()} />
     </header>
   );
 });
