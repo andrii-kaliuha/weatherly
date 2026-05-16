@@ -2,7 +2,7 @@ import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { SideMenu } from "./SideMenu";
 import { useTranslation } from "react-i18next";
-import { Button, Icon } from "./ui";
+import { Icon } from "./ui";
 import settings from "../store/settings";
 import requestStore from "../store/request/requestStore";
 
