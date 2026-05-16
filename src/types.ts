@@ -22,6 +22,7 @@ export type WeeklyForecastListProps = { theme: string; weeklyForecastList: Weekl
 export type WeeklyForecastItemProps = {
   date: string;
   weekday: string;
+  fullDateISO: string;
   icon: string;
   description: string;
   maxTemp: number;

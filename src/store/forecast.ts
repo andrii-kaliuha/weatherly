@@ -227,7 +227,15 @@ class AirQualityStore {
 }
 
 class WeeklyForecastStore {
-  weeklyForecast: { date: string; weekday: string; minTemp: number; maxTemp: number; icon: string; description: string }[] = [];
+  weeklyForecast: {
+    date: string;
+    weekday: string;
+    fullDateISO: string;
+    minTemp: number;
+    maxTemp: number;
+    icon: string;
+    description: string;
+  }[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -248,6 +256,7 @@ class WeeklyForecastStore {
         weekday: new Date(day.dt * 1000).toLocaleString(locale, {
           weekday: "long",
         }),
+        fullDateISO: new Date(day.dt * 1000).toISOString(),
         icon: day.weather[0].icon,
         description: description,
         maxTemp: convertTemperature(day.temp.max, temperatureUnit),

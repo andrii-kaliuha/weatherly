@@ -6,6 +6,68 @@
   "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region",
   "loading": "Loading...",
 
+  "weather": {
+    "in": "Погода в",
+    "current": {
+      "forecast_label": "Прогноз на найближчу годину",
+      "feels_like": "Відчувається",
+      "humidity": "Вологість",
+      "wind": "Вітер",
+      "pressure": "Тиск",
+      "uv_index": "УФ індекс",
+      "precipitation": "Опади",
+      "aria": {
+        "conditions": "Погодні умови",
+        "section": "Поточна погода",
+        "temperature": "Поточна температура",
+        "feels_like": "Відчувається як",
+        "humidity": "Відносна вологість повітря",
+        "wind": "Швидкість і напрям вітру",
+        "pressure": "Атмосферний тиск",
+        "uv_index": "Ультрафіолетовий індекс",
+        "precipitation": "Кількість опадів",
+        "weather_icon": "Іконка погоди: {{description}}",
+        "temp_range": "Температурний діапазон"
+      }
+    },
+    "hourly": {
+      "title": "Hourly weather forecast"
+    },
+    "weekly": {
+      "title": "Weekly weather forecast",
+      "max_temp": "Maximum Temperature",
+      "min_temp": "Minimum Temperature"
+    }
+  },
+
+  "air_quality": {
+    "title": "Air quality in",
+    "aqi_index": "Air Quality Index is {{aqi}}",
+    "pollutant": "{{name}}: {{value}} micrograms per cubic meter",
+    "levels": {
+      "good": {
+        "title": "Good air",
+        "description": "The air is clean and the level of pollution is minimal or does not pose any health risk. It is safe for most people."
+      },
+      "satisfactory": {
+        "title": "Satisfactory air",
+        "description": "Air quality is generally acceptable for most people, but some pollutants may pose a moderate health risk to a very small number of people who are extremely sensitive to air pollution."
+      },
+      "harmful": {
+        "title": "Harmful to sensitive groups",
+        "description": "Pollution has reached a high level, it is dangerous for people with increased sensitivity. If you experience difficulty breathing or throat irritation, reduce your time outdoors."
+      },
+      "unhealthy": {
+        "title": "Unhealthy air",
+        "description": "People with increased sensitivity may feel unwell. With prolonged exposure to the outdoors, healthy people may experience difficulty breathing or throat irritation. Limit prolonged outdoor exposure."
+      },
+      "bad": {
+        "title": "Bad air",
+        "description": "Everyone may begin to feel the effects on their health, members of sensitive groups may feel more serious effects. Increased likelihood of heart and lung function deterioration. Limit outdoor exposure."
+      }
+    }
+  },
+
   "current_location": "Current Location",
   "search_city": "Search city...",
 
@@ -29,6 +91,7 @@
   "unhealthy_air_description": "Pollution has reached a high level, it is dangerous for people with increased sensitivity. If you experience difficulty breathing or throat irritation, reduce your time outdoors.",
   "harmful_air_description": "People with increased sensitivity may feel unwell. With prolonged exposure to the outdoors, healthy people may experience difficulty breathing or throat irritation. Limit prolonged outdoor exposure.",
   "bad_air_description": "Everyone may begin to feel the effects on their health, members of sensitive groups may feel more serious effects. Increased likelihood of heart and lung function deterioration. Limit outdoor exposure.",
+
   "weekly_forecast_title": "Weekly weather forecast",
 
   "moon_phase_is_undefined": "Undefined",
@@ -70,12 +133,6 @@
   "12_hour": "12-hour format",
   "24_hour": "24-hour format",
   "mm": "mm",
-
-  "weather": {
-    "hourly": {
-      "title": "Hourly weather forecast"
-    }
-  },
 
   "description_clear_sky": "clear sky",
   "description_few_clouds": "few clouds",

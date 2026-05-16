@@ -38,7 +38,7 @@ const CurrentTemperature = observer(() => {
       </div>
       <div className="text-right flex flex-col justify-center" aria-label={t("weather.current.aria.temp_range")}>
         <span>{currentWeatherStore.description}</span>
-        <span className="font-semibold">
+        <span>
           {currentWeatherStore.maxTemp}° / {currentWeatherStore.minTemp}°
         </span>
       </div>
@@ -67,7 +67,7 @@ const HourlyForecast = observer(() => {
           </time>
 
           <SVG source={item.icon} width={32} height={32} label={item.description} />
-          <p className="font-bold">{item.temperature}°</p>
+          <p>{item.temperature}°</p>
         </li>
       ))}
     </ul>

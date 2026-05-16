@@ -27,26 +27,29 @@ export const AirQuality = observer(() => {
 
 const Circle = ({ color, aqi }: CircleProps) => {
   return (
-    <div className={`flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0`} style={{ borderColor: color }}>
+    <div className="flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0" style={{ borderColor: color }}>
       <Icon name={"air"} color={color} width={32} height={32} />
-      <dl className="flex justify-between w-10">
-        <dt>AQI</dt>
-        <dd style={{ color: color }}>{aqi}</dd>
-      </dl>
+      <div className="text-sm uppercase">
+        AQI <span style={{ color: color }}>{aqi}</span>
+      </div>
     </div>
   );
 };
 
 const AirPollutantsList = ({ color, list }: AirPollutantsListProps) => {
+  const { t } = useTranslation();
+
   return (
     <ul className="flex justify-around w-full">
       {list.map((item, index) => (
         <li key={index} className="flex flex-col items-center leading-none gap-2">
-          <dl className="contents">
+          <span className="sr-only">{t("air_quality.pollutant", { name: item.name, value: item.value })}</span>
+
+          <div aria-hidden="true" className="flex flex-col items-center gap-1">
             <Icon name={item.icon} color={color} width={20} height={20} />
-            <dt>{item.value}</dt>
-            <dd>{item.name}</dd>
-          </dl>
+            <span>{item.value}</span>
+            <span className="text-xs opacity-70 uppercase">{item.name}</span>
+          </div>
         </li>
       ))}
     </ul>

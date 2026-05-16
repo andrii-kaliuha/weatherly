@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import requestStore from "./request/requestStore";
 import i18n from "../shared/localization/i18n";
 import { t } from "i18next";
@@ -17,6 +17,15 @@ class settingStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    reaction(
+      () => this.settings.language,
+      (language) => {
+        const langCode = language === "ukrainian" ? "uk" : "en";
+        document.documentElement.lang = langCode;
+      },
+      { fireImmediately: true },
+    );
   }
 
   get settingsList(): Setting[] {
