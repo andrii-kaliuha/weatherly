@@ -24,6 +24,10 @@
   --height-height-app: calc(100vh - 72px);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background-color: var(--color-background);
   font-family: "Roboto", sans-serif;

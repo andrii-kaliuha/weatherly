@@ -90,7 +90,7 @@ class CurrentWeatherStore {
   minTemp: number | null = null;
   summary: string | null = null;
   hourlyForecast: { temperature: number; icon: string; time: string; fullDateISO: string; description: string }[] = [];
-  weatherConditions: { icon: string; value: string; name: string }[] = [];
+  weatherConditions: { icon: string; value: number; unit: string; name: string }[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -115,23 +115,101 @@ class CurrentWeatherStore {
     this.summary = t(`${descData?.summary}`);
     this.description = t(`${descData?.description}`);
 
+    // this.weatherConditions = [
+    //   {
+    //     icon: "speed",
+    //     value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${t(settings.pressureUnit)}`,
+    //     name: t("pressure"),
+    //   },
+    //   { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: t("humidity") },
+    //   {
+    //     icon: "air",
+    //     value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${t(settings.windSpeedUnit)}`,
+    //     name: t("wind"),
+    //   },
+    //   { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: t("uv_index") },
+    //   { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} ${t("mm")}`, name: t("precipitation") },
+    //   {
+    //     icon: "thermostat",
+    //     value: `${convertTemperature(data.current.feels_like, settings.temperatureUnit)}°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
+    //     name: t("feels_like"),
+    //   },
+    // ];
+
+    // this.weatherConditions = [
+    //   {
+    //     icon: "speed",
+    //     value: Math.round(convertPressure(data.current.pressure, settings.pressureUnit)),
+    //     unit: t(settings.pressureUnit),
+    //     name: t("pressure"),
+    //   },
+    //   {
+    //     icon: "humidity",
+    //     value: Math.round(data.current.humidity),
+    //     unit: "%",
+    //     name: t("humidity"),
+    //   },
+    //   {
+    //     icon: "air",
+    //     value: convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit),
+    //     unit: t(settings.windSpeedUnit),
+    //     name: t("wind"),
+    //   },
+    //   {
+    //     icon: "uv",
+    //     value: Math.round(data.current.uvi),
+    //     unit: "/ 12",
+    //     name: t("uv_index"),
+    //   },
+    //   {
+    //     icon: "rainy",
+    //     value: Math.round(data.daily[0]?.rain || 0),
+    //     unit: t("mm"),
+    //     name: t("precipitation"),
+    //   },
+    //   {
+    //     icon: "thermostat",
+    //     value: convertTemperature(data.current.feels_like, settings.temperatureUnit),
+    //     unit: `°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
+    //     name: t("feels_like"),
+    //   },
+    // ];
+
     this.weatherConditions = [
       {
         icon: "speed",
-        value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${t(settings.pressureUnit)}`,
+        value: Math.round(convertPressure(data.current.pressure, settings.pressureUnit)),
+        unit: settings.pressureUnit, // 'mmHg' або 'hPa'
         name: t("pressure"),
       },
-      { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: t("humidity") },
+      {
+        icon: "humidity",
+        value: Math.round(data.current.humidity),
+        unit: "percent",
+        name: t("humidity"),
+      },
       {
         icon: "air",
-        value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${t(settings.windSpeedUnit)}`,
+        value: convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit),
+        unit: settings.windSpeedUnit,
         name: t("wind"),
       },
-      { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: t("uv_index") },
-      { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} ${t("mm")}`, name: t("precipitation") },
+      {
+        icon: "uv",
+        value: Math.round(data.current.uvi),
+        unit: "uv",
+        name: t("uv_index"),
+      },
+      {
+        icon: "rainy",
+        value: Math.round(data.daily[0]?.rain || 0),
+        unit: "mm",
+        name: t("precipitation"),
+      },
       {
         icon: "thermostat",
-        value: `${convertTemperature(data.current.feels_like, settings.temperatureUnit)}°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
+        value: convertTemperature(data.current.feels_like, settings.temperatureUnit),
+        unit: settings.temperatureUnit,
         name: t("feels_like"),
       },
     ];

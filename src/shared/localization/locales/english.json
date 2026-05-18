@@ -16,6 +16,37 @@
       "pressure": "Тиск",
       "uv_index": "УФ індекс",
       "precipitation": "Опади",
+
+      "conditions": {
+        "title": "Weather conditions",
+        "item": "{{name}}: {{value}} {{units}}"
+      },
+      "units": {
+        "celsius": "°C",
+        "fahrenheit": "°F",
+        "kelvin": "K",
+        "m_s": "m/s",
+        "km_h": "km/h",
+        "mph": "mph",
+        "hPa": "hPa",
+        "mmHg": "mmHg",
+        "percent": "%",
+        "mm": "mm",
+        "uv": "of 12"
+      },
+      "units_aria": {
+        "celsius": "degrees Celsius",
+        "fahrenheit": "degrees Fahrenheit",
+        "kelvin": "Kelvin",
+        "m_s": "meters per second",
+        "km_h": "kilometers per hour",
+        "mph": "miles per hour",
+        "hPa": "hectopascals",
+        "mmHg": "millimeters of mercury",
+        "percent": "percent",
+        "mm": "millimeters",
+        "uv": "of 12"
+      },
       "aria": {
         "conditions": "Погодні умови",
         "section": "Поточна погода",
@@ -31,7 +62,8 @@
       }
     },
     "hourly": {
-      "title": "Hourly weather forecast"
+      "title": "Hourly weather forecast",
+      "item": "{{time}}, {{description}}, {{temperature}} degrees"
     },
     "weekly": {
       "title": "Weekly weather forecast",
@@ -117,22 +149,6 @@
   "language": "Language",
   "interface_theme": "Interface theme",
   "time_format": "Time format",
-
-  "celsius": "Celsius",
-  "fahrenheit": "Fahrenheit",
-  "kelvin": "Kelvin",
-  "m_s": "m/s",
-  "km_h": "km/h",
-  "mph": "mph",
-  "hPa": "hPa",
-  "mmHg": "mmHg",
-  "english": "English",
-  "ukrainian": "Ukrainian",
-  "light": "Light",
-  "dark": "Dark",
-  "12_hour": "12-hour format",
-  "24_hour": "24-hour format",
-  "mm": "mm",
 
   "description_clear_sky": "clear sky",
   "description_few_clouds": "few clouds",
