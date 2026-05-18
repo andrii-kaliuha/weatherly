@@ -3,6 +3,7 @@ import { Main } from "./components/Main/Main.tsx";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import settingStore from "../src/store/settings.ts";
+import { SvgSprite } from "./components/ui.tsx";
 
 export const App = observer(() => {
   useEffect(() => {
@@ -11,6 +12,7 @@ export const App = observer(() => {
 
   return (
     <div className="max-w-5xl w-full">
+      <SvgSprite />
       <Header />
       <Main />
     </div>

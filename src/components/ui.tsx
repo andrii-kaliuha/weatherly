@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import requestStore from "../store/request/requestStore";
 import { useTranslation } from "react-i18next";
 import type { ButtonProps, RadioButtonProps } from "../types";
-import iconsUrl from "../assets/icons.svg?url";
+import iconsRaw from "../assets/icons.svg?raw";
 
 type SVGProps = { source: string; width?: number; height?: number; style?: string; label?: string };
 
@@ -16,11 +16,13 @@ export const SVG = ({ source, width, height, style, label }: SVGProps) => {
   );
 };
 
+export const SvgSprite = () => <div aria-hidden="true" style={{ display: "none" }} dangerouslySetInnerHTML={{ __html: iconsRaw }} />;
+
 type IconProps = { name: string; width?: number; height?: number; color?: string };
 
 export const Icon = ({ name, width, height, color = "currentColor" }: IconProps) => (
   <svg width={width} height={height} fill={color} aria-hidden="true">
-    <use href={`${iconsUrl}#${name}`} />
+    <use href={`#${name}`} />
   </svg>
 );
 
