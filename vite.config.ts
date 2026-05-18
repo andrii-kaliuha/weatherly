@@ -11,6 +11,11 @@ export default defineConfig({
     svgr(),
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+      },
       manifest: {
         name: "Weatherly",
         short_name: "Weatherly",
