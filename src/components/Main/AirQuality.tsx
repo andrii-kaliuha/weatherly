@@ -10,24 +10,29 @@ export const AirQuality = observer(() => {
 
   return (
     <section className="relative bg-surface text-primary rounded-3xl p-6 air-quality-section">
-      <h2>
-        {t("air_quality_section_title")} {cityName}
-      </h2>
+      <h2>{t("air_quality.title", { city: cityName })}</h2>
       <div className="flex flex-col sm:flex-row items-center gap-3 py-3">
         <Circle color={color} aqi={aqi} />
         <AirPollutantsList color={color} list={airPollutants} />
       </div>
       <div>
-        <h3 style={{ color: color }}>{title}</h3>
-        <p className="text-sm">{description}</p>
+        <h3 style={{ color: color }}>{t(title ?? "")}</h3>
+        <p className="text-sm">{t(description ?? "")}</p>
       </div>
     </section>
   );
 });
 
 const Circle = ({ color, aqi }: CircleProps) => {
+  const { t } = useTranslation();
+
   return (
-    <div className="flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0" style={{ borderColor: color }}>
+    <div
+      className="flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0"
+      style={{ borderColor: color }}
+      role="img"
+      aria-label={t("air_quality.index", { aqi })}
+    >
       <Icon name={"air"} color={color} width={32} height={32} />
       <div className="text-sm uppercase">
         AQI <span style={{ color: color }}>{aqi}</span>

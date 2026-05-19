@@ -79,6 +79,44 @@ const descriptions = [
   { id: "tornado", description: "description_tornado", summary: "tornado" },
 ];
 
+const airQualityLevels = [
+  {
+    aqi: 1,
+    range: "AQI 0-50",
+    color: "#a2d043",
+    title: "air_quality.levels.good.title",
+    description: "air_quality.levels.good.description",
+  },
+  {
+    aqi: 2,
+    range: "AQI 51-100",
+    color: "#f8cc4a",
+    title: "air_quality.levels.satisfactory.title",
+    description: "air_quality.levels.satisfactory.description",
+  },
+  {
+    aqi: 3,
+    range: "AQI 101-150",
+    color: "#f19342",
+    title: "air_quality.levels.harmful.title",
+    description: "air_quality.levels.harmful.description",
+  },
+  {
+    aqi: 4,
+    range: "AQI 151-200",
+    color: "#d85f38",
+    title: "air_quality.levels.unhealthy.title",
+    description: "air_quality.levels.unhealthy.description",
+  },
+  {
+    aqi: 5,
+    range: "AQI 201-300",
+    color: "#903c70",
+    title: "air_quality.levels.bad.title",
+    description: "air_quality.levels.bad.description",
+  },
+];
+
 class CurrentWeatherStore {
   cityName: string | null = null;
   date: string | null = null;
@@ -115,102 +153,42 @@ class CurrentWeatherStore {
     this.summary = t(`${descData?.summary}`);
     this.description = t(`${descData?.description}`);
 
-    // this.weatherConditions = [
-    //   {
-    //     icon: "speed",
-    //     value: `${convertPressure(data.current.pressure, settings.pressureUnit)} ${t(settings.pressureUnit)}`,
-    //     name: t("pressure"),
-    //   },
-    //   { icon: "humidity", value: `${Math.round(data.current.humidity)} %`, name: t("humidity") },
-    //   {
-    //     icon: "air",
-    //     value: `${convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit)} ${t(settings.windSpeedUnit)}`,
-    //     name: t("wind"),
-    //   },
-    //   { icon: "uv", value: `${Math.round(data.current.uvi)} / 12`, name: t("uv_index") },
-    //   { icon: "rainy", value: `${Math.round(data.daily[0]?.rain || 0)} ${t("mm")}`, name: t("precipitation") },
-    //   {
-    //     icon: "thermostat",
-    //     value: `${convertTemperature(data.current.feels_like, settings.temperatureUnit)}°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
-    //     name: t("feels_like"),
-    //   },
-    // ];
-
-    // this.weatherConditions = [
-    //   {
-    //     icon: "speed",
-    //     value: Math.round(convertPressure(data.current.pressure, settings.pressureUnit)),
-    //     unit: t(settings.pressureUnit),
-    //     name: t("pressure"),
-    //   },
-    //   {
-    //     icon: "humidity",
-    //     value: Math.round(data.current.humidity),
-    //     unit: "%",
-    //     name: t("humidity"),
-    //   },
-    //   {
-    //     icon: "air",
-    //     value: convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit),
-    //     unit: t(settings.windSpeedUnit),
-    //     name: t("wind"),
-    //   },
-    //   {
-    //     icon: "uv",
-    //     value: Math.round(data.current.uvi),
-    //     unit: "/ 12",
-    //     name: t("uv_index"),
-    //   },
-    //   {
-    //     icon: "rainy",
-    //     value: Math.round(data.daily[0]?.rain || 0),
-    //     unit: t("mm"),
-    //     name: t("precipitation"),
-    //   },
-    //   {
-    //     icon: "thermostat",
-    //     value: convertTemperature(data.current.feels_like, settings.temperatureUnit),
-    //     unit: `°${settings.temperatureUnit.charAt(0).toUpperCase()}`,
-    //     name: t("feels_like"),
-    //   },
-    // ];
-
     this.weatherConditions = [
       {
         icon: "speed",
         value: Math.round(convertPressure(data.current.pressure, settings.pressureUnit)),
-        unit: settings.pressureUnit, // 'mmHg' або 'hPa'
-        name: t("pressure"),
+        unit: settings.pressureUnit,
+        name: "pressure",
       },
       {
         icon: "humidity",
         value: Math.round(data.current.humidity),
         unit: "percent",
-        name: t("humidity"),
+        name: "humidity",
       },
       {
         icon: "air",
         value: convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit),
         unit: settings.windSpeedUnit,
-        name: t("wind"),
+        name: "wind",
       },
       {
         icon: "uv",
         value: Math.round(data.current.uvi),
         unit: "uv",
-        name: t("uv_index"),
+        name: "uv_index",
       },
       {
         icon: "rainy",
         value: Math.round(data.daily[0]?.rain || 0),
         unit: "mm",
-        name: t("precipitation"),
+        name: "precipitation",
       },
       {
         icon: "thermostat",
         value: convertTemperature(data.current.feels_like, settings.temperatureUnit),
         unit: settings.temperatureUnit,
-        name: t("feels_like"),
+        name: "feels_like",
       },
     ];
     this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => {
@@ -240,32 +218,38 @@ class AstronomyStore {
   }
 
   updateAstronomy(data: any, { format }: SettingsProps) {
-    function getMoonPhase(moonPhase: number | null): string {
-      if (moonPhase === null) return t("moon_phase_is_undefined");
+    const getMoonPhase = (moonPhase: number | null): string => {
+      if (moonPhase === null) return "astronomy.moon_phases.undefined";
 
-      return (
-        (moonPhase <= 0.03 && t("new_moon")) ||
-        (moonPhase <= 0.24 && t("waxing_crescent")) ||
-        (moonPhase === 0.25 && t("first_quarter")) ||
-        (moonPhase <= 0.49 && t("waxing_gibbous")) ||
-        (moonPhase === 0.5 && t("full_moon")) ||
-        (moonPhase <= 0.74 && t("waning_gibbous")) ||
-        (moonPhase === 0.75 && t("last_quarter")) ||
-        (moonPhase <= 0.99 && t("waning_crescent")) ||
-        t("unknown_moon_phase")
-      );
-    }
+      switch (true) {
+        case moonPhase <= 0.03:
+          return "astronomy.moon_phases.new_moon";
+        case moonPhase <= 0.24:
+          return "astronomy.moon_phases.waxing_crescent";
+        case moonPhase === 0.25:
+          return "astronomy.moon_phases.first_quarter";
+        case moonPhase <= 0.49:
+          return "astronomy.moon_phases.waxing_gibbous";
+        case moonPhase === 0.5:
+          return "astronomy.moon_phases.full_moon";
+        case moonPhase <= 0.74:
+          return "astronomy.moon_phases.waning_gibbous";
+        case moonPhase === 0.75:
+          return "astronomy.moon_phases.last_quarter";
+        case moonPhase <= 0.99:
+          return "astronomy.moon_phases.waning_crescent";
+        default:
+          return "astronomy.moon_phases.unknown";
+      }
+    };
 
-    function calculateDuration(start: number, end: number): string {
-      return new Date((end - start) * 1000).toISOString().slice(11, 19);
-    }
-
-    this.sunrise = formatTime(data.daily[0].sunrise, format);
-    this.sunset = formatTime(data.daily[0].sunset, format);
-    this.moonrise = formatTime(data.daily[0].moonrise, format);
-    this.moonset = formatTime(data.daily[0].moonset, format);
-    this.moonPhase = getMoonPhase(data.daily[0].moon_phase);
-    this.durationDay = calculateDuration(data.daily[0].sunrise, data.daily[0].sunset);
+    const daily = data.daily[0];
+    this.sunrise = formatTime(daily.sunrise, format);
+    this.sunset = formatTime(daily.sunset, format);
+    this.moonrise = formatTime(daily.moonrise, format);
+    this.moonset = formatTime(daily.moonset, format);
+    this.moonPhase = getMoonPhase(daily.moon_phase);
+    this.durationDay = new Date((daily.sunset - daily.sunrise) * 1000).toISOString().slice(11, 19);
   }
 }
 
@@ -276,13 +260,6 @@ class AirQualityStore {
   title: string | null = null;
   description: string | null = null;
   airPollutants: { name: string; value: number; icon: string }[] = [];
-  airQualityLevels = [
-    { aqi: 1, range: "AQI 0-50", color: "#a2d043", title: "good_air_title", description: "good_air_description" },
-    { aqi: 2, range: "AQI 51-100", color: "#f8cc4a", title: "satisfactory_air_title", description: "satisfactory_air_description" },
-    { aqi: 3, range: "AQI 101-150", color: "#f19342", title: "harmful_air_title", description: "harmful_air_description" },
-    { aqi: 4, range: "AQI 151-200", color: "#d85f38", title: "unhealthy_air_title", description: "unhealthy_air_description" },
-    { aqi: 5, range: "AQI 201-300", color: "#903c70", title: "bad_air_title", description: "bad_air_description" },
-  ];
 
   constructor() {
     makeAutoObservable(this);
@@ -291,10 +268,12 @@ class AirQualityStore {
   updateAirQuality(data: any, local_names: Record<string, string>, { language }: SettingsProps) {
     this.cityName = local_names[language.slice(0, 2).toLowerCase()];
     this.aqi = data.list[0].main.aqi;
-    const currentAirQuality = this.airQualityLevels.find((item) => item.aqi === this.aqi) || this.airQualityLevels[4];
+
+    const currentAirQuality = airQualityLevels.find((item) => item.aqi === this.aqi) || airQualityLevels[4];
+
     this.color = currentAirQuality.color;
-    this.title = t(currentAirQuality.title);
-    this.description = t(currentAirQuality.description);
+    this.title = currentAirQuality.title;
+    this.description = currentAirQuality.description;
     this.airPollutants = [
       { name: "PM 2.5", value: Math.round(data.list[0].components.pm2_5), icon: "pm2_5" },
       { name: "PM 10", value: Math.round(data.list[0].components.pm10), icon: "pm10" },

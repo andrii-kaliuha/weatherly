@@ -61,14 +61,6 @@ export const Header = observer(() => {
           </button>
         </form>
 
-        {/* <Button
-          onClick={searchCityByLocation}
-          icon="my-location"
-          label={t("header.geolocation_button")}
-          aria-label={t("header.geolocation_button")}
-          style="bg-accent gap-3"
-        /> */}
-
         <button
           onClick={searchCityByLocation}
           aria-label={t("header.geolocation_button")}

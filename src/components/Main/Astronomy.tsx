@@ -9,7 +9,7 @@ export const Astronomy = () => {
 
   return (
     <section className="bg-surface text-primary p-6 rounded-3xl astronomy-section">
-      <h2 className="mb-3">{t("astronomy_section_title")}</h2>
+      <h2 className="mb-3">{t("astronomy.title")}</h2>
       <div className="flex flex-col sm:flex-row justify-around gap-3">
         <Sun />
         <Moon />
@@ -27,12 +27,12 @@ const Sun = observer(() => {
       <AstronomyIcon style="text-sun" width={212} height={54} icon="ellipse" />
 
       <div className="flex items-end justify-between w-64 mt-3">
-        <AstronomyDataItem icon="sunrise" label={t("sunrise")} value={astronomyStore.sunrise} />
+        <AstronomyDataItem icon="sunrise" label={t("astronomy.sunrise")} value={astronomyStore.sunrise} />
         <dl className="text-center max-w-32">
-          <dt>{t("duration_day")}</dt>
+          <dt>{t("astronomy.duration_day")}</dt>
           <dd className="text-sm text-sun">{astronomyStore.durationDay}</dd>
         </dl>
-        <AstronomyDataItem icon="sunset" label={t("sunset")} value={astronomyStore.sunset} />
+        <AstronomyDataItem icon="sunset" label={t("astronomy.sunset")} value={astronomyStore.sunset} />
       </div>
     </div>
   );
@@ -47,12 +47,12 @@ const Moon = observer(() => {
       <AstronomyIcon style="text-moon" width={212} height={54} icon="ellipse" />
 
       <div className="flex items-end justify-between w-64 mt-3">
-        <AstronomyDataItem icon="moonset" label={t("moonset")} value={astronomyStore.moonset} />
+        <AstronomyDataItem icon="moonset" label={t("astronomy.moonset")} value={astronomyStore.moonset} />
         <dl className="text-center max-w-32">
-          <dt>{t("moon_phase")}</dt>
-          <dd className="text-sm text-moon">{astronomyStore.moonPhase}</dd>
+          <dt>{t("astronomy.moon_phase")}</dt>
+          <dd className="text-sm text-moon">{t(astronomyStore.moonPhase ?? "astronomy.moon_phases.undefined")}</dd>
         </dl>
-        <AstronomyDataItem icon="moonrise" label={t("moonrise")} value={astronomyStore.moonrise} />
+        <AstronomyDataItem icon="moonrise" label={t("astronomy.moonrise")} value={astronomyStore.moonrise} />
       </div>
     </div>
   );

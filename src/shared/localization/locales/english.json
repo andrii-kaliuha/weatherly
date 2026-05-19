@@ -1,64 +1,27 @@
 {
-  "current_weather_forecast": "Forecast for the next hour",
-  "weather_in": "Weather in",
-
   "start_screen_title": "Looking for a weather forecast? Enter a city name in the search field",
   "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region",
   "loading": "Loading...",
 
+  "current_location": "Current Location",
+  "search_city": "Search city...",
+
   "weather": {
-    "in": "Погода в",
     "current": {
-      "forecast_label": "Прогноз на найближчу годину",
-      "feels_like": "Відчувається",
-      "humidity": "Вологість",
-      "wind": "Вітер",
-      "pressure": "Тиск",
-      "uv_index": "УФ індекс",
-      "precipitation": "Опади",
+      "title": "Forecast for the current hour",
+      "subtitle": "Weather in {{city}}, {{weekday}}, {{date}}",
+      "temp_range": "Maximum Temperature:{{maxTemp}}{{unit}}, Minimum Temperature:{{minTemp}}{{unit}}",
 
       "conditions": {
         "title": "Weather conditions",
-        "item": "{{name}}: {{value}} {{units}}"
-      },
-      "units": {
-        "celsius": "°C",
-        "fahrenheit": "°F",
-        "kelvin": "K",
-        "m_s": "m/s",
-        "km_h": "km/h",
-        "mph": "mph",
-        "hPa": "hPa",
-        "mmHg": "mmHg",
-        "percent": "%",
-        "mm": "mm",
-        "uv": "of 12"
-      },
-      "units_aria": {
-        "celsius": "degrees Celsius",
-        "fahrenheit": "degrees Fahrenheit",
-        "kelvin": "Kelvin",
-        "m_s": "meters per second",
-        "km_h": "kilometers per hour",
-        "mph": "miles per hour",
-        "hPa": "hectopascals",
-        "mmHg": "millimeters of mercury",
-        "percent": "percent",
-        "mm": "millimeters",
-        "uv": "of 12"
-      },
-      "aria": {
-        "conditions": "Погодні умови",
-        "section": "Поточна погода",
-        "temperature": "Поточна температура",
-        "feels_like": "Відчувається як",
-        "humidity": "Відносна вологість повітря",
-        "wind": "Швидкість і напрям вітру",
-        "pressure": "Атмосферний тиск",
-        "uv_index": "Ультрафіолетовий індекс",
-        "precipitation": "Кількість опадів",
-        "weather_icon": "Іконка погоди: {{description}}",
-        "temp_range": "Температурний діапазон"
+        "item": "{{name}}: {{value}} {{units}}",
+
+        "feels_like": "Feels like",
+        "humidity": "Humidity",
+        "wind": "Wind",
+        "pressure": "Pressure",
+        "uv_index": "Uv index",
+        "precipitation": "Precipitation"
       }
     },
     "hourly": {
@@ -67,14 +30,92 @@
     },
     "weekly": {
       "title": "Weekly weather forecast",
-      "max_temp": "Maximum Temperature",
-      "min_temp": "Minimum Temperature"
+      "day_description": "{{date}}, {{weekday}}, {{description}}, Maximum Temperature: {{maxTemp}}{{unit}}, Minimum Temperature: {{minTemp}}{{unit}}"
+    },
+    "units": {
+      "celsius": {
+        "long": "°C",
+        "short": "°",
+        "aria": "degrees Celsius"
+      },
+      "fahrenheit": {
+        "long": "°F",
+        "short": "°",
+        "aria": "degrees Fahrenheit"
+      },
+      "kelvin": {
+        "long": " K",
+        "short": " K",
+        "aria": "Kelvin"
+      },
+      "m_s": {
+        "long": "m/s",
+        "short": "m/s",
+        "aria": "meters per second"
+      },
+      "km_h": {
+        "long": "km/h",
+        "short": "km/h",
+        "aria": "kilometers per hour"
+      },
+      "mph": {
+        "long": "mph",
+        "short": "mph",
+        "aria": "miles per hour"
+      },
+      "hPa": {
+        "long": "hPa",
+        "short": "hPa",
+        "aria": "hectopascals"
+      },
+      "mmHg": {
+        "long": "mmHg",
+        "short": "mmHg",
+        "aria": "millimeters of mercury"
+      },
+      "percent": {
+        "long": "%",
+        "short": "%",
+        "aria": "percent"
+      },
+      "mm": {
+        "long": "mm",
+        "short": "mm",
+        "aria": "millimeters"
+      },
+      "uv": {
+        "long": "of 12",
+        "short": "/12",
+        "aria": "out of 12"
+      }
+    }
+  },
+
+  "astronomy": {
+    "title": "Sun and Moon",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "duration_day": "Day duration",
+    "moonrise": "Moonrise",
+    "moonset": "Moonset",
+    "moon_phase": "Moon phase",
+    "moon_phases": {
+      "undefined": "Undefined",
+      "new_moon": "New Moon",
+      "waxing_crescent": "Waxing Crescent",
+      "first_quarter": "First Quarter",
+      "waxing_gibbous": "Waxing Gibbous",
+      "full_moon": "Full Moon",
+      "waning_gibbous": "Waning Gibbous",
+      "last_quarter": "Last Quarter",
+      "waning_crescent": "Waning Crescent",
+      "unknown": "Unknown"
     }
   },
 
   "air_quality": {
-    "title": "Air quality in",
-    "aqi_index": "Air Quality Index is {{aqi}}",
+    "title": "Air quality in {{city}}",
+    "index": "Air Quality Index is {{aqi}}",
     "pollutant": "{{name}}: {{value}} micrograms per cubic meter",
     "levels": {
       "good": {
@@ -100,55 +141,15 @@
     }
   },
 
-  "current_location": "Current Location",
-  "search_city": "Search city...",
-
-  "astronomy_section_title": "Sun and Moon",
-  "sunrise": "Sunrise",
-  "sunset": "Sunset",
-  "moonrise": "Moonrise",
-  "moonset": "Moonset",
-  "moon_phase": "Moon phase",
-  "duration_day": "Day duration",
-
-  "air_quality_section_title": "Air quality in",
-  "good_air_title": "Good air",
-  "satisfactory_air_title": "Satisfactory air",
-  "harmful_air_title": "Harmful to sensitive groups",
-  "unhealthy_air_title": "Unhealthy air",
-  "bad_air_title": "Bad air",
-
-  "good_air_description": "The air is clean and the level of pollution is minimal or does not pose any health risk. It is safe for most people.",
-  "satisfactory_air_description": "Air quality is generally acceptable for most people, but some pollutants may pose a moderate health risk to a very small number of people who are extremely sensitive to air pollution.",
-  "unhealthy_air_description": "Pollution has reached a high level, it is dangerous for people with increased sensitivity. If you experience difficulty breathing or throat irritation, reduce your time outdoors.",
-  "harmful_air_description": "People with increased sensitivity may feel unwell. With prolonged exposure to the outdoors, healthy people may experience difficulty breathing or throat irritation. Limit prolonged outdoor exposure.",
-  "bad_air_description": "Everyone may begin to feel the effects on their health, members of sensitive groups may feel more serious effects. Increased likelihood of heart and lung function deterioration. Limit outdoor exposure.",
-
-  "weekly_forecast_title": "Weekly weather forecast",
-
-  "moon_phase_is_undefined": "Undefined",
-  "new_moon": "New Moon",
-  "waxing_crescent": "Waxing Crescent",
-  "first_quarter": "First Quarter",
-  "waxing_gibbous": "Waxing Gibbous",
-  "full_moon": "Full Moon",
-  "waning_gibbous": "Waning Gibbous",
-  "last_quarter": "Last Quarter",
-  "waning_crescent": "Waning Crescent",
-  "unknown_moon_phase": "Unknown",
-
-  "pressure": "Pressure",
-  "humidity": "Humidity",
-  "wind": "Wind",
-  "uv_index": "UV index",
-  "precipitation": "Precipitation",
-  "feels_like": "Feels like",
-
-  "temperature": "Temperature",
-  "wind_speed": "Wind speed",
-  "language": "Language",
-  "interface_theme": "Interface theme",
-  "time_format": "Time format",
+  "settings": {
+    "title": "Settings",
+    "temperature": "Temperature",
+    "wind_speed": "Wind speed",
+    "pressure": "Pressure",
+    "language": "Language",
+    "interface_theme": "Interface theme",
+    "time_format": "Time format"
+  },
 
   "description_clear_sky": "clear sky",
   "description_few_clouds": "few clouds",
