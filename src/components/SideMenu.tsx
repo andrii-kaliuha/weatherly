@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
-import { Button } from "./ui";
-import Logo from "../assets/logo.svg?react";
+import { Button, SVG } from "./ui";
 import ReactFocusLock from "react-focus-lock";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,7 +41,7 @@ export const SideMenu = observer(({ id, isOpen, onClose }: SideMenuProps) => {
         >
           <div className="relative flex items-center justify-between p-6">
             <div className="flex items-center gap-3" aria-hidden={true}>
-              <Logo />
+              <SVG source="./logo.svg" width={32} height={32} />
               <h1 className="text-xl font-medium leading-none">weatherly</h1>
             </div>
             <Button icon="close" onClick={onClose} style="absolute right-3 hover:bg-surface" aria-label={t("header.close_menu_button")} />

@@ -9,6 +9,7 @@ import { weeklyForecastStore } from "../../store/forecast";
 import settings from "../../store/settings";
 
 import { GpsRefinementToast } from "../Modal";
+import { WeatherPreview } from "../Preview";
 // import DevPanel from "../DevPanel";
 
 export const Main = observer(() => {
@@ -21,14 +22,17 @@ export const Main = observer(() => {
   if (error) return <ErrorScreen />;
 
   return (
-    <main className="mx-3 mb-3">
-      <CurrentWeather />
-      <Astronomy />
-      <AirQuality />
-      <WeeklyForecast theme={settings.settings.theme} weeklyForecastList={weeklyForecast} />
+    <>
+      <main className="mx-3 mb-3">
+        <CurrentWeather />
+        <Astronomy />
+        <AirQuality />
+        <WeeklyForecast theme={settings.settings.theme} weeklyForecastList={weeklyForecast} />
 
-      <GpsRefinementToast />
-      {/* <DevPanel /> */}
-    </main>
+        <GpsRefinementToast />
+        {/* <DevPanel /> */}
+      </main>
+      <WeatherPreview />
+    </>
   );
 });

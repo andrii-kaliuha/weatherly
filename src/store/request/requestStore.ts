@@ -76,42 +76,6 @@ class RequestStore {
     weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings);
   }
 
-  //   async fetchWeatherByCoords(lat: number, lon: number, settings: SettingsProps) {
-  //     const [local_names, forecast, airQuality] = await Promise.all([
-  //       geocodingStore.getCityNameByCoordinates(lat, lon),
-  //       this.getWeatherForecast(lat, lon),
-  //       this.getAirQuality(lat, lon),
-  //     ]);
-
-  //     runInAction(() => {
-  //       this.forecast = forecast;
-  //       this.airQuality = airQuality;
-  //       this.local_names = local_names;
-  //       this.updateForecast(forecast, airQuality, local_names, settings);
-  //       this.clearError();
-  //     });
-
-  //     return local_names;
-  //   }
-
-  //   async fetchForecastByLocation(settings: SettingsProps) {
-  //     this.setLoading(true);
-
-  //     try {
-  //       // 1. Кеш або IP — швидкий старт
-  //       const { latitude, longitude } = await locationStore.getFastLocation();
-  //       const local_names = await this.fetchWeatherByCoords(latitude, longitude, settings);
-  //       const currentCityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
-
-  //       // 2. GPS фоново — уточнення
-  //       locationStore.startGpsRefinement(currentCityName);
-  //     } catch (error: any) {
-  //       runInAction(() => this.addError(error.message || "geolocation_failed"));
-  //     } finally {
-  //       runInAction(() => this.setLoading(false));
-  //     }
-  //   }
-
   async fetchForecastByLocation(settings: SettingsProps) {
     this.setLoading(true);
     const totalStart = performance.now();
@@ -155,14 +119,6 @@ class RequestStore {
     }
   }
 
-  //   async confirmGpsLocation(settings: SettingsProps) {
-  //     if (!locationStore.pendingGpsLocation) return;
-  //     const { lat, lon, cityName } = locationStore.pendingGpsLocation;
-  //     locationStore.dismissGpsLocation();
-  //     saveGeoCache(lat, lon, cityName);
-  //     await this.fetchWeatherByCoords(lat, lon, settings);
-  //   }
-
   // requestStore.ts
   async confirmGpsLocation(settings: SettingsProps) {
     if (!locationStore.pendingGpsLocation) return;
@@ -177,29 +133,6 @@ class RequestStore {
       runInAction(() => this.setLoading(false)); // ← і це
     }
   }
-
-  //   async fetchForecastByCityName(city: string, settings: SettingsProps) {
-  //     if (!this.validateCity(city)) return;
-
-  //     this.setLoading(true);
-  //     try {
-  //       const { latitude, longitude, local_names } = await geocodingStore.getCityCoordinates(city);
-  //       const [forecast, airQuality] = await Promise.all([this.getWeatherForecast(latitude, longitude), this.getAirQuality(latitude, longitude)]);
-
-  //       runInAction(() => {
-  //         this.forecast = forecast;
-  //         this.airQuality = airQuality;
-  //         this.local_names = local_names;
-  //         this.updateForecast(forecast, airQuality, local_names, settings);
-  //         this.clearError();
-  //         saveToSearchHistory(city, latitude, longitude);
-  //       });
-  //     } catch (error: any) {
-  //       runInAction(() => this.addError(error.message || "generic_error"));
-  //     } finally {
-  //       runInAction(() => this.setLoading(false));
-  //     }
-  //   }
 
   async fetchWeatherByCoords(lat: number, lon: number, settings: SettingsProps) {
     // Перевіряємо кеш

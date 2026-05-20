@@ -36,11 +36,7 @@ class LocationStore {
             longitude: pos.coords.longitude,
           }),
         (err) => {
-          const msgs: Record<number, string> = {
-            1: "permission_denied",
-            2: "unavailable",
-            3: "timeout",
-          };
+          const msgs: Record<number, string> = { 1: "permission_denied", 2: "unavailable", 3: "timeout" };
           reject(new Error(msgs[err.code] || "generic_error"));
         },
         { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 },
@@ -50,7 +46,6 @@ class LocationStore {
 
   // IP
   async getLocationByIP(): Promise<{ latitude: number; longitude: number }> {
-    // const res = await fetch("https://ipapi.co/json/");
     const res = await fetch("/api/weather?endpoint=autoip");
     const data = await res.json();
     if (!data.latitude) throw new Error("ip_geolocation_failed");
@@ -79,13 +74,10 @@ class LocationStore {
           this.setPendingGpsLocation({ lat: latitude, lon: longitude, cityName: gpsCityName });
         });
       } else {
-        // Місто збіглося — тихо оновлюємо кеш
         const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
         saveGeoCache(latitude, longitude, cityName);
       }
-    } catch {
-      // GPS не спрацював — мовчимо, IP вже показав результат
-    }
+    } catch {}
   }
 }
 
