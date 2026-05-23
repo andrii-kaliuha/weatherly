@@ -26,10 +26,10 @@ export const WeeklyForecast = observer(({ theme, weeklyForecastList }: WeeklyFor
           });
 
           return (
-            <li key={day.fullDateISO} className="weekly-forecast-item">
+            <li key={day.dateISO} className="weekly-forecast-item">
               <span className="sr-only">{dayDescription}</span>
 
-              <time aria-hidden="true" className="weekly-forecast-date" dateTime={day.fullDateISO}>
+              <time aria-hidden="true" className="weekly-forecast-date" dateTime={day.dateISO}>
                 <p>{day.date}</p>
                 <p>{day.weekday}</p>
               </time>

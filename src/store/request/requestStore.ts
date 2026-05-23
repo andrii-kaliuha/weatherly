@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { airQualityStore, astronomyStore, weeklyForecastStore, currentWeatherStore } from "../forecast";
-import type { SettingsProps } from "../../types";
+import type { SettingsState } from "../../types";
 import { cityValidation } from "../../shared/utils/cityValidation";
 import { saveGeoCache } from "../../shared/utils/storage/locationCache";
 import { saveToSearchHistory } from "../../shared/utils/storage/searchHistory";
@@ -61,22 +61,27 @@ class RequestStore {
 
   private async getWeatherForecast(lat: number, lon: number) {
     const res = await fetch(`/api/weather?endpoint=forecast&lat=${lat}&lon=${lon}`);
-    return res.json();
+    const result = await res.json();
+    console.log("Fetched forecast:", result);
+    return result;
   }
 
   private async getAirQuality(lat: number, lon: number) {
     const res = await fetch(`/api/weather?endpoint=air&lat=${lat}&lon=${lon}`);
-    return res.json();
+    // return res.json();
+    const result = await res.json();
+    console.log("Fetched forecast:", result);
+    return result;
   }
 
-  updateForecast(forecast: any, airQuality: any, local_names: Record<string, string>, settings: SettingsProps) {
+  updateForecast(forecast: any, airQuality: any, local_names: Record<string, string>, settings: SettingsState) {
     currentWeatherStore.updateCurrentWeather(forecast, local_names, settings);
-    astronomyStore.updateAstronomy(forecast, settings);
-    airQualityStore.updateAirQuality(airQuality, local_names, settings);
-    weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings);
+    astronomyStore.updateAstronomy(forecast, settings.format);
+    airQualityStore.updateAirQuality(airQuality, local_names, settings.language);
+    weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings.language, settings.temperatureUnit);
   }
 
-  async fetchForecastByLocation(settings: SettingsProps) {
+  async fetchForecastByLocation(settings: SettingsState) {
     this.setLoading(true);
     const totalStart = performance.now();
 
@@ -120,7 +125,7 @@ class RequestStore {
   }
 
   // requestStore.ts
-  async confirmGpsLocation(settings: SettingsProps) {
+  async confirmGpsLocation(settings: SettingsState) {
     if (!locationStore.pendingGpsLocation) return;
     const { lat, lon, cityName } = locationStore.pendingGpsLocation;
     locationStore.dismissGpsLocation();
@@ -134,7 +139,7 @@ class RequestStore {
     }
   }
 
-  async fetchWeatherByCoords(lat: number, lon: number, settings: SettingsProps) {
+  async fetchWeatherByCoords(lat: number, lon: number, settings: SettingsState) {
     // Перевіряємо кеш
     const cached = getWeatherCacheByCoords(lat, lon);
     if (cached) {
@@ -169,7 +174,7 @@ class RequestStore {
     return local_names;
   }
 
-  async fetchForecastByCityName(city: string, settings: SettingsProps) {
+  async fetchForecastByCityName(city: string, settings: SettingsState) {
     if (!this.validateCity(city)) return;
 
     this.setLoading(true);

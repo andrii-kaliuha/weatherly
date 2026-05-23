@@ -3,6 +3,16 @@ import { astronomyStore } from "../../store/forecast";
 import { useTranslation } from "react-i18next";
 import { AstronomyDataItemProps, AstronomyIconProps } from "../../types";
 import { SVG } from "../ui";
+import { AstronomyState } from "../../shared/types/store";
+
+const astronomyFallback: AstronomyState = {
+  durationDay: "--:--",
+  sunrise: "--:--",
+  sunset: "--:--",
+  moonPhase: "astronomy.moon_phases.undefined",
+  moonrise: "--:--",
+  moonset: "--:--",
+};
 
 export const Astronomy = () => {
   const { t } = useTranslation();
@@ -20,6 +30,7 @@ export const Astronomy = () => {
 
 const Sun = observer(() => {
   const { t } = useTranslation();
+  const { sunrise, sunset, durationDay } = astronomyStore.astronomy || astronomyFallback;
 
   return (
     <div className="relative flex flex-col items-center mt-6">
@@ -27,12 +38,12 @@ const Sun = observer(() => {
       <AstronomyIcon style="text-sun" width={212} height={54} icon="ellipse" />
 
       <div className="flex items-end justify-between w-64 mt-3">
-        <AstronomyDataItem icon="sunrise" label={t("astronomy.sunrise")} value={astronomyStore.sunrise} />
+        <AstronomyDataItem icon="sunrise" label={t("astronomy.sunrise")} value={sunrise} />
         <dl className="text-center max-w-32">
           <dt>{t("astronomy.duration_day")}</dt>
-          <dd className="text-sm text-sun">{astronomyStore.durationDay}</dd>
+          <dd className="text-sm text-sun">{durationDay}</dd>
         </dl>
-        <AstronomyDataItem icon="sunset" label={t("astronomy.sunset")} value={astronomyStore.sunset} />
+        <AstronomyDataItem icon="sunset" label={t("astronomy.sunset")} value={sunset} />
       </div>
     </div>
   );
@@ -40,6 +51,7 @@ const Sun = observer(() => {
 
 const Moon = observer(() => {
   const { t } = useTranslation();
+  const { moonset, moonrise, moonPhase } = astronomyStore.astronomy || astronomyFallback;
 
   return (
     <div className="relative flex flex-col items-center mt-6">
@@ -47,12 +59,12 @@ const Moon = observer(() => {
       <AstronomyIcon style="text-moon" width={212} height={54} icon="ellipse" />
 
       <div className="flex items-end justify-between w-64 mt-3">
-        <AstronomyDataItem icon="moonset" label={t("astronomy.moonset")} value={astronomyStore.moonset} />
+        <AstronomyDataItem icon="moonset" label={t("astronomy.moonset")} value={moonset} />
         <dl className="text-center max-w-32">
           <dt>{t("astronomy.moon_phase")}</dt>
-          <dd className="text-sm text-moon">{t(astronomyStore.moonPhase ?? "astronomy.moon_phases.undefined")}</dd>
+          <dd className="text-sm text-moon">{t(moonPhase)}</dd>
         </dl>
-        <AstronomyDataItem icon="moonrise" label={t("astronomy.moonrise")} value={astronomyStore.moonrise} />
+        <AstronomyDataItem icon="moonrise" label={t("astronomy.moonrise")} value={moonrise} />
       </div>
     </div>
   );

@@ -7,10 +7,14 @@ import settings from "../../store/settings";
 export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
 
+  const { сurrentWeather } = currentWeatherStore;
+
+  if (!сurrentWeather) return null;
+
   const subtitle = t("weather.current.subtitle", {
-    city: currentWeatherStore.cityName,
-    weekday: currentWeatherStore.weekday,
-    date: currentWeatherStore.date,
+    city: сurrentWeather.cityName,
+    weekday: сurrentWeather.weekday,
+    date: сurrentWeather.date,
   });
 
   return (
@@ -20,7 +24,7 @@ export const CurrentWeather = observer(() => {
         <p>{subtitle}</p>
       </div>
       <CurrentTemperature />
-      <p>{currentWeatherStore.summary}</p>
+      <p>{сurrentWeather.summary}</p>
       <HourlyForecast />
       <WeatherConditions />
     </section>
@@ -30,9 +34,13 @@ export const CurrentWeather = observer(() => {
 const CurrentTemperature = observer(() => {
   const { t } = useTranslation();
 
+  const { сurrentWeather } = currentWeatherStore;
+
+  if (!сurrentWeather) return null;
+
   const tempRange = t("weather.current.temp_range", {
-    maxTemp: currentWeatherStore.maxTemp,
-    minTemp: currentWeatherStore.minTemp,
+    maxTemp: сurrentWeather.maxTemp,
+    minTemp: сurrentWeather.minTemp,
     unit: t(`weather.units.${settings.settings.temperatureUnit}.short`),
   });
 
@@ -43,19 +51,19 @@ const CurrentTemperature = observer(() => {
     <div className="flex flex-col gap-3 w-max">
       <div className="flex items-center gap-3">
         <strong className="text-6xl leading-none">
-          {currentWeatherStore.temperature}
+          {сurrentWeather.temperature}
           {unitLong}
         </strong>
-        <SVG source={currentWeatherStore.icon} width={64} height={64} />
+        <SVG source={сurrentWeather.icon} width={64} height={64} />
       </div>
 
       <div className="flex gap-3 justify-between">
         <span aria-hidden="true">
-          {currentWeatherStore.maxTemp}
-          {unitShort} / {currentWeatherStore.minTemp}
+          {сurrentWeather.maxTemp}
+          {unitShort} / {сurrentWeather.minTemp}
           {unitShort}
         </span>
-        <span>{currentWeatherStore.description}</span>
+        <span>{сurrentWeather.description}</span>
         <span className="sr-only">{tempRange}</span>
       </div>
     </div>
@@ -77,7 +85,7 @@ const HourlyForecast = observer(() => {
     >
       {hourlyForecast.map((item, index) => (
         <li key={index} className="flex flex-col items-center justify-between gap-3 min-w-12 flex-shrink-0 relative">
-          <time dateTime={item.fullDateISO} aria-hidden="true" className="text-sm font-medium">
+          <time dateTime={item.dateISO} aria-hidden="true" className="text-sm font-medium">
             {item.time}
           </time>
           <SVG source={item.icon} width={32} height={32} aria-hidden="true" />

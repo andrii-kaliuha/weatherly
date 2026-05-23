@@ -1,8 +1,17 @@
 import { makeAutoObservable } from "mobx";
 import { t } from "i18next";
-import type { SettingsProps } from "../types";
+import type { TemperatureUnit, PressureUnit, WindSpeedUnit, Language, TimeFormat, SettingsState } from "../types";
+import type { AirPollutionResponse, Daily, WeatherResponse } from "../shared/types/api";
+import type {
+  AirQualityState,
+  AstronomyState,
+  СurrentWeatherState,
+  HourlyForecastState,
+  WeatherConditionsState,
+  WeeklyForecastState,
+} from "../shared/types/store";
 
-const convertTemperature = (value: number, temperatureUnit: string): number => {
+const convertTemperature = (value: number, temperatureUnit: TemperatureUnit): number => {
   switch (temperatureUnit) {
     case "celsius":
       return Math.round(value - 273.15);
@@ -13,22 +22,22 @@ const convertTemperature = (value: number, temperatureUnit: string): number => {
   }
 };
 
-const convertWindSpeed = (value: number, windSpeedUnit: string): number => {
+const convertWindSpeed = (value: number, windSpeedUnit: WindSpeedUnit): number => {
   switch (windSpeedUnit) {
     case "mph":
       return Math.round(value * 2.236936);
-    case "km/h":
+    case "km_h":
       return Math.round(value * 3.6);
     default:
       return Math.round(value);
   }
 };
 
-const convertPressure = (value: number, pressureUnit: string): number => {
+const convertPressure = (value: number, pressureUnit: PressureUnit): number => {
   return pressureUnit === "mmHg" ? Math.round(value * 0.750061683) : Math.round(value);
 };
 
-const formatTime = (timestamp: number, format: string) => {
+const formatTime = (timestamp: number, format: TimeFormat) => {
   return new Date(timestamp * 1000).toLocaleTimeString(format === "24_hour" ? "uk-UA" : "en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -117,205 +126,178 @@ const airQualityLevels = [
   },
 ];
 
+const getMoonPhase = (moonPhase: number | null): string => {
+  if (moonPhase === null) return "astronomy.moon_phases.undefined";
+
+  switch (true) {
+    case moonPhase <= 0.03:
+      return "astronomy.moon_phases.new_moon";
+    case moonPhase <= 0.24:
+      return "astronomy.moon_phases.waxing_crescent";
+    case moonPhase === 0.25:
+      return "astronomy.moon_phases.first_quarter";
+    case moonPhase <= 0.49:
+      return "astronomy.moon_phases.waxing_gibbous";
+    case moonPhase === 0.5:
+      return "astronomy.moon_phases.full_moon";
+    case moonPhase <= 0.74:
+      return "astronomy.moon_phases.waning_gibbous";
+    case moonPhase === 0.75:
+      return "astronomy.moon_phases.last_quarter";
+    case moonPhase <= 0.99:
+      return "astronomy.moon_phases.waning_crescent";
+    default:
+      return "astronomy.moon_phases.unknown";
+  }
+};
+
 class CurrentWeatherStore {
-  cityName: string | null = null;
-  date: string | null = null;
-  weekday: string | null = null;
-  temperature: number | null = null;
-  icon: string = "";
-  description: string | null = null;
-  maxTemp: number | null = null;
-  minTemp: number | null = null;
-  summary: string | null = null;
-  hourlyForecast: { temperature: number; icon: string; time: string; fullDateISO: string; description: string }[] = [];
-  weatherConditions: { icon: string; value: number; unit: string; name: string }[] = [];
+  сurrentWeather: СurrentWeatherState | null = null;
+  hourlyForecast: HourlyForecastState[] = [];
+  weatherConditions: WeatherConditionsState[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateCurrentWeather(data: any, local_names: Record<string, string>, settings: SettingsProps) {
-    const locale = settings.language === "ukrainian" ? "uk-UA" : "en-US";
-    this.cityName = local_names[settings.language.slice(0, 2).toLowerCase()] || local_names.en;
-    this.date = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
-      day: "numeric",
-      month: "long",
-    });
-    this.weekday = new Date(data.current.dt * 1000).toLocaleDateString(locale, {
-      weekday: "long",
-    });
-    this.temperature = convertTemperature(data.current.temp, settings.temperatureUnit);
-    this.icon = `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${data.current.weather[0].icon}.svg`;
-    this.maxTemp = convertTemperature(data.daily[0].temp.max, settings.temperatureUnit);
-    this.minTemp = convertTemperature(data.daily[0].temp.min, settings.temperatureUnit);
+  updateCurrentWeather(data: WeatherResponse, local_names: Record<string, string>, settings: SettingsState) {
+    const current = data?.current;
+    const firstDaily = data?.daily?.[0];
+    const currentWeatherInfo = current?.weather?.[0];
 
-    const descData = findDescriptionById(data.current.weather[0].description);
-    this.summary = t(`${descData?.summary}`);
-    this.description = t(`${descData?.description}`);
+    if (!current || !firstDaily || !currentWeatherInfo) {
+      this.сurrentWeather = null;
+      this.hourlyForecast = [];
+      this.weatherConditions = [];
+      return;
+    }
+
+    const { pressureUnit, temperatureUnit, windSpeedUnit } = settings;
+
+    const descData = findDescriptionById(currentWeatherInfo.description);
+
+    this.сurrentWeather = {
+      cityName: local_names[settings.language] || local_names.en || "",
+      date: new Date(current.dt * 1000).toLocaleDateString(settings.language, { day: "numeric", month: "long" }),
+      weekday: new Date(current.dt * 1000).toLocaleDateString(settings.language, { weekday: "long" }),
+      temperature: convertTemperature(current.temp, settings.temperatureUnit),
+      icon: `/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${currentWeatherInfo.icon}.svg`,
+      maxTemp: convertTemperature(firstDaily.temp.max, settings.temperatureUnit),
+      minTemp: convertTemperature(firstDaily.temp.min, settings.temperatureUnit),
+      summary: descData ? t(descData.summary) : currentWeatherInfo.description,
+      description: descData ? t(descData.description) : currentWeatherInfo.description,
+    };
 
     this.weatherConditions = [
-      {
-        icon: "speed",
-        value: Math.round(convertPressure(data.current.pressure, settings.pressureUnit)),
-        unit: settings.pressureUnit,
-        name: "pressure",
-      },
-      {
-        icon: "humidity",
-        value: Math.round(data.current.humidity),
-        unit: "percent",
-        name: "humidity",
-      },
-      {
-        icon: "air",
-        value: convertWindSpeed(data.current.wind_speed, settings.windSpeedUnit),
-        unit: settings.windSpeedUnit,
-        name: "wind",
-      },
-      {
-        icon: "uv",
-        value: Math.round(data.current.uvi),
-        unit: "uv",
-        name: "uv_index",
-      },
-      {
-        icon: "rainy",
-        value: Math.round(data.daily[0]?.rain || 0),
-        unit: "mm",
-        name: "precipitation",
-      },
-      {
-        icon: "thermostat",
-        value: convertTemperature(data.current.feels_like, settings.temperatureUnit),
-        unit: settings.temperatureUnit,
-        name: "feels_like",
-      },
+      { icon: "speed", value: Math.round(convertPressure(current.pressure, pressureUnit)), unit: pressureUnit, name: "pressure" },
+      { icon: "humidity", value: Math.round(current.humidity), unit: "percent", name: "humidity" },
+      { icon: "air", value: convertWindSpeed(current.wind_speed, windSpeedUnit), unit: windSpeedUnit, name: "wind" },
+      { icon: "uv", value: Math.round(current.uvi), unit: "uv", name: "uv_index" },
+      { icon: "rainy", value: Math.round(firstDaily.rain || 0), unit: "mm", name: "precipitation" },
+      { icon: "thermostat", value: convertTemperature(current.feels_like, temperatureUnit), unit: temperatureUnit, name: "feels_like" },
     ];
-    this.hourlyForecast = data.hourly.slice(0, 24).map((hour: any) => {
-      const descData = findDescriptionById(hour.weather[0].description);
+
+    this.hourlyForecast = (data.hourly || []).slice(0, 24).map((hour) => {
+      const hourWeatherInfo = hour.weather?.[0];
+      const hourDescData = findDescriptionById(hourWeatherInfo?.description || "");
 
       return {
         time: formatTime(hour.dt, settings.format),
-        fullDateISO: new Date(hour.dt * 1000).toISOString(),
-        icon: `./weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hour.weather[0].icon}.svg`,
+        dateISO: new Date(hour.dt * 1000).toISOString(),
+        icon: `/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hourWeatherInfo?.icon || "01d"}.svg`,
         temperature: convertTemperature(hour.temp, settings.temperatureUnit),
-        description: descData ? t(descData.description) : hour.weather[0].description,
+        description: hourDescData ? t(hourDescData.description) : hourWeatherInfo?.description || "",
       };
     });
   }
 }
 
 class AstronomyStore {
-  durationDay: string | null = null;
-  sunrise: string | null = null;
-  sunset: string | null = null;
-  moonPhase: string | null = null;
-  moonrise: string | null = null;
-  moonset: string | null = null;
+  astronomy: AstronomyState | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateAstronomy(data: any, { format }: SettingsProps) {
-    const getMoonPhase = (moonPhase: number | null): string => {
-      if (moonPhase === null) return "astronomy.moon_phases.undefined";
+  updateAstronomy(data: WeatherResponse, format: TimeFormat) {
+    const daily = data?.daily?.[0];
 
-      switch (true) {
-        case moonPhase <= 0.03:
-          return "astronomy.moon_phases.new_moon";
-        case moonPhase <= 0.24:
-          return "astronomy.moon_phases.waxing_crescent";
-        case moonPhase === 0.25:
-          return "astronomy.moon_phases.first_quarter";
-        case moonPhase <= 0.49:
-          return "astronomy.moon_phases.waxing_gibbous";
-        case moonPhase === 0.5:
-          return "astronomy.moon_phases.full_moon";
-        case moonPhase <= 0.74:
-          return "astronomy.moon_phases.waning_gibbous";
-        case moonPhase === 0.75:
-          return "astronomy.moon_phases.last_quarter";
-        case moonPhase <= 0.99:
-          return "astronomy.moon_phases.waning_crescent";
-        default:
-          return "astronomy.moon_phases.unknown";
-      }
+    if (!daily) {
+      this.astronomy = null;
+      return;
+    }
+
+    this.astronomy = {
+      sunrise: formatTime(daily.sunrise, format),
+      sunset: formatTime(daily.sunset, format),
+      moonrise: formatTime(daily.moonrise, format),
+      moonset: formatTime(daily.moonset, format),
+      moonPhase: getMoonPhase(daily.moon_phase),
+      durationDay: new Date((daily.sunset - daily.sunrise) * 1000).toISOString().slice(11, 19),
     };
-
-    const daily = data.daily[0];
-    this.sunrise = formatTime(daily.sunrise, format);
-    this.sunset = formatTime(daily.sunset, format);
-    this.moonrise = formatTime(daily.moonrise, format);
-    this.moonset = formatTime(daily.moonset, format);
-    this.moonPhase = getMoonPhase(daily.moon_phase);
-    this.durationDay = new Date((daily.sunset - daily.sunrise) * 1000).toISOString().slice(11, 19);
   }
 }
 
 class AirQualityStore {
-  cityName: string | null = null;
-  aqi: number | null = null;
-  color: string | "inherit" = "inherit";
-  title: string | null = null;
-  description: string | null = null;
-  airPollutants: { name: string; value: number; icon: string }[] = [];
+  airQuality: AirQualityState | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateAirQuality(data: any, local_names: Record<string, string>, { language }: SettingsProps) {
-    this.cityName = local_names[language.slice(0, 2).toLowerCase()];
-    this.aqi = data.list[0].main.aqi;
+  updateAirQuality(data: AirPollutionResponse, local_names: Record<string, string>, language: Language) {
+    const airQualityData = data?.list?.[0];
 
-    const currentAirQuality = airQualityLevels.find((item) => item.aqi === this.aqi) || airQualityLevels[4];
+    if (!airQualityData) {
+      this.airQuality = null;
+      return;
+    }
 
-    this.color = currentAirQuality.color;
-    this.title = currentAirQuality.title;
-    this.description = currentAirQuality.description;
-    this.airPollutants = [
-      { name: "PM 2.5", value: Math.round(data.list[0].components.pm2_5), icon: "pm2_5" },
-      { name: "PM 10", value: Math.round(data.list[0].components.pm10), icon: "pm10" },
-      { name: "SO2", value: Math.round(data.list[0].components.so2), icon: "so2" },
-      { name: "NO2", value: Math.round(data.list[0].components.no2), icon: "no2" },
-    ];
+    const currentLevel = airQualityLevels.find((item) => item.aqi === airQualityData.main.aqi) ?? airQualityLevels[-1];
+
+    this.airQuality = {
+      cityName: local_names[language] ?? null,
+      aqi: airQualityData.main.aqi,
+      color: currentLevel.color,
+      title: currentLevel.title,
+      description: currentLevel.description,
+      airPollutants: [
+        { name: "PM 2.5", value: Math.round(airQualityData.components.pm2_5), icon: "pm2_5" },
+        { name: "PM 10", value: Math.round(airQualityData.components.pm10), icon: "pm10" },
+        { name: "SO2", value: Math.round(airQualityData.components.so2), icon: "so2" },
+        { name: "NO2", value: Math.round(airQualityData.components.no2), icon: "no2" },
+      ],
+    };
   }
 }
 
 class WeeklyForecastStore {
-  weeklyForecast: {
-    date: string;
-    weekday: string;
-    fullDateISO: string;
-    minTemp: number;
-    maxTemp: number;
-    icon: string;
-    description: string;
-  }[] = [];
+  weeklyForecast: WeeklyForecastState[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: any, { language, temperatureUnit }: SettingsProps) {
-    const locale = language === "ukrainian" ? "uk-UA" : "en-US";
+  updateWeeklyForecast(data: Daily[], language: Language, temperatureUnit: TemperatureUnit) {
+    if (data.length === 0) {
+      this.weeklyForecast = [];
+      return;
+    }
 
-    this.weeklyForecast = data.slice(0, 7).map((day: any) => {
+    this.weeklyForecast = data.slice(0, 7).map((day: Daily) => {
       const descriptionData = findDescriptionById(day.weather[0].description);
-      const description = descriptionData ? t(descriptionData.description) : day.weather[0].description;
 
       return {
-        date: new Date(day.dt * 1000).toLocaleString(locale, {
+        dateISO: new Date(day.dt * 1000).toISOString(),
+        date: new Date(day.dt * 1000).toLocaleString(language, {
           day: "numeric",
           month: "long",
         }),
-        weekday: new Date(day.dt * 1000).toLocaleString(locale, {
+        weekday: new Date(day.dt * 1000).toLocaleString(language, {
           weekday: "long",
         }),
-        fullDateISO: new Date(day.dt * 1000).toISOString(),
         icon: day.weather[0].icon,
-        description: description,
+        description: descriptionData ? descriptionData.description : day.weather[0].description,
         maxTemp: convertTemperature(day.temp.max, temperatureUnit),
         minTemp: convertTemperature(day.temp.min, temperatureUnit),
       };

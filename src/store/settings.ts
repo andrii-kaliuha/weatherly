@@ -1,98 +1,21 @@
-import { makeAutoObservable, reaction } from "mobx";
-import requestStore from "./request/requestStore";
+import { makeAutoObservable } from "mobx";
 import i18n from "../shared/localization/i18n";
-import { t } from "i18next";
-import type { SettingsProps, Setting } from "../types";
+import requestStore from "./request/requestStore";
+import type { SettingsState, TemperatureUnit, WindSpeedUnit, PressureUnit, Language, Theme, TimeFormat } from "../types";
 
-class settingStore {
+class SettingsStore {
   sideMenuOpen: boolean = false;
-  settings: SettingsProps = {
+  settings: SettingsState = {
     temperatureUnit: "celsius",
     windSpeedUnit: "m_s",
     pressureUnit: "mmHg",
-    language: "english",
+    language: "en",
     theme: "light",
     format: "24_hour",
   };
 
   constructor() {
     makeAutoObservable(this);
-
-    reaction(
-      () => this.settings.language,
-      (language) => {
-        const langCode = language === "ukrainian" ? "uk" : "en";
-        document.documentElement.lang = langCode;
-      },
-      { fireImmediately: true },
-    );
-  }
-
-  get settingsList(): Setting[] {
-    return [
-      {
-        id: "temperatureUnit",
-        icon: "thermostat",
-        title: t("temperature"),
-        value: t(this.settings.temperatureUnit),
-        options: [
-          { value: "celsius", title: t("celsius") },
-          { value: "fahrenheit", title: t("fahrenheit") },
-          { value: "kelvin", title: t("kelvin") },
-        ],
-      },
-      {
-        id: "windSpeedUnit",
-        icon: "air",
-        title: t("wind_speed"),
-        value: t(this.settings.windSpeedUnit),
-        options: [
-          { value: "m_s", title: t("m_s") },
-          { value: "km_h", title: t("km_h") },
-          { value: "mph", title: t("mph") },
-        ],
-      },
-      {
-        id: "pressureUnit",
-        icon: "speed",
-        title: t("pressure"),
-        value: t(this.settings.pressureUnit),
-        options: [
-          { value: "hPa", title: t("hPa") },
-          { value: "mmHg", title: t("mmHg") },
-        ],
-      },
-      {
-        id: "language",
-        icon: "translate",
-        title: t("language"),
-        value: t(this.settings.language),
-        options: [
-          { value: "english", title: t("english") },
-          { value: "ukrainian", title: t("ukrainian") },
-        ],
-      },
-      {
-        id: "theme",
-        icon: "dark-mode",
-        title: t("interface_theme"),
-        value: t(this.settings.theme),
-        options: [
-          { value: "light", title: t("light") },
-          { value: "dark", title: t("dark") },
-        ],
-      },
-      {
-        id: "format",
-        icon: "schedule",
-        title: t("time_format"),
-        value: t(this.settings.format),
-        options: [
-          { value: "12_hour", title: t("12_hour") },
-          { value: "24_hour", title: t("24_hour") },
-        ],
-      },
-    ];
   }
 
   toggleSideMenu() {
@@ -106,7 +29,7 @@ class settingStore {
 
     document.documentElement.className = this.settings.theme;
 
-    const langCode = this.settings.language === "ukrainian" ? "uk" : "en";
+    const langCode = this.settings.language;
     i18n.changeLanguage(langCode);
   }
 
@@ -114,16 +37,47 @@ class settingStore {
     localStorage.setItem("settings", JSON.stringify(this.settings));
   }
 
-  updateSetting(id: keyof SettingsProps, value: string) {
-    this.settings[id] = value;
-    this.saveSettings();
-
-    if (id === "theme") document.documentElement.className = value;
-
-    if (id === "language") i18n.changeLanguage(value === "ukrainian" ? "uk" : "en");
-    if (requestStore.local_names !== null)
+  private refreshForecast() {
+    if (requestStore.local_names !== null) {
       requestStore.updateForecast(requestStore.forecast, requestStore.airQuality, requestStore.local_names, this.settings);
+    }
+  }
+
+  setTemperatureUnit(value: TemperatureUnit) {
+    this.settings.temperatureUnit = value;
+    this.saveSettings();
+    this.refreshForecast();
+  }
+
+  setWindSpeedUnit(value: WindSpeedUnit) {
+    this.settings.windSpeedUnit = value;
+    this.saveSettings();
+    this.refreshForecast();
+  }
+
+  setPressureUnit(value: PressureUnit) {
+    this.settings.pressureUnit = value;
+    this.saveSettings();
+    this.refreshForecast();
+  }
+
+  setLanguage(value: Language) {
+    this.settings.language = value;
+    i18n.changeLanguage(value);
+    this.saveSettings();
+    this.refreshForecast();
+  }
+
+  setTheme(value: Theme) {
+    this.settings.theme = value;
+    document.documentElement.className = value;
+    this.saveSettings();
+  }
+
+  setTimeFormat(value: TimeFormat) {
+    this.settings.format = value;
+    this.saveSettings();
   }
 }
 
-export default new settingStore();
+export default new SettingsStore();

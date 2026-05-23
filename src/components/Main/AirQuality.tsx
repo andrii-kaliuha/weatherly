@@ -5,8 +5,18 @@ import { Icon } from "../ui.tsx";
 import { AirPollutantsListProps, CircleProps } from "../../types.ts";
 
 export const AirQuality = observer(() => {
-  const { cityName, color, aqi, airPollutants, title, description } = airQualityStore;
+  const airQuality = airQualityStore.airQuality;
   const { t } = useTranslation();
+
+  if (!airQuality) {
+    return (
+      <section className="relative bg-surface text-primary rounded-3xl p-6 air-quality-section">
+        <p className="text-sm">{t("air_quality.loading")}</p>
+      </section>
+    );
+  }
+
+  const { cityName, color, aqi, airPollutants, title, description } = airQuality;
 
   return (
     <section className="relative bg-surface text-primary rounded-3xl p-6 air-quality-section">
