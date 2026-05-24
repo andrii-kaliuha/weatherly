@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import i18n from "../shared/localization/i18n";
 import requestStore from "./request/requestStore";
-import type { SettingsState, TemperatureUnit, WindSpeedUnit, PressureUnit, Language, Theme, TimeFormat } from "../types";
+import type { SettingsState, TemperatureUnit, WindSpeedUnit, PressureUnit, Language, Theme, TimeFormat } from "../shared/types/settings";
 
 class SettingsStore {
   sideMenuOpen: boolean = false;
@@ -23,22 +23,28 @@ class SettingsStore {
   }
 
   loadSettings() {
-    const savedSettings = localStorage.getItem("settings");
-    if (savedSettings) this.settings = JSON.parse(savedSettings);
-    else this.saveSettings();
-
-    document.documentElement.className = this.settings.theme;
-
-    const langCode = this.settings.language;
-    i18n.changeLanguage(langCode);
+    const saved = localStorage.getItem("settings");
+    if (saved) {
+      this.settings = JSON.parse(saved);
+      this.applyTheme(this.settings.theme);
+      this.applyLanguage(this.settings.language);
+    } else this.saveSettings();
   }
 
   saveSettings() {
     localStorage.setItem("settings", JSON.stringify(this.settings));
   }
 
+  private applyTheme(theme: string) {
+    document.documentElement.className = theme;
+  }
+
+  private applyLanguage(lang: string) {
+    i18n.changeLanguage(lang);
+  }
+
   private refreshForecast() {
-    if (requestStore.local_names !== null) {
+    if (requestStore.local_names !== null && requestStore.forecast !== null && requestStore.airQuality !== null) {
       requestStore.updateForecast(requestStore.forecast, requestStore.airQuality, requestStore.local_names, this.settings);
     }
   }
@@ -63,14 +69,14 @@ class SettingsStore {
 
   setLanguage(value: Language) {
     this.settings.language = value;
-    i18n.changeLanguage(value);
+    this.applyLanguage(value);
     this.saveSettings();
     this.refreshForecast();
   }
 
   setTheme(value: Theme) {
     this.settings.theme = value;
-    document.documentElement.className = value;
+    this.applyTheme(value);
     this.saveSettings();
   }
 

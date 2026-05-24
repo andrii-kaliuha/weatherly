@@ -1,7 +1,9 @@
 import { observer } from "mobx-react-lite";
 import SettingsStore from "../store/settings";
 import { useState } from "react";
-import { RadioButton, Icon } from "./ui";
+import { Icon } from "../shared/ui/Icons";
+import { RadioButton } from "../shared/ui/Buttons";
+import { useTranslation } from "react-i18next";
 import type {
   Language,
   PressureUnit,
@@ -12,8 +14,7 @@ import type {
   Theme,
   TimeFormat,
   WindSpeedUnit,
-} from "../types";
-import { useTranslation } from "react-i18next";
+} from "../shared/types/settings";
 
 export const Settings = observer(() => {
   const { settings } = SettingsStore;
@@ -125,7 +126,7 @@ const SettingSelect = observer(({ title, value, options, onClose, onChange }: Se
           console.log("id:", value, "option.value:", option.value, "checked:", value === option.value);
           return (
             <label key={option.value} className="group flex items-center gap-3 cursor-pointer">
-              <RadioButton checked={value === option.value} onChange={() => onChange(t(option.value))} />
+              <RadioButton checked={value === option.value} onChange={() => onChange(option.value)} />
               <span>{t(option.title)}</span>
             </label>
           );

@@ -13,16 +13,6 @@ export type СurrentWeatherState = {
 export type HourlyForecastState = { temperature: number; icon: string; time: string; dateISO: string; description: string };
 export type WeatherConditionsState = { icon: string; value: number; unit: string; name: string };
 
-export type WeeklyForecastState = {
-  dateISO: string;
-  date: string;
-  weekday: string;
-  icon: string;
-  description: string;
-  maxTemp: number;
-  minTemp: number;
-};
-
 export type AstronomyState = {
   durationDay: string;
   sunrise: string;
@@ -39,4 +29,14 @@ export type AirQualityState = {
   title: string;
   description: string;
   airPollutants: { name: string; value: number; icon: string }[];
+};
+
+export type WeeklyForecastState = {
+  dateISO: string;
+  date: string;
+  weekday: string;
+  icon: string;
+  description: string;
+  maxTemp: number;
+  minTemp: number;
 };

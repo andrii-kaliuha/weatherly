@@ -5,11 +5,7 @@ class GeocodingStore {
     makeAutoObservable(this);
   }
 
-  async getCityCoordinates(city: string): Promise<{
-    latitude: number;
-    longitude: number;
-    local_names: Record<string, string>;
-  }> {
+  async getCityCoordinates(city: string): Promise<{ latitude: number; longitude: number; local_names: Record<string, string> }> {
     const response = await fetch(`/api/weather?endpoint=geocoding&q=${encodeURIComponent(city)}&limit=1`);
     const coordinates = await response.json();
     if (!coordinates.length) throw new Error("city_not_found");

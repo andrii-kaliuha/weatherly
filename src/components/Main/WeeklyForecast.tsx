@@ -1,21 +1,26 @@
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-import { WeeklyForecastListProps, WeeklyForecastItemProps } from "../../types";
 import "./WeeklyForecast.css";
-import { SVG } from "../ui";
+import { SVG } from "../../shared/ui/Icons";
 import settings from "../../store/settings";
+import type { WeeklyForecastState } from "../../shared/types/store";
 
-export const WeeklyForecast = observer(({ theme, weeklyForecastList }: WeeklyForecastListProps) => {
+type WeeklyForecastList = {
+  weeklyForecastList: WeeklyForecastState[];
+};
+
+export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastList) => {
   const { t } = useTranslation();
   const unitAria = `weather.units.${settings.settings.temperatureUnit}.aria`;
   const unitShort = `weather.units.${settings.settings.temperatureUnit}.short`;
+  const theme = settings.settings.theme;
 
   return (
     <section className="bg-surface text-primary rounded-3xl weekly-forecast-section">
       <h2 className="px-6 pt-6 pb-3 leading-none">{t("weather.weekly.title")}</h2>
 
       <ul className="weekly-forecast-list">
-        {weeklyForecastList.map((day: WeeklyForecastItemProps) => {
+        {weeklyForecastList.map((day: WeeklyForecastState) => {
           const dayDescription = t("weather.weekly.day_description", {
             date: day.date,
             weekday: day.weekday,

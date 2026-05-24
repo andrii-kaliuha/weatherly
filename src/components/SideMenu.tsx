@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
-import { Button, SVG } from "./ui";
+import { SVG } from "../shared/ui/Icons";
+import { Button } from "../shared/ui/Buttons";
 import ReactFocusLock from "react-focus-lock";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";

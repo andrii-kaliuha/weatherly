@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
-import { astronomyStore } from "../../store/forecast";
+import { astronomyStore } from "../../store/forecast/astronomyStore";
 import { useTranslation } from "react-i18next";
-import { AstronomyDataItemProps, AstronomyIconProps } from "../../types";
-import { SVG } from "../ui";
+import type { AstronomyDataItemProps, AstronomyIconProps } from "../../shared/types/common";
+import { SVG } from "../../shared/ui/Icons";
 import { AstronomyState } from "../../shared/types/store";
 
 const astronomyFallback: AstronomyState = {

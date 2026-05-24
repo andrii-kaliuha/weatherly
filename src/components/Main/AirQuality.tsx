@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
-import { airQualityStore } from "../../store/forecast.ts";
+import { airQualityStore } from "../../store/forecast/airQualityStore.ts";
 import { useTranslation } from "react-i18next";
-import { Icon } from "../ui.tsx";
-import { AirPollutantsListProps, CircleProps } from "../../types.ts";
+import { Icon } from "../../shared/ui/Icons.tsx";
+import type { AirPollutantsListProps, CircleProps } from "../../shared/types/common.ts";
 
 export const AirQuality = observer(() => {
   const airQuality = airQualityStore.airQuality;

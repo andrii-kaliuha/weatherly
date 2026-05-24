@@ -1,18 +1,20 @@
-const WEATHER_CACHE_KEY = "weatherly_weather_cache";
+import { AirPollutionResponse, WeatherResponse } from "../../types/api";
+
+const WEATHER_CACHE_KEY = "weather_cache";
 const WEATHER_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 const MAX_CACHED_CITIES = 5;
 
-interface WeatherCacheItem {
-  town: {
+type WeatherCacheItem = {
+  city: {
     name: string;
     lat: number;
     lon: number;
   };
-  forecast: any;
-  airQuality: any;
+  forecast: WeatherResponse;
+  airQuality: AirPollutionResponse;
   local_names: Record<string, string>;
   timestamp: number;
-}
+};
 
 function loadCache(): WeatherCacheItem[] {
   try {
@@ -39,38 +41,34 @@ function roundCoord(n: number): number {
 
 export function getWeatherCacheByCity(cityName: string): WeatherCacheItem | null {
   const cache = loadCache();
-  const item = cache.find((c) => c.town.name.toLowerCase() === cityName.toLowerCase());
+  const item = cache.find((c) => c.city.name.toLowerCase() === cityName.toLowerCase());
   if (!item || isExpired(item)) return null;
   return item;
 }
 
 export function getWeatherCacheByCoords(lat: number, lon: number): WeatherCacheItem | null {
   const cache = loadCache();
-  const item = cache.find((c) => roundCoord(c.town.lat) === roundCoord(lat) && roundCoord(c.town.lon) === roundCoord(lon));
+  const item = cache.find((c) => roundCoord(c.city.lat) === roundCoord(lat) && roundCoord(c.city.lon) === roundCoord(lon));
   if (!item || isExpired(item)) return null;
   return item;
 }
 
 export function saveWeatherCache(
-  town: { name: string; lat: number; lon: number },
-  forecast: any,
-  airQuality: any,
+  city: { name: string; lat: number; lon: number },
+  forecast: WeatherResponse,
+  airQuality: AirPollutionResponse,
   local_names: Record<string, string>,
 ): void {
   const cache = loadCache();
 
   // Видаляємо старий запис якщо є (по координатах)
-  const filtered = cache.filter((c) => roundCoord(c.town.lat) !== roundCoord(town.lat) || roundCoord(c.town.lon) !== roundCoord(town.lon));
+  const filtered = cache.filter((c) => roundCoord(c.city.lat) !== roundCoord(city.lat) || roundCoord(c.city.lon) !== roundCoord(city.lon));
 
   // Додаємо свіжий на початок, обрізаємо до MAX
-  const updated: WeatherCacheItem[] = [{ town, forecast, airQuality, local_names, timestamp: Date.now() }, ...filtered].slice(
+  const updated: WeatherCacheItem[] = [{ city, forecast, airQuality, local_names, timestamp: Date.now() }, ...filtered].slice(
     0,
     MAX_CACHED_CITIES,
   );
 
   saveCache(updated);
-}
-
-export function clearWeatherCache(): void {
-  localStorage.removeItem(WEATHER_CACHE_KEY);
 }

@@ -2,11 +2,11 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { saveGeoCache, loadGeoCache } from "../../shared/utils/storage/locationCache";
 import geocodingStore from "./geocodingStore";
 
-interface PendingGpsLocation {
+type PendingGpsLocation = {
   lat: number;
   lon: number;
   cityName: string;
-}
+};
 
 class LocationStore {
   pendingGpsLocation: PendingGpsLocation | null = null;

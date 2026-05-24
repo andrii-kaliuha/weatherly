@@ -2,15 +2,14 @@ import { CurrentWeather } from "./CurrentWeather";
 import { AirQuality } from "./AirQuality";
 import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
-import { StartScreen, LoadingScreen, ErrorScreen } from "../ui";
+import { StartScreen, LoadingScreen, ErrorScreen } from "../../shared/ui/Srcreens";
 import { observer } from "mobx-react-lite";
 import requestStore from "../../store/request/requestStore";
-import { weeklyForecastStore } from "../../store/forecast";
-import settings from "../../store/settings";
+import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
 import { GpsRefinementToast } from "../Modal";
 // import { WeatherPreview } from "../Preview";
-// import DevPanel from "../DevPanel";
+import DevPanel from "../DevPanel";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
@@ -27,10 +26,10 @@ export const Main = observer(() => {
         <CurrentWeather />
         <Astronomy />
         <AirQuality />
-        <WeeklyForecast theme={settings.settings.theme} weeklyForecastList={weeklyForecast} />
+        <WeeklyForecast weeklyForecastList={weeklyForecast} />
 
         <GpsRefinementToast />
-        {/* <DevPanel /> */}
+        <DevPanel />
       </main>
       {/* <WeatherPreview /> */}
     </>

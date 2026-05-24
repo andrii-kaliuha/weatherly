@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
-import { currentWeatherStore } from "../../store/forecast";
-import { Icon, SVG, useHorizontalScroll } from "../ui";
+import { currentWeatherStore } from "../../store/forecast/currentWeatherStore";
+import { Icon, SVG } from "../../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
 import settings from "../../store/settings";
+import { useHorizontalScroll } from "../../shared/hooks/useHorizontalScroll";
 
 export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
-
   const { сurrentWeather } = currentWeatherStore;
-
   if (!сurrentWeather) return null;
 
   const subtitle = t("weather.current.subtitle", {
@@ -33,9 +32,7 @@ export const CurrentWeather = observer(() => {
 
 const CurrentTemperature = observer(() => {
   const { t } = useTranslation();
-
   const { сurrentWeather } = currentWeatherStore;
-
   if (!сurrentWeather) return null;
 
   const tempRange = t("weather.current.temp_range", {
