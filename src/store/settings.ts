@@ -78,11 +78,13 @@ class SettingsStore {
     this.settings.theme = value;
     this.applyTheme(value);
     this.saveSettings();
+    this.refreshForecast();
   }
 
   setTimeFormat(value: TimeFormat) {
     this.settings.format = value;
     this.saveSettings();
+    this.refreshForecast();
   }
 }
 

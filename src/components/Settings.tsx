@@ -123,7 +123,6 @@ const SettingSelect = observer(({ title, value, options, onClose, onChange }: Se
 
       <div className="flex flex-col gap-3 px-6">
         {options.map((option: SettingOption) => {
-          console.log("id:", value, "option.value:", option.value, "checked:", value === option.value);
           return (
             <label key={option.value} className="group flex items-center gap-3 cursor-pointer">
               <RadioButton checked={value === option.value} onChange={() => onChange(option.value)} />

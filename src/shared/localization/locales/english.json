@@ -6,6 +6,15 @@
   "current_location": "Current Location",
   "search_city": "Search city...",
 
+  "gpsRefinement": {
+    "description": "GPS detected a more precise location. Update the forecast?",
+    "actions": {
+      "update": "Update",
+      "notNow": "Not now",
+      "neverAsk": "Never ask again"
+    }
+  },
+
   "weather": {
     "current": {
       "title": "Forecast for the current hour",

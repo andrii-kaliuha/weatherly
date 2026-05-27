@@ -11,6 +11,15 @@
     "logo": "Weatherly — логотип"
   },
 
+  "gpsRefinement": {
+    "description": "GPS визначив точнішу локацію. Оновити прогноз?",
+    "actions": {
+      "update": "Оновити",
+      "notNow": "Не зараз",
+      "neverAsk": "Більше не питати"
+    }
+  },
+
   "weather": {
     "in": "Погода в",
     "current": {

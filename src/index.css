@@ -73,23 +73,23 @@ body > #root {
 main {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-areas:
-    "a a b b b b"
-    "a a b b b b"
-    "a a c c c c"
-    "a a c c c c"
-    "d d d d d d";
+    "a a"
+    "b b"
+    "c c"
+    "d d";
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 1024px) {
   main {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-areas:
-      "a a"
-      "b b"
-      "c c"
-      "d d";
+      "a a b b b b"
+      "a a b b b b"
+      "a a c c c c"
+      "a a c c c c"
+      "d d d d d d";
   }
 }
 

@@ -33,7 +33,7 @@ class CurrentWeatherStore {
       date: new Date(current.dt * 1000).toLocaleDateString(settings.language, { day: "numeric", month: "long" }),
       weekday: new Date(current.dt * 1000).toLocaleDateString(settings.language, { weekday: "long" }),
       temperature: convertTemperature(current.temp, settings.temperatureUnit),
-      icon: `/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${currentWeatherInfo.icon}.svg`,
+      icon: currentWeatherInfo.icon,
       maxTemp: convertTemperature(firstDaily.temp.max, settings.temperatureUnit),
       minTemp: convertTemperature(firstDaily.temp.min, settings.temperatureUnit),
       summary: findDescriptionById(currentWeatherInfo.description).summary,
@@ -55,7 +55,7 @@ class CurrentWeatherStore {
       return {
         time: formatTime(hour.dt, settings.format),
         dateISO: new Date(hour.dt * 1000).toISOString(),
-        icon: `/weather-icons/${settings.theme === "dark" ? "dark" : "light"}/${hourWeatherInfo?.icon || "01d"}.svg`,
+        icon: hourWeatherInfo.icon,
         temperature: convertTemperature(hour.temp, settings.temperatureUnit),
         description: findDescriptionById(hourWeatherInfo.description).description,
       };

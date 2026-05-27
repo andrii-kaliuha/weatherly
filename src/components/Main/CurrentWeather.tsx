@@ -32,6 +32,7 @@ export const CurrentWeather = observer(() => {
 
 const CurrentTemperature = observer(() => {
   const { t } = useTranslation();
+  const theme = settings.settings.theme;
   const { сurrentWeather } = currentWeatherStore;
   if (!сurrentWeather) return null;
 
@@ -51,7 +52,7 @@ const CurrentTemperature = observer(() => {
           {сurrentWeather.temperature}
           {unitLong}
         </strong>
-        <SVG source={сurrentWeather.icon} width={64} height={64} />
+        <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${сurrentWeather.icon}.svg`} width={64} height={64} />
       </div>
 
       <div className="flex gap-3 justify-between">
@@ -71,6 +72,7 @@ const HourlyForecast = observer(() => {
   const { hourlyForecast } = currentWeatherStore;
   const listRef = useHorizontalScroll<HTMLUListElement>();
   const { t } = useTranslation();
+  const theme = settings.settings.theme;
 
   return (
     <ul
@@ -85,7 +87,7 @@ const HourlyForecast = observer(() => {
           <time dateTime={item.dateISO} aria-hidden="true" className="text-sm font-medium">
             {item.time}
           </time>
-          <SVG source={item.icon} width={32} height={32} aria-hidden="true" />
+          <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${item.icon}.svg`} width={32} height={32} aria-hidden="true" />
           <p aria-hidden="true">{item.temperature}°</p>
 
           <span className="sr-only">
@@ -106,7 +108,7 @@ const WeatherConditions = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <ul className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-3 gap-3" aria-label={t("weather.current.conditions.title")}>
+    <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3" aria-label={t("weather.current.conditions.title")}>
       {weatherConditions.map((item, index) => (
         <li key={index} className="flex flex-col items-center leading-none gap-2">
           <Icon name={item.icon} height={24} width={24} aria-hidden="true" />

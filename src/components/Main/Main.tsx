@@ -7,9 +7,9 @@ import { observer } from "mobx-react-lite";
 import requestStore from "../../store/request/requestStore";
 import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
-import { GpsRefinementToast } from "../Modal";
+import { GpsRefinementToast } from "../GpsRefinementToast";
 // import { WeatherPreview } from "../Preview";
-import DevPanel from "../DevPanel";
+// import DevPanel from "../DevPanel";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
@@ -29,9 +29,9 @@ export const Main = observer(() => {
         <WeeklyForecast weeklyForecastList={weeklyForecast} />
 
         <GpsRefinementToast />
-        <DevPanel />
       </main>
       {/* <WeatherPreview /> */}
+      {/* <DevPanel /> */}
     </>
   );
 });
