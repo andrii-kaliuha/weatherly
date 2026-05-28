@@ -36,8 +36,8 @@ class CurrentWeatherStore {
       icon: currentWeatherInfo.icon,
       maxTemp: convertTemperature(firstDaily.temp.max, settings.temperatureUnit),
       minTemp: convertTemperature(firstDaily.temp.min, settings.temperatureUnit),
-      summary: findDescriptionById(currentWeatherInfo.description).summary,
-      description: findDescriptionById(currentWeatherInfo.description).description,
+      summary: findDescriptionById(currentWeatherInfo.description),
+      description: findDescriptionById(currentWeatherInfo.description),
     };
 
     this.weatherConditions = [
@@ -57,7 +57,7 @@ class CurrentWeatherStore {
         dateISO: new Date(hour.dt * 1000).toISOString(),
         icon: hourWeatherInfo.icon,
         temperature: convertTemperature(hour.temp, settings.temperatureUnit),
-        description: findDescriptionById(hourWeatherInfo.description).description,
+        description: findDescriptionById(hourWeatherInfo.description),
       };
     });
   }

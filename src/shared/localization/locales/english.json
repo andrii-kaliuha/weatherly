@@ -3,8 +3,35 @@
   "start_screen_subtitle": "or let us determine your geolocation to get an accurate forecast for your region",
   "loading": "Loading...",
 
+  "errors": {
+    "title": "An error occurred!",
+    "empty_city": "Please enter a city name",
+    "invalid_city_symbols": "Use only letters, hyphens, or apostrophes",
+    "invalid_city_numbers": "City name cannot contain numbers",
+    "too_long_city": "City name is too long",
+    "city_not_found": "City not found",
+    "failed_to_fetch": "Network error. Please try again later",
+    "coordinates_error": "Error retrieving city coordinates. Please try again later.",
+    "city_data_error": "Error retrieving city data. Please try again later.",
+    "geolocation_not_supported": "Geolocation is not supported by this browser.",
+    "geolocation_permission_denied": "Geolocation access denied. Please grant permission.",
+    "geolocation_unavailable": "Unable to determine location. Please try again later.",
+    "geolocation_timeout": "Timeout while trying to determine location.",
+    "geolocation_generic_error": "Failed to get geolocation. Please try again.",
+    "weather_forecast_error": "Error retrieving weather forecast data. Please try again later.",
+    "air_quality_error": "Error retrieving air quality data. Please try again later.",
+    "generic_error": "Error retrieving weather forecast."
+  },
+
   "current_location": "Current Location",
   "search_city": "Search city...",
+
+  "header": {
+    "menu_button": "Open menu",
+    "search_form": "City search",
+    "search_placeholder": "Search city...",
+    "geolocation_button": "Current Location"
+  },
 
   "gpsRefinement": {
     "description": "GPS detected a more precise location. Update the forecast?",
@@ -152,112 +179,189 @@
 
   "settings": {
     "title": "Settings",
-    "temperature": "Temperature",
-    "wind_speed": "Wind speed",
-    "pressure": "Pressure",
-    "language": "Language",
-    "interface_theme": "Interface theme",
-    "time_format": "Time format"
+    "temperature": {
+      "title": "Temperature",
+      "celsius": "Celsius",
+      "fahrenheit": "Fahrenheit",
+      "kelvin": "Kelvin"
+    },
+    "wind_speed": {
+      "title": "Wind speed",
+      "m_s": "Meters per second",
+      "km_h": "Kilometers per hour",
+      "mph": "Miles per hour"
+    },
+    "pressure": {
+      "title": "Pressure",
+      "hPa": "Hectopascals",
+      "mmHg": "Millimeters of mercury"
+    },
+    "language": {
+      "title": "Language",
+      "uk": "Українська",
+      "en": "English"
+    },
+    "interface_theme": {
+      "title": "Interface theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "time_format": {
+      "title": "Time format",
+      "12_hour": "12-hour",
+      "24_hour": "24-hour"
+    }
   },
 
-  "description_clear_sky": "clear sky",
-  "description_few_clouds": "few clouds",
-  "description_scattered_clouds": "scattered clouds",
-  "description_broken_clouds": "broken clouds",
-  "description_overcast_clouds": "overcast clouds",
-  "description_shower_rain": "shower rain",
-  "description_rain": "rain",
-  "description_thunderstorm": "thunderstorm",
-  "description_snow": "snow",
-  "description_mist": "mist",
-  "description_fog": "fog",
-  "description_drizzle": "drizzle",
-  "description_light_rain": "light rain",
-  "description_moderate_rain": "moderate rain",
-  "description_heavy_intensity_rain": "heavy intensity rain",
-  "description_very_heavy_rain": "very heavy rain",
-  "description_extreme_rain": "extreme rain",
-  "description_freezing_rain": "freezing rain",
-  "description_light_intensity_shower_rain": "light intensity shower rain",
-  "description_heavy_intensity_shower_rain": "heavy intensity shower rain",
-  "description_light_snow": "light snow",
-  "description_heavy_snow": "heavy snow",
-  "description_sleet": "sleet",
-  "description_light_shower_sleet": "light shower sleet",
-  "description_shower_sleet": "shower sleet",
-  "description_light_rain_and_snow": "light rain and snow",
-  "description_rain_and_snow": "rain and snow",
-  "description_light_shower_snow": "light shower snow",
-  "description_shower_snow": "shower snow",
-  "description_heavy_shower_snow": "heavy shower snow",
-  "description_haze": "haze",
-  "description_smoke": "smoke",
-  "description_dust": "dust",
-  "description_sand": "sand",
-  "description_volcanic_ash": "volcanic ash",
-  "description_squalls": "squalls",
-  "description_tornado": "tornado",
-
-  "clear_sky": "Clear sky without clouds, sunny and bright, good weather",
-  "few_clouds": "Mostly clear with a few scattered clouds, pleasant conditions",
-  "scattered_clouds": "Partly cloudy with scattered clouds across the sky",
-  "broken_clouds": "Mostly cloudy with breaks, sun occasionally visible",
-  "overcast_clouds": "Completely cloudy, sky covered by gray cloud layer",
-
-  "drizzle": "Light drizzle creating slightly wet conditions",
-  "light_rain": "Light rainfall, may need an umbrella but not heavy",
-  "moderate_rain": "Moderate rainfall, steady and persistent",
-  "heavy_intensity_rain": "Heavy downpour, strong rainfall creating very wet conditions",
-  "very_heavy_rain": "Very intense rainfall, potential for water accumulation",
-  "extreme_rain": "Extremely heavy rain, possible flooding and dangerous conditions",
-  "freezing_rain": "Rain that freezes on contact, creating icy conditions",
-  "shower_rain": "Brief rain showers coming and going throughout the day",
-  "light_intensity_shower_rain": "Light rain showers of short duration",
-  "heavy_intensity_shower_rain": "Strong but brief rain showers throughout the day",
-
-  "rain": "Steady rainfall, bringing wet conditions",
-  "thunderstorm": "Thunderstorms with lightning and heavy rain possible",
-
-  "snow": "Snowfall covering the area, cold temperatures",
-  "light_snow": "Light snowfall, gentle accumulation possible",
-  "heavy_snow": "Heavy snowfall, significant accumulation expected",
-  "light_shower_snow": "Brief, light snow showers throughout the day",
-  "shower_snow": "Intermittent snow showers coming and going",
-  "heavy_shower_snow": "Intense but brief periods of snowfall throughout the day",
-  "sleet": "Mix of snow and rain creating slushy conditions",
-  "light_shower_sleet": "Light showers of mixed snow and rain",
-  "shower_sleet": "Periods of mixed snow and rain throughout the day",
-  "light_rain_and_snow": "Light precipitation with both rain and snow falling",
-  "rain_and_snow": "Mixed precipitation with both rain and snow, changing conditions",
-
-  "mist": "Light mist reducing visibility slightly, damp air",
-  "fog": "Foggy conditions with significantly reduced visibility",
-  "haze": "Hazy conditions with reduced visibility due to dry particles",
-  "smoke": "Smoky air reducing visibility and air quality",
-
-  "dust": "Dusty conditions affecting visibility and air quality",
-  "sand": "Blowing sand in the air reducing visibility",
-  "volcanic_ash": "Volcanic ash in the atmosphere, potentially hazardous conditions",
-  "squalls": "Sudden strong wind gusts, possibly with precipitation",
-  "tornado": "Tornado conditions, extremely dangerous rotating windstorm",
-
-  "errors": {
-    "title": "An error occurred!",
-    "empty_city": "Please enter a city name",
-    "invalid_city_symbols": "Use only letters, hyphens, or apostrophes",
-    "invalid_city_numbers": "City name cannot contain numbers",
-    "too_long_city": "City name is too long",
-    "city_not_found": "City not found",
-    "failed_to_fetch": "Network error. Please try again later",
-    "coordinates_error": "Error retrieving city coordinates. Please try again later.",
-    "city_data_error": "Error retrieving city data. Please try again later.",
-    "geolocation_not_supported": "Geolocation is not supported by this browser.",
-    "geolocation_permission_denied": "Geolocation access denied. Please grant permission.",
-    "geolocation_unavailable": "Unable to determine location. Please try again later.",
-    "geolocation_timeout": "Timeout while trying to determine location.",
-    "geolocation_generic_error": "Failed to get geolocation. Please try again.",
-    "weather_forecast_error": "Error retrieving weather forecast data. Please try again later.",
-    "air_quality_error": "Error retrieving air quality data. Please try again later.",
-    "generic_error": "Error retrieving weather forecast."
+  "weather_descriptions": {
+    "clear_sky": {
+      "summary": "clear sky",
+      "description": "Clear sky without clouds, sunny and bright, good weather"
+    },
+    "few_clouds": {
+      "summary": "few clouds",
+      "description": "Mostly clear with a few scattered clouds, pleasant conditions"
+    },
+    "scattered_clouds": {
+      "summary": "scattered clouds",
+      "description": "Partly cloudy with scattered clouds across the sky"
+    },
+    "broken_clouds": {
+      "summary": "broken clouds",
+      "description": "Mostly cloudy with breaks, sun occasionally visible"
+    },
+    "overcast_clouds": {
+      "summary": "overcast clouds",
+      "description": "Completely cloudy, sky covered by gray cloud layer"
+    },
+    "drizzle": {
+      "summary": "drizzle",
+      "description": "Light drizzle creating slightly wet conditions"
+    },
+    "light_rain": {
+      "summary": "light rain",
+      "description": "Light rainfall, may need an umbrella but not heavy"
+    },
+    "moderate_rain": {
+      "summary": "moderate rain",
+      "description": "Moderate rainfall, steady and persistent"
+    },
+    "heavy_intensity_rain": {
+      "summary": "heavy intensity rain",
+      "description": "Heavy downpour, strong rainfall creating very wet conditions"
+    },
+    "very_heavy_rain": {
+      "summary": "very heavy rain",
+      "description": "Very intense rainfall, potential for water accumulation"
+    },
+    "extreme_rain": {
+      "summary": "extreme rain",
+      "description": "Extremely heavy rain, possible flooding and dangerous conditions"
+    },
+    "freezing_rain": {
+      "summary": "freezing rain",
+      "description": "Rain that freezes on contact, creating icy conditions"
+    },
+    "shower_rain": {
+      "summary": "shower rain",
+      "description": "Brief rain showers coming and going throughout the day"
+    },
+    "light_intensity_shower_rain": {
+      "summary": "light intensity shower rain",
+      "description": "Light rain showers of short duration"
+    },
+    "heavy_intensity_shower_rain": {
+      "summary": "heavy intensity shower rain",
+      "description": "Strong but brief rain showers throughout the day"
+    },
+    "rain": {
+      "summary": "rain",
+      "description": "Steady rainfall, bringing wet conditions"
+    },
+    "thunderstorm": {
+      "summary": "thunderstorm",
+      "description": "Thunderstorms with lightning and heavy rain possible"
+    },
+    "snow": {
+      "summary": "snow",
+      "description": "Snowfall covering the area, cold temperatures"
+    },
+    "light_snow": {
+      "summary": "light snow",
+      "description": "Light snowfall, gentle accumulation possible"
+    },
+    "heavy_snow": {
+      "summary": "heavy snow",
+      "description": "Heavy snowfall, significant accumulation expected"
+    },
+    "light_shower_snow": {
+      "summary": "light shower snow",
+      "description": "Brief, light snow showers throughout the day"
+    },
+    "shower_snow": {
+      "summary": "shower snow",
+      "description": "Intermittent snow showers coming and going"
+    },
+    "heavy_shower_snow": {
+      "summary": "heavy shower snow",
+      "description": "Intense but brief periods of snowfall throughout the day"
+    },
+    "sleet": {
+      "summary": "sleet",
+      "description": "Mix of snow and rain creating slushy conditions"
+    },
+    "light_shower_sleet": {
+      "summary": "light shower sleet",
+      "description": "Light showers of mixed snow and rain"
+    },
+    "shower_sleet": {
+      "summary": "shower sleet",
+      "description": "Periods of mixed snow and rain throughout the day"
+    },
+    "light_rain_and_snow": {
+      "summary": "light rain and snow",
+      "description": "Light precipitation with both rain and snow falling"
+    },
+    "rain_and_snow": {
+      "summary": "rain and snow",
+      "description": "Mixed precipitation with both rain and snow, changing conditions"
+    },
+    "mist": {
+      "summary": "mist",
+      "description": "Light mist reducing visibility slightly, damp air"
+    },
+    "fog": {
+      "summary": "fog",
+      "description": "Foggy conditions with significantly reduced visibility"
+    },
+    "haze": {
+      "summary": "haze",
+      "description": "Hazy conditions with reduced visibility due to dry particles"
+    },
+    "smoke": {
+      "summary": "smoke",
+      "description": "Smoky air reducing visibility and air quality"
+    },
+    "dust": {
+      "summary": "dust",
+      "description": "Dusty conditions affecting visibility and air quality"
+    },
+    "sand": {
+      "summary": "sand",
+      "description": "Blowing sand in the air reducing visibility"
+    },
+    "volcanic_ash": {
+      "summary": "volcanic ash",
+      "description": "Volcanic ash in the atmosphere, potentially hazardous conditions"
+    },
+    "squalls": {
+      "summary": "squalls",
+      "description": "Sudden strong wind gusts, possibly with precipitation"
+    },
+    "tornado": {
+      "summary": "tornado",
+      "description": "Tornado conditions, extremely dangerous rotating windstorm"
+    }
   }
 }

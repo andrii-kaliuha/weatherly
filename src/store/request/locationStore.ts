@@ -69,6 +69,8 @@ class LocationStore {
       const local_names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
       const gpsCityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
 
+      console.log("🗺️ GPS Refinement:", { currentCityName, gpsCityName, latitude, longitude, local_names });
+
       if (gpsCityName && gpsCityName !== currentCityName) {
         runInAction(() => {
           this.setPendingGpsLocation({ lat: latitude, lon: longitude, cityName: gpsCityName });
@@ -77,7 +79,9 @@ class LocationStore {
         const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
         saveGeoCache(latitude, longitude, cityName);
       }
-    } catch {}
+    } catch (error) {
+      console.error("❌ GPS Refinement Error:", error);
+    }
   }
 }
 

@@ -7,7 +7,7 @@ import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
 
 export const GpsRefinementToast = observer(() => {
-  const [isSessionDismissed, setIsSessionDismissed] = useState(true);
+  const [isSessionDismissed, setIsSessionDismissed] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {

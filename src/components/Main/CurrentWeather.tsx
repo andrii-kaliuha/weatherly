@@ -23,7 +23,8 @@ export const CurrentWeather = observer(() => {
         <p>{subtitle}</p>
       </div>
       <CurrentTemperature />
-      <p>{сurrentWeather.summary}</p>
+      {/* <p>{сurrentWeather.summary}</p> */}
+      <span>{t(`weather_descriptions.${сurrentWeather.description}.description`)}</span>
       <HourlyForecast />
       <WeatherConditions />
     </section>
@@ -61,7 +62,7 @@ const CurrentTemperature = observer(() => {
           {unitShort} / {сurrentWeather.minTemp}
           {unitShort}
         </span>
-        <span>{сurrentWeather.description}</span>
+        <span>{t(`weather_descriptions.${сurrentWeather.description}.summary`)}</span>
         <span className="sr-only">{tempRange}</span>
       </div>
     </div>

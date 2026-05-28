@@ -22,8 +22,8 @@ export const Header = observer(() => {
   };
 
   return (
-    <header className="sticky top-0 z-1 bg-background" aria-label={t("header.landmark")}>
-      <nav className="flex items-center justify-between gap-3 p-3" aria-label={t("header.nav_landmark")}>
+    <header className="sticky top-0 z-1 bg-background">
+      <nav className="flex items-center justify-between gap-3 p-3">
         <button
           onClick={() => settings.toggleSideMenu()}
           aria-label={t("header.menu_button")}

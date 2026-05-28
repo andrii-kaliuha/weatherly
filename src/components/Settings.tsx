@@ -26,9 +26,9 @@ export const Settings = observer(() => {
         title="temperature"
         value={settings.temperatureUnit}
         options={[
-          { value: "celsius", title: "celsius" },
-          { value: "fahrenheit", title: "fahrenheit" },
-          { value: "kelvin", title: "kelvin" },
+          { value: "celsius", title: "settings.temperature.celsius" },
+          { value: "fahrenheit", title: "settings.temperature.fahrenheit" },
+          { value: "kelvin", title: "settings.temperature.kelvin" },
         ]}
         onChange={(value) => SettingsStore.setTemperatureUnit(value as TemperatureUnit)}
       />
@@ -37,9 +37,9 @@ export const Settings = observer(() => {
         title="wind_speed"
         value={settings.windSpeedUnit}
         options={[
-          { value: "m_s", title: "m_s" },
-          { value: "km_h", title: "km_h" },
-          { value: "mph", title: "mph" },
+          { value: "m_s", title: "settings.wind_speed.m_s" },
+          { value: "km_h", title: "settings.wind_speed.km_h" },
+          { value: "mph", title: "settings.wind_speed.mph" },
         ]}
         onChange={(value) => SettingsStore.setWindSpeedUnit(value as WindSpeedUnit)}
       />
@@ -48,8 +48,8 @@ export const Settings = observer(() => {
         title="pressure"
         value={settings.pressureUnit}
         options={[
-          { value: "hPa", title: "hPa" },
-          { value: "mmHg", title: "mmHg" },
+          { value: "hPa", title: "settings.pressure.hPa" },
+          { value: "mmHg", title: "settings.pressure.mmHg" },
         ]}
         onChange={(value) => SettingsStore.setPressureUnit(value as PressureUnit)}
       />
@@ -58,8 +58,8 @@ export const Settings = observer(() => {
         title="language"
         value={settings.language}
         options={[
-          { value: "en", title: "english" },
-          { value: "uk", title: "ukrainian" },
+          { value: "en", title: "settings.language.en" },
+          { value: "uk", title: "settings.language.uk" },
         ]}
         onChange={(value) => SettingsStore.setLanguage(value as Language)}
       />
@@ -68,8 +68,8 @@ export const Settings = observer(() => {
         title="interface_theme"
         value={settings.theme}
         options={[
-          { value: "light", title: "light" },
-          { value: "dark", title: "dark" },
+          { value: "light", title: "settings.interface_theme.light" },
+          { value: "dark", title: "settings.interface_theme.dark" },
         ]}
         onChange={(value) => SettingsStore.setTheme(value as Theme)}
       />
@@ -78,8 +78,8 @@ export const Settings = observer(() => {
         title="time_format"
         value={settings.format}
         options={[
-          { value: "12_hour", title: "12_hour" },
-          { value: "24_hour", title: "24_hour" },
+          { value: "12_hour", title: "settings.time_format.12_hour" },
+          { value: "24_hour", title: "settings.time_format.24_hour" },
         ]}
         onChange={(value) => SettingsStore.setTimeFormat(value as TimeFormat)}
       />
@@ -97,8 +97,10 @@ const Setting = observer(({ icon, title, value, options, onChange }: SettingProp
         <div className="flex items-center gap-3">
           <Icon name={icon} width={24} height={24} />
           <div className="text-start text-sm">
-            <p className="font-medium">{t(title)}</p>
-            <p className="opacity-55">{t(value)}</p>
+            {/* <p className="font-medium">{t(title)}</p> */}
+            <p className="font-medium"> {t(`settings.${title}.title`)}</p>
+            {/* <p className="opacity-55">{t(value)}</p> */}
+            <p className="opacity-55"> {t(`settings.${title}.${value}`)}</p>
           </div>
         </div>
         <Icon name="chevron-right" width={24} height={24} />
@@ -118,7 +120,7 @@ const SettingSelect = observer(({ title, value, options, onClose, onChange }: Se
     <div className="absolute top-0 left-0 z-3 flex flex-col gap-3 bg-background w-full h-full">
       <button className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full" onClick={onClose}>
         <Icon name="chevron-left" width={24} height={24} />
-        {t(title)}
+        {t(`settings.${title}.title`)}
       </button>
 
       <div className="flex flex-col gap-3 px-6">

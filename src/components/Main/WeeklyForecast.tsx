@@ -41,7 +41,8 @@ export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastLi
 
               <div aria-hidden="true" className="flex items-center gap-3 weekly-forecast-description">
                 <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${day.icon}.svg`} width={32} height={32} />
-                <p className="leading-none hidden md:block">{day.description}</p>
+                {/* <p className="leading-none hidden md:block">{day.description}</p> */}
+                <p className="leading-none hidden md:block">{t(`weather_descriptions.${day.description}.summary`)}</p>
               </div>
 
               <p aria-hidden="true" className="text-xl text-center weekly-forecast-temp-max">

@@ -26,7 +26,7 @@ class WeeklyForecastStore {
         date: new Date(day.dt * 1000).toLocaleString(language, { day: "numeric", month: "long" }),
         weekday: new Date(day.dt * 1000).toLocaleString(language, { weekday: "long" }),
         icon: day.weather[0].icon,
-        description: descriptionData ? descriptionData.description : day.weather[0].description,
+        description: descriptionData ? descriptionData : day.weather[0].description,
         maxTemp: convertTemperature(day.temp.max, temperatureUnit),
         minTemp: convertTemperature(day.temp.min, temperatureUnit),
       };
