@@ -23,7 +23,6 @@ export const CurrentWeather = observer(() => {
         <p>{subtitle}</p>
       </div>
       <CurrentTemperature />
-      {/* <p>{сurrentWeather.summary}</p> */}
       <span>{t(`weather_descriptions.${сurrentWeather.description}.description`)}</span>
       <HourlyForecast />
       <WeatherConditions />
@@ -46,13 +45,12 @@ const CurrentTemperature = observer(() => {
   const unitShort = t(`weather.units.${settings.settings.temperatureUnit}.short`);
   const unitLong = t(`weather.units.${settings.settings.temperatureUnit}.long`);
 
+  const currentTemp = `${сurrentWeather.temperature}${unitLong}`;
+
   return (
     <div className="flex flex-col gap-3 w-max">
       <div className="flex items-center gap-3">
-        <strong className="text-6xl leading-none">
-          {сurrentWeather.temperature}
-          {unitLong}
-        </strong>
+        <strong className="text-6xl leading-none">{currentTemp}</strong>
         <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${сurrentWeather.icon}.svg`} width={64} height={64} />
       </div>
 
@@ -109,24 +107,30 @@ const WeatherConditions = observer(() => {
   const { t } = useTranslation();
 
   return (
-    <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3" aria-label={t("weather.current.conditions.title")}>
-      {weatherConditions.map((item, index) => (
-        <li key={index} className="flex flex-col items-center leading-none gap-2">
-          <Icon name={item.icon} height={24} width={24} aria-hidden="true" />
+    <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3" aria-label={t("weather.conditions.title")}>
+      {weatherConditions.map((item, index) => {
+        const unitAria = t(`weather.units.${item.unit}.aria`);
+        const fullAriaLabel = t(`weather.conditions.${item.name}.aria`, {
+          value: item.value,
+          unit: unitAria,
+        });
 
-          <span aria-hidden="true" className="text-xs">
-            {item.name}
-          </span>
+        return (
+          <li key={index} className="flex flex-col items-center leading-none gap-2" aria-label={fullAriaLabel}>
+            <Icon name={item.icon} height={24} width={24} aria-hidden="true" />
 
-          <span aria-hidden="true" className="text-sm font-medium">
-            {item.value} {t(`weather.units.${item.unit}.long`)}
-          </span>
+            <span aria-hidden="true" className="text-xs">
+              {t(`weather.conditions.${item.name}.label`)}
+            </span>
 
-          <span className="sr-only">
-            {t("weather.current.conditions.item", { name: item.name, value: item.value, units: t(`weather.units.${item.unit}.aria`) })}
-          </span>
-        </li>
-      ))}
+            <span aria-hidden="true" className="text-sm font-medium">
+              {item.value} {t(`weather.units.${item.unit}.long`)}
+            </span>
+
+            <span className="sr-only">{fullAriaLabel}</span>
+          </li>
+        );
+      })}
     </ul>
   );
 });

@@ -21,10 +21,11 @@ export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastLi
 
       <ul className="weekly-forecast-list">
         {weeklyForecastList.map((day: WeeklyForecastState) => {
-          const dayDescription = t("weather.weekly.day_description", {
+          const dayDescription = t(`weather_descriptions.${day.description}.summary`);
+          const fullDayDescription = t("weather.weekly.day_description", {
             date: day.date,
             weekday: day.weekday,
-            description: t(day.description),
+            description: dayDescription,
             maxTemp: day.maxTemp,
             minTemp: day.minTemp,
             unit: t(unitAria),
@@ -32,7 +33,7 @@ export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastLi
 
           return (
             <li key={day.dateISO} className="weekly-forecast-item">
-              <span className="sr-only">{dayDescription}</span>
+              <span className="sr-only">{fullDayDescription}</span>
 
               <time aria-hidden="true" className="weekly-forecast-date" dateTime={day.dateISO}>
                 <p>{day.date}</p>
@@ -41,8 +42,7 @@ export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastLi
 
               <div aria-hidden="true" className="flex items-center gap-3 weekly-forecast-description">
                 <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${day.icon}.svg`} width={32} height={32} />
-                {/* <p className="leading-none hidden md:block">{day.description}</p> */}
-                <p className="leading-none hidden md:block">{t(`weather_descriptions.${day.description}.summary`)}</p>
+                <p className="leading-none hidden md:block">{dayDescription}</p>
               </div>
 
               <p aria-hidden="true" className="text-xl text-center weekly-forecast-temp-max">

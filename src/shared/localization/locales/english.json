@@ -27,7 +27,8 @@
   "search_city": "Search city...",
 
   "header": {
-    "menu_button": "Open menu",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
     "search_form": "City search",
     "search_placeholder": "Search city...",
     "geolocation_button": "Current Location"
@@ -46,28 +47,46 @@
     "current": {
       "title": "Forecast for the current hour",
       "subtitle": "Weather in {{city}}, {{weekday}}, {{date}}",
-      "temp_range": "Maximum Temperature:{{maxTemp}}{{unit}}, Minimum Temperature:{{minTemp}}{{unit}}",
+      "temp_range": "Maximum Temperature: {{maxTemp}}{{unit}}, Minimum Temperature: {{minTemp}}{{unit}}"
+    },
 
-      "conditions": {
-        "title": "Weather conditions",
-        "item": "{{name}}: {{value}} {{units}}",
-
-        "feels_like": "Feels like",
-        "humidity": "Humidity",
-        "wind": "Wind",
-        "pressure": "Pressure",
-        "uv_index": "Uv index",
-        "precipitation": "Precipitation"
+    "conditions": {
+      "title": "Weather conditions",
+      "feels_like": {
+        "label": "Feels like",
+        "aria": "Feels like {{value}} {{unit}}"
+      },
+      "humidity": {
+        "label": "Humidity",
+        "aria": "Humidity {{value}} {{unit}}"
+      },
+      "wind": {
+        "label": "Wind",
+        "aria": "Wind speed {{value}} {{unit}}"
+      },
+      "pressure": {
+        "label": "Pressure",
+        "aria": "Atmospheric pressure {{value}} {{unit}}"
+      },
+      "uv_index": {
+        "label": "UV index",
+        "aria": "UV index {{value}} {{unit}}"
+      },
+      "precipitation": {
+        "label": "Precipitation",
+        "aria": "Precipitation level {{value}} {{unit}}"
       }
     },
+
     "hourly": {
       "title": "Hourly weather forecast",
       "item": "{{time}}, {{description}}, {{temperature}} degrees"
     },
     "weekly": {
       "title": "Weekly weather forecast",
-      "day_description": "{{date}}, {{weekday}}, {{description}}, Maximum Temperature: {{maxTemp}}{{unit}}, Minimum Temperature: {{minTemp}}{{unit}}"
+      "day_description": "{{date}}, {{weekday}}, {{description}}, Maximum Temperature: {{maxTemp}} {{unit}}, Minimum Temperature: {{minTemp}} {{unit}}"
     },
+
     "units": {
       "celsius": {
         "long": "°C",

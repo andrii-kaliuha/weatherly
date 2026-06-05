@@ -97,9 +97,7 @@ const Setting = observer(({ icon, title, value, options, onChange }: SettingProp
         <div className="flex items-center gap-3">
           <Icon name={icon} width={24} height={24} />
           <div className="text-start text-sm">
-            {/* <p className="font-medium">{t(title)}</p> */}
             <p className="font-medium"> {t(`settings.${title}.title`)}</p>
-            {/* <p className="opacity-55">{t(value)}</p> */}
             <p className="opacity-55"> {t(`settings.${title}.${value}`)}</p>
           </div>
         </div>

@@ -26,7 +26,7 @@ export const Header = observer(() => {
       <nav className="flex items-center justify-between gap-3 p-3">
         <button
           onClick={() => settings.toggleSideMenu()}
-          aria-label={t("header.menu_button")}
+          aria-label={t("header.open_menu")}
           aria-expanded={settings.sideMenuOpen}
           aria-controls="side-menu"
           className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent bg-surface text-primary"
