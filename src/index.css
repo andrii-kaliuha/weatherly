@@ -21,7 +21,8 @@
   --color-unhealthy-air: #d85f38;
   --color-bad-air: #903c70;
 
-  --height-height-app: calc(100vh - 72px);
+  --height-header: var(--height-header);
+  --height-app: calc(100vh - var(--height-header));
 }
 
 html {
@@ -57,6 +58,8 @@ body > #root {
 
   --color-accent: #a78bfa;
   --color-on-accent: #ffffff;
+
+  --height-header: 72px;
 }
 
 .dark {

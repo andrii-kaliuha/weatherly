@@ -13,12 +13,11 @@ import { GpsRefinementToast } from "../GpsRefinementToast";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
-
   const { weeklyForecast } = weeklyForecastStore;
 
   if (startScreen === true) return <StartScreen />;
   if (loading) return <LoadingScreen />;
-  if (error) return <ErrorScreen />;
+  if (error) return <ErrorScreen errorCode={error} />;
 
   return (
     <>
