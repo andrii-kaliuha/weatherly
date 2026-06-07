@@ -14,6 +14,12 @@ import locationStore from "./locationStore";
 import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../../shared/utils/storage/weatherCache";
 import { AirPollutionResponse, WeatherResponse } from "../../shared/types/api";
 
+export const getErrorKey = (error: unknown): string => {
+  if (error instanceof TypeError) return "failed_to_fetch";
+  if (error instanceof Error) return error.message;
+  return "generic_error";
+};
+
 class RequestStore {
   startScreen: boolean = true;
   loading: boolean = false;
@@ -37,18 +43,6 @@ class RequestStore {
 
   addError(message: string) {
     this.error = message;
-  }
-
-  stats: {
-    ip: number | null;
-    gps: number | null;
-    api: number;
-    total: number;
-    source: "cache" | "ip" | "gps";
-  } | null = null;
-
-  setStats(stats: typeof this.stats) {
-    this.stats = stats;
   }
 
   clearError() {
@@ -84,42 +78,15 @@ class RequestStore {
 
   async fetchForecastByLocation(settings: SettingsState) {
     this.setLoading(true);
-    const totalStart = performance.now();
 
     try {
-      // 1. Кеш або IP
-      const ipStart = performance.now();
-      const { latitude, longitude, fromCache } = await locationStore.getFastLocation();
-      const ipEnd = performance.now();
-
-      // 2. Погода за координатами
-      const apiStart = performance.now();
+      const { latitude, longitude } = await locationStore.getFastLocation();
       const local_names = await this.fetchWeatherByCoords(latitude, longitude, settings);
-      const apiEnd = performance.now();
-
-      runInAction(() => {
-        this.setStats({
-          ip: fromCache ? null : ipEnd - ipStart,
-          gps: null, // заповниться фоново
-          api: apiEnd - apiStart,
-          total: apiEnd - totalStart,
-          source: fromCache ? "cache" : "ip",
-        });
-      });
-
-      // 3. GPS фоново — оновлює stats.gps окремо
-      const gpsStart = performance.now();
       const currentCityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
 
-      locationStore.startGpsRefinement(currentCityName).then(() => {
-        runInAction(() => {
-          if (this.stats) {
-            this.stats.gps = performance.now() - gpsStart;
-          }
-        });
-      });
-    } catch (error: any) {
-      runInAction(() => this.addError(error.message || "geolocation_failed"));
+      locationStore.startGpsRefinement(currentCityName);
+    } catch (error) {
+      runInAction(() => this.addError(getErrorKey(error)));
     } finally {
       runInAction(() => this.setLoading(false));
     }
@@ -135,7 +102,7 @@ class RequestStore {
     try {
       await this.fetchWeatherByCoords(lat, lon, settings);
     } catch (error: any) {
-      runInAction(() => this.addError(error.message || "generic_error"));
+      runInAction(() => this.addError(getErrorKey(error)));
     } finally {
       runInAction(() => this.setLoading(false));
     }
@@ -208,7 +175,7 @@ class RequestStore {
         saveToSearchHistory(city, latitude, longitude);
       });
     } catch (error: any) {
-      runInAction(() => this.addError(error.message || "generic_error"));
+      runInAction(() => this.addError(getErrorKey(error)));
     } finally {
       runInAction(() => this.setLoading(false));
     }

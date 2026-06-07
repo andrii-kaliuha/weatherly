@@ -9,7 +9,6 @@ import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
 import { GpsRefinementToast } from "../GpsRefinementToast";
 // import { WeatherPreview } from "../Preview";
-// import DevPanel from "../DevPanel";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
@@ -30,7 +29,6 @@ export const Main = observer(() => {
         <GpsRefinementToast />
       </main>
       {/* <WeatherPreview /> */}
-      {/* <DevPanel /> */}
     </>
   );
 });

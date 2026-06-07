@@ -30,14 +30,14 @@ class LocationStore {
 
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        (pos) =>
+        (position) =>
           resolve({
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
           }),
-        (err) => {
-          const msgs: Record<number, string> = { 1: "permission_denied", 2: "unavailable", 3: "timeout" };
-          reject(new Error(msgs[err.code] || "generic_error"));
+        (error) => {
+          const messages: Record<number, string> = { 1: "permission_denied", 2: "unavailable", 3: "timeout" };
+          reject(new Error(messages[error.code] || "generic_error"));
         },
         { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 },
       );
@@ -53,13 +53,11 @@ class LocationStore {
   }
 
   // Повертає кеш або IP
-  async getFastLocation(): Promise<{ latitude: number; longitude: number; fromCache: boolean }> {
+  async getFastLocation(): Promise<{ latitude: number; longitude: number }> {
     const cached = loadGeoCache();
-    if (cached) {
-      return { latitude: cached.lat, longitude: cached.lon, fromCache: true };
-    }
+    if (cached) return { latitude: cached.lat, longitude: cached.lon };
     const { latitude, longitude } = await this.getLocationByIP();
-    return { latitude, longitude, fromCache: false };
+    return { latitude, longitude };
   }
 
   // GPS фоново — порівнює з поточним містом і показує модалку якщо інше
@@ -69,18 +67,15 @@ class LocationStore {
       const local_names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
       const gpsCityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
 
-      console.log("🗺️ GPS Refinement:", { currentCityName, gpsCityName, latitude, longitude, local_names });
-
       if (gpsCityName && gpsCityName !== currentCityName) {
         runInAction(() => {
           this.setPendingGpsLocation({ lat: latitude, lon: longitude, cityName: gpsCityName });
         });
       } else {
-        const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
-        saveGeoCache(latitude, longitude, cityName);
+        saveGeoCache(latitude, longitude, gpsCityName);
       }
-    } catch (error) {
-      console.error("❌ GPS Refinement Error:", error);
+    } catch {
+      // GPS недоступний або відхилено — тихо ігноруємо
     }
   }
 }
