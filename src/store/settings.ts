@@ -25,10 +25,20 @@ class SettingsStore {
   loadSettings() {
     const saved = localStorage.getItem("settings");
     if (saved) {
-      this.settings = JSON.parse(saved);
+      try {
+        const parsed = JSON.parse(saved);
+
+        this.settings = { ...this.settings, ...parsed };
+      } catch (e) {
+        console.error("Failed to parse settings from localStorage", e);
+        this.saveSettings();
+      }
+
       this.applyTheme(this.settings.theme);
       this.applyLanguage(this.settings.language);
-    } else this.saveSettings();
+    } else {
+      this.saveSettings();
+    }
   }
 
   saveSettings() {

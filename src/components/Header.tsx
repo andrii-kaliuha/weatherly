@@ -37,7 +37,7 @@ export const Header = observer(() => {
         <form
           role="search"
           aria-label={t("header.search_form")}
-          className="group relative flex items-center bg-surface text-primary w-full sm:w-80 h-12 rounded-full border border-transparent transition-all focus-within:border-accent focus-within:ring-1 focus-within:ring-accent hover:bg-opacity-80"
+          className="group relative flex items-center bg-surface text-primary w-full sm:w-80 h-12 rounded-full border border-transparent focus-within:border-accent focus-within:ring-1 focus-within:ring-accent hover:bg-opacity-80"
           onSubmit={searchCityByName}
         >
           <input
