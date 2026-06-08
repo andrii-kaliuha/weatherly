@@ -7,6 +7,7 @@ import loadingAnimation from "../../assets/lottie/loading.json";
 import searchErrorAnimation from "../../assets/lottie/search-error.json";
 import networkErrorAnimation from "../../assets/lottie/network-error.json";
 import defaultErrorAnimation from "../../assets/lottie/default-error.json";
+import geolocationAnimation from "../../assets/lottie/geolocation-error.json";
 
 export const StartScreen = () => {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ export const StartScreen = () => {
   return (
     <div className="flex flex-col justify-center items-center h-app bg-background text-primary text-center px-3">
       <div aria-hidden="true" className="relative w-48 h-24 md:w-64 md:h-32 overflow-hidden flex items-end justify-center mb-3">
-        <div className="w-full h-48 md:h-64 absolute top-0">
+        <div className="w-full h-48 md:h-64 absolute top-0 [&_path[stroke='rgb(0,29,61)']]:stroke-primary">
           <Lottie animationData={homeAnimation} loop={true} autoplay={true} />
         </div>
       </div>
@@ -54,6 +55,12 @@ const errorAnimationMap: Record<string, any> = {
   too_long_city: searchErrorAnimation,
 
   failed_to_fetch: networkErrorAnimation,
+
+  geolocation_not_supported: geolocationAnimation,
+  geolocation_permission_denied: geolocationAnimation,
+  geolocation_unavailable: geolocationAnimation,
+  geolocation_timeout: geolocationAnimation,
+  geolocation_generic_error: geolocationAnimation,
 };
 
 export const ErrorScreen = observer(({ errorCode }: { errorCode: string }) => {
