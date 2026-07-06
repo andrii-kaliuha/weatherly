@@ -1,20 +1,19 @@
 import { useRef, useEffect, RefObject } from "react";
 
-export function useHorizontalScroll<T extends HTMLElement>(): RefObject<T> {
-  const scrollRef = useRef<T | null>(null);
+export function useHorizontalScroll(): RefObject<HTMLUListElement> {
+  const scrollRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
       if (scrollRef.current) scrollRef.current.scrollLeft += event.deltaY;
     };
 
-    const element = scrollRef.current;
-    if (element) element.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      if (element) element.removeEventListener("wheel", handleWheel);
-    };
+    element.addEventListener("wheel", handleWheel, { passive: false });
+    return () => element.removeEventListener("wheel", handleWheel);
   }, []);
 
   return scrollRef;

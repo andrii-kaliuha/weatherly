@@ -69,7 +69,7 @@ const CurrentTemperature = observer(() => {
 
 const HourlyForecast = observer(() => {
   const { hourlyForecast } = currentWeatherStore;
-  const listRef = useHorizontalScroll<HTMLUListElement>();
+  const listRef = useHorizontalScroll();
   const { t } = useTranslation();
   const theme = settings.settings.theme;
 
