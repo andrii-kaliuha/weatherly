@@ -80,28 +80,11 @@ class RequestStore {
     this.setLoading(true);
 
     try {
-      const { latitude, longitude } = await locationStore.getFastLocation();
+      const { latitude, longitude } = await locationStore.getLocationByGPS();
       const local_names = await this.fetchWeatherByCoords(latitude, longitude, settings);
-      const currentCityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
-
-      locationStore.startGpsRefinement(currentCityName);
+      const cityName = local_names?.uk || local_names?.en;
+      saveGeoCache(latitude, longitude, cityName);
     } catch (error) {
-      runInAction(() => this.addError(getErrorKey(error)));
-    } finally {
-      runInAction(() => this.setLoading(false));
-    }
-  }
-
-  async confirmGpsLocation(settings: SettingsState) {
-    if (!locationStore.pendingGpsLocation) return;
-    const { lat, lon, cityName } = locationStore.pendingGpsLocation;
-    locationStore.dismissGpsLocation();
-    saveGeoCache(lat, lon, cityName);
-
-    runInAction(() => this.setLoading(true));
-    try {
-      await this.fetchWeatherByCoords(lat, lon, settings);
-    } catch (error: any) {
       runInAction(() => this.addError(getErrorKey(error)));
     } finally {
       runInAction(() => this.setLoading(false));
