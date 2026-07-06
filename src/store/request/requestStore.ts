@@ -174,7 +174,7 @@ class RequestStore {
         saveWeatherCache({ name: city, lat: latitude, lon: longitude }, forecast, airQuality, local_names);
         saveToSearchHistory(city, latitude, longitude);
       });
-    } catch (error: any) {
+    } catch (error) {
       runInAction(() => this.addError(getErrorKey(error)));
     } finally {
       runInAction(() => this.setLoading(false));

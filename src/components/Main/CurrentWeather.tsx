@@ -81,8 +81,8 @@ const HourlyForecast = observer(() => {
       className="flex justify-between overflow-x-auto gap-6 focus-visible:outline-2 focus-visible:outline-offset 
       focus-visible:outline-offset-2 scroll-smooth focus-visible:outline-accent"
     >
-      {hourlyForecast.map((item, index) => (
-        <li key={index} className="flex flex-col items-center justify-between gap-3 min-w-12 flex-shrink-0 relative">
+      {hourlyForecast.map((item) => (
+        <li key={item.dateISO} className="flex flex-col items-center justify-between gap-3 min-w-12 flex-shrink-0 relative">
           <time dateTime={item.dateISO} aria-hidden="true" className="text-sm font-medium">
             {item.time}
           </time>
@@ -108,7 +108,7 @@ const WeatherConditions = observer(() => {
 
   return (
     <ul className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 gap-3" aria-label={t("weather.conditions.title")}>
-      {weatherConditions.map((item, index) => {
+      {weatherConditions.map((item) => {
         const unitAria = t(`weather.units.${item.unit}.aria`);
         const fullAriaLabel = t(`weather.conditions.${item.name}.aria`, {
           value: item.value,
@@ -116,7 +116,7 @@ const WeatherConditions = observer(() => {
         });
 
         return (
-          <li key={index} className="flex flex-col items-center leading-none gap-2" aria-label={fullAriaLabel}>
+          <li key={item.name} className="flex flex-col items-center leading-none gap-2">
             <Icon name={item.icon} height={24} width={24} aria-hidden="true" />
 
             <span aria-hidden="true" className="text-xs">
