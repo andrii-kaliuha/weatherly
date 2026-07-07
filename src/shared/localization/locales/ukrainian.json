@@ -34,7 +34,7 @@
   },
 
   "gpsRefinement": {
-    "description": "GPS визначив точнішу локацію. Оновити прогноз?",
+    "description": "Це ваша локація. Оновити прогноз?",
     "actions": {
       "update": "Оновити",
       "notNow": "Не зараз",

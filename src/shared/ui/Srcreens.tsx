@@ -8,6 +8,7 @@ import searchErrorAnimation from "../../assets/lottie/search-error.json";
 import networkErrorAnimation from "../../assets/lottie/network-error.json";
 import defaultErrorAnimation from "../../assets/lottie/default-error.json";
 import geolocationAnimation from "../../assets/lottie/geolocation-error.json";
+import { GpsRefinementToast } from "../../components/GpsRefinementToast";
 
 export const StartScreen = () => {
   const { t } = useTranslation();
@@ -20,11 +21,13 @@ export const StartScreen = () => {
         </div>
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-medium">
+      <h1 className="text-2xl md:text-3xl font-medium text-balance">
         <Trans i18nKey="start_screen_title" components={[<span className="text-accent" />]} />
       </h1>
 
       <p className="text-lg opacity-55">{t("start_screen_subtitle")}</p>
+
+      <GpsRefinementToast />
     </div>
   );
 };

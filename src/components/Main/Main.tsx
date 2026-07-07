@@ -7,7 +7,6 @@ import { observer } from "mobx-react-lite";
 import requestStore from "../../store/request/requestStore";
 import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
-import { GpsRefinementToast } from "../GpsRefinementToast";
 // import { WeatherPreview } from "../Preview";
 
 export const Main = observer(() => {
@@ -25,8 +24,6 @@ export const Main = observer(() => {
         <Astronomy />
         <AirQuality />
         <WeeklyForecast weeklyForecastList={weeklyForecast} />
-
-        <GpsRefinementToast />
       </main>
       {/* <WeatherPreview /> */}
     </>

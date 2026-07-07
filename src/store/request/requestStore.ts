@@ -21,6 +21,7 @@ export const getErrorKey = (error: unknown): string => {
 };
 
 class RequestStore {
+  fastLocation: { city: string; lat: number; lon: number } | null = null;
   startScreen: boolean = true;
   loading: boolean = false;
   error: string | null = null;
@@ -76,8 +77,47 @@ class RequestStore {
     weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings.language, settings.temperatureUnit);
   }
 
+  async initFastLocation() {
+    if (locationStore.getLocationByCache()) {
+      console.log("IP підказка скасована: є координати в кеші");
+      return;
+    }
+
+    const ipData = await locationStore.prefetchByIP();
+    console.log("Дані з IP отримано:", ipData);
+
+    if (ipData) {
+      runInAction(() => {
+        this.fastLocation = ipData;
+      });
+    }
+  }
+
+  async confirmFastLocation(settings: SettingsState) {
+    if (!this.fastLocation) return;
+
+    const { lat, lon } = this.fastLocation;
+    runInAction(() => {
+      this.setLoading(true);
+      this.fastLocation = null;
+      this.clearError();
+    });
+
+    try {
+      await this.fetchWeatherByCoords(lat, lon, settings);
+    } catch (error) {
+      runInAction(() => this.addError(getErrorKey(error)));
+    } finally {
+      runInAction(() => this.setLoading(false));
+    }
+  }
+
   async fetchForecastByLocation(settings: SettingsState) {
-    this.setLoading(true);
+    runInAction(() => {
+      this.setLoading(true);
+      this.clearError();
+      this.fastLocation = null;
+    });
 
     try {
       const { latitude, longitude } = await locationStore.getLocationByGPS();
