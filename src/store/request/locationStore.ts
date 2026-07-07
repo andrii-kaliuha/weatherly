@@ -1,23 +1,27 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { loadGeoCache } from "../../shared/utils/storage/locationCache";
 import geocodingStore from "./geocodingStore";
 
 class LocationStore {
+  ipCity: string | null = null;
+  ipCoords: { latitude: number; longitude: number } | null = null;
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  async prefetchByIP(): Promise<{ lat: number; lon: number; city: string } | null> {
+  async prefetchByIP() {
     try {
       const { latitude, longitude } = await this.getLocationByIP();
       const local_names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
-      return {
-        lat: latitude,
-        lon: longitude,
-        city: local_names?.uk || local_names?.en || "",
-      };
+      const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
+
+      runInAction(() => {
+        this.ipCity = cityName;
+        this.ipCoords = { latitude, longitude };
+      });
     } catch {
-      return null;
+      // тихо ігноруємо
     }
   }
 

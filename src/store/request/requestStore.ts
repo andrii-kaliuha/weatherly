@@ -29,10 +29,6 @@ class RequestStore {
   airQuality: AirPollutionResponse | null = null;
   local_names: Record<string, string> | null = null;
 
-  fastLocation: { city: string; lat: number; lon: number } | null = null;
-  // Запобіжник для уникнення конфліктів між паралельними запитами
-  private isLocationHandled: boolean = false;
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -81,78 +77,13 @@ class RequestStore {
   }
 
   async fetchForecastByLocation(settings: SettingsState) {
-    runInAction(() => {
-      this.setLoading(true);
-      this.fastLocation = null;
-      this.clearError();
-      this.isLocationHandled = false; // Скидаємо прапорець при новому запиті
-    });
-
-    let isGpsResolved = false;
-
-    // 1. IP-запит (Швидкий фоновий шлях)
-    locationStore
-      .prefetchByIP()
-      .then((ipData) => {
-        // Показуємо підказку лише якщо GPS ще не завершився і юзер нічого не підтвердив
-        if (ipData && !isGpsResolved && !this.isLocationHandled) {
-          runInAction(() => {
-            this.fastLocation = ipData;
-          });
-        }
-      })
-      .catch(() => {
-        // Тихо ігноруємо помилку IP-сервісу
-      });
-
-    // 2. GPS-запит (Повільний точний шлях з системним вікном)
-    locationStore
-      .getLocationByGPS()
-      .then(async (coords) => {
-        isGpsResolved = true;
-
-        // Якщо користувач вже встиг клікнути на підказку IP — повністю ігноруємо GPS
-        if (this.isLocationHandled) return;
-
-        const local_names = await this.fetchWeatherByCoords(coords.latitude, coords.longitude, settings);
-
-        runInAction(() => {
-          this.fastLocation = null;
-          this.isLocationHandled = true;
-          const cityName = local_names?.uk || local_names?.en || "";
-          saveGeoCache(coords.latitude, coords.longitude, cityName);
-        });
-      })
-      .catch((error) => {
-        // Виводимо помилку тільки якщо немає підказки і процес не оброблено через IP
-        if (!this.fastLocation && !this.isLocationHandled) {
-          runInAction(() => this.addError(getErrorKey(error)));
-        }
-      })
-      .finally(() => {
-        // Знімаємо лоадер тільки якщо потік не перехоплений методом confirmFastLocation
-        if (!this.isLocationHandled) {
-          runInAction(() => this.setLoading(false));
-        }
-      });
-  }
-
-  // Метод для обробки кліку по підказці "Так, показати прогноз"
-  async confirmFastLocation(settings: SettingsState) {
-    if (!this.fastLocation) return;
-
-    // Миттєво блокуємо паралельний потік GPS
-    this.isLocationHandled = true;
-
-    const { lat, lon } = this.fastLocation;
-
-    runInAction(() => {
-      this.fastLocation = null;
-      this.setLoading(true);
-    });
+    this.setLoading(true);
 
     try {
-      await this.fetchWeatherByCoords(lat, lon, settings);
+      const { latitude, longitude } = await locationStore.getLocationByGPS();
+      const local_names = await this.fetchWeatherByCoords(latitude, longitude, settings);
+      const cityName = local_names?.uk || local_names?.en;
+      saveGeoCache(latitude, longitude, cityName);
     } catch (error) {
       runInAction(() => this.addError(getErrorKey(error)));
     } finally {
