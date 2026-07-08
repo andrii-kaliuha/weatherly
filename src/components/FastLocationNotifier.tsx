@@ -6,7 +6,7 @@ import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
 import { Portal } from "../shared/ui/Portal";
 
-export const GpsRefinementToast = observer(() => {
+export const FastLocationNotifier = observer(() => {
   const [isSessionDismissed, setIsSessionDismissed] = useState(false);
   const { t } = useTranslation();
 
