@@ -1,46 +1,31 @@
 import { observer } from "mobx-react-lite";
 import settings from "../store/settings";
 import requestStore from "../store/request/requestStore";
-import { useState, useEffect } from "react";
 import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
 import { Portal } from "../shared/ui/Portal";
 
 export const FastLocationNotifier = observer(() => {
-  const [isSessionDismissed, setIsSessionDismissed] = useState(false);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const dismissed = sessionStorage.getItem("ip_prompt_dismissed");
-    if (dismissed === "true") setIsSessionDismissed(true);
-  }, []);
-
-  // Якщо швидкої локації по IP немає, або користувач приховав її в цій сесії — нічого не рендеримо
-  if (!requestStore.fastLocation || isSessionDismissed) return null;
-
+  if (!requestStore.fastLocation) return null;
   const { city } = requestStore.fastLocation;
 
-  const handleDismiss = (permanent: boolean) => {
-    if (permanent) {
-      sessionStorage.setItem("ip_prompt_dismissed", "true");
-      setIsSessionDismissed(true);
-    }
-    // Просто очищаємо fastLocation в сторі, щоб сховати плашку
-    requestStore.fastLocation = null;
-  };
+  const handleConfirm = () => requestStore.confirmFastLocation(settings.settings);
+  const handleDismiss = () => (requestStore.fastLocation = null);
 
   return (
     <Portal>
       <div className="fixed bottom-6 left-3 right-3 z-50 flex justify-center">
         <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
           <div className="w-full flex items-center gap-3">
-            <Icon name="geolocation" height={48} width={48} color="red" />
+            <Icon name="geolocation" height={48} width={48} />
             <div className="flex flex-1 flex-col items-center">
               <span className="text-base block truncate max-w-64">{city}?</span>
               <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
             </div>
-            <ShowButton onClick={() => requestStore.confirmFastLocation(settings.settings)} />
-            <CloseButton onClick={() => handleDismiss(true)} />
+            <ShowButton onClick={handleConfirm} />
+            <CloseButton onClick={handleDismiss} />
           </div>
         </div>
       </div>
