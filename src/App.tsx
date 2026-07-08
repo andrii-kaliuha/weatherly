@@ -19,6 +19,7 @@ export const App = observer(() => {
     <div className="max-w-5xl w-full">
       <Header />
       <Main />
+      <div id="portal-root"></div>
     </div>
   );
 });
