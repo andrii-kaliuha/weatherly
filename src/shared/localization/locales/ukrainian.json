@@ -33,13 +33,9 @@
     "geolocation_button": "Моє місцезнаходження"
   },
 
-  "gpsRefinement": {
-    "description": "Це ваша локація. Оновити прогноз?",
-    "actions": {
-      "update": "Оновити",
-      "notNow": "Не зараз",
-      "neverAsk": "Більше не питати"
-    }
+  "fast_location": {
+    "ask": "Показати прогноз?",
+    "show": "Показати"
   },
 
   "weather": {
