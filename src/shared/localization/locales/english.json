@@ -43,6 +43,11 @@
     }
   },
 
+  "fast_location": {
+    "ask": "Show forecast?",
+    "show": "Show"
+  },
+
   "weather": {
     "current": {
       "title": "Forecast for the current hour",

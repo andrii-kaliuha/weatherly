@@ -7,16 +7,18 @@ class LocationStore {
     makeAutoObservable(this);
   }
 
-  async prefetchByIP(): Promise<{ lat: number; lon: number; city: string } | null> {
+  async prefetchByIP(): Promise<{ lat: number; lon: number; local_names: { uk: string; en: string } } | null> {
     try {
       const { latitude, longitude } = await this.getLocationByIP();
-      const local_names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
-      const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0] || "";
+      const names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
 
       return {
         lat: latitude,
         lon: longitude,
-        city: cityName,
+        local_names: {
+          uk: names?.uk || Object.values(names)[0] || "",
+          en: names?.en || Object.values(names)[0] || "",
+        },
       };
     } catch {
       return null;

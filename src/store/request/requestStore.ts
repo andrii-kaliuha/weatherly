@@ -21,7 +21,7 @@ export const getErrorKey = (error: unknown): string => {
 };
 
 class RequestStore {
-  fastLocation: { city: string; lat: number; lon: number } | null = null;
+  fastLocation: { local_names: { uk: string; en: string }; lat: number; lon: number } | null = null;
   startScreen: boolean = true;
   loading: boolean = false;
   error: string | null = null;

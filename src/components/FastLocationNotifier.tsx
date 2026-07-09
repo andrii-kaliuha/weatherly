@@ -6,8 +6,10 @@ import { useTranslation } from "react-i18next";
 import { Portal } from "../shared/ui/Portal";
 
 export const FastLocationNotifier = observer(() => {
+  const { i18n } = useTranslation();
   if (!requestStore.fastLocation) return null;
-  const { city } = requestStore.fastLocation;
+  const { uk, en } = requestStore.fastLocation.local_names;
+  const city = i18n.language === "uk" ? uk : en;
 
   const handleConfirm = () => requestStore.confirmFastLocation(settings.settings);
   const handleDismiss = () => (requestStore.fastLocation = null);
@@ -28,7 +30,7 @@ const ShowButton = ({ onClick }: { onClick: () => void }) => {
       onClick={onClick}
       className="h-full min-w-32 rounded-4xl bg-accent text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
     >
-      {t("gpsRefinement.actions.update")}
+      {t("fast_location.show")}
     </button>
   );
 };
@@ -54,7 +56,7 @@ const Descktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () 
           <Icon name="geolocation" height={48} width={48} />
           <div className="flex flex-1 flex-col items-center">
             <span className="text-base block truncate max-w-64">{city}?</span>
-            <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
+            <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
           </div>
           <ShowButton onClick={onConfirm} />
           <CloseButton onClick={onDismiss} />
@@ -74,7 +76,7 @@ const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =>
           <Icon name="geolocation" height={48} width={48} />
           <div className="flex flex-1 flex-col items-center">
             <span className="text-base block truncate max-w-64">{city}?</span>
-            <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
+            <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
           </div>
           <ShowButton onClick={onConfirm} />
           <CloseButton onClick={onDismiss} />
