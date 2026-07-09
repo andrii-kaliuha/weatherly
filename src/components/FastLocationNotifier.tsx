@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 import { Portal } from "../shared/ui/Portal";
 
 export const FastLocationNotifier = observer(() => {
-  const { t } = useTranslation();
-
   if (!requestStore.fastLocation) return null;
   const { city } = requestStore.fastLocation;
 
@@ -16,19 +14,8 @@ export const FastLocationNotifier = observer(() => {
 
   return (
     <Portal>
-      <div className="fixed bottom-6 left-3 right-3 z-50 flex justify-center">
-        <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
-          <div className="w-full flex items-center gap-3">
-            <Icon name="geolocation" height={48} width={48} />
-            <div className="flex flex-1 flex-col items-center">
-              <span className="text-base block truncate max-w-64">{city}?</span>
-              <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
-            </div>
-            <ShowButton onClick={handleConfirm} />
-            <CloseButton onClick={handleDismiss} />
-          </div>
-        </div>
-      </div>
+      <Descktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
+      <Mobile city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
     </Portal>
   );
 });
@@ -54,5 +41,45 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => {
     >
       <Icon name="close" height={24} width={24} />
     </button>
+  );
+};
+
+const Descktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="hidden md:flex justify-center fixed bottom-6 left-3 right-3 z-50">
+      <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
+        <div className="w-full flex items-center gap-3">
+          <Icon name="geolocation" height={48} width={48} />
+          <div className="flex flex-1 flex-col items-center">
+            <span className="text-base block truncate max-w-64">{city}?</span>
+            <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
+          </div>
+          <ShowButton onClick={onConfirm} />
+          <CloseButton onClick={onDismiss} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex md:hidden justify-center  fixed bottom-6 left-3 right-3 z-50">
+      <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
+        <div className="w-full flex items-center gap-3">
+          <Icon name="geolocation" height={48} width={48} />
+          <div className="flex flex-1 flex-col items-center">
+            <span className="text-base block truncate max-w-64">{city}?</span>
+            <p className="text-sm text-secondary text-balance">{t("gpsRefinement.description")}</p>
+          </div>
+          <ShowButton onClick={onConfirm} />
+          <CloseButton onClick={onDismiss} />
+        </div>
+      </div>
+    </div>
   );
 };
