@@ -16,7 +16,7 @@ export const FastLocationNotifier = observer(() => {
 
   return (
     <Portal>
-      <Descktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
+      <Desktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
       <Mobile city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
     </Portal>
   );
@@ -46,15 +46,15 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-const Descktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
+const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="hidden md:flex justify-center fixed bottom-6 left-3 right-3 z-50">
+    <div className="hidden md:flex justify-center fixed bottom-6 left-3 right-3 z-20">
       <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
         <div className="w-full flex items-center gap-3">
           <Icon name="geolocation" height={48} width={48} />
-          <div className="flex flex-1 flex-col items-center">
+          <div className="flex flex-1 flex-col text-center">
             <span className="text-base block truncate max-w-64">{city}?</span>
             <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
           </div>
