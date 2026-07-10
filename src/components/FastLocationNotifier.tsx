@@ -11,7 +11,11 @@ export const FastLocationNotifier = observer(() => {
   const { uk, en } = requestStore.fastLocation.local_names;
   const city = i18n.language === "uk" ? uk : en;
 
-  const handleConfirm = () => requestStore.confirmFastLocation(settings.settings);
+  const handleConfirm = () => {
+    requestStore.confirmFastLocation(settings.settings);
+    requestStore.hideStartScreen();
+  };
+
   const handleDismiss = () => (requestStore.fastLocation = null);
 
   return (
