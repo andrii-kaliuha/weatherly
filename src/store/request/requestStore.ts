@@ -94,8 +94,7 @@ class RequestStore {
   }
 
   async confirmFastLocation(settings: SettingsState) {
-    if (!this.fastLocation) return;
-
+    if (this.fastLocation === null) return;
     const { lat, lon } = this.fastLocation;
     runInAction(() => {
       this.setLoading(true);

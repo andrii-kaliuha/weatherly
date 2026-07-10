@@ -32,7 +32,7 @@ const ShowButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="h-full min-w-32 rounded-4xl bg-accent text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
+      className="h-12 min-w-full sm:min-w-32 rounded-4xl bg-accent text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
     >
       {t("fast_location.show")}
     </button>
@@ -54,12 +54,12 @@ const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =
   const { t } = useTranslation();
 
   return (
-    <div className="hidden md:flex justify-center fixed bottom-6 left-3 right-3 z-20">
+    <div className="hidden sm:flex justify-center fixed bottom-6 left-3 right-3 z-20">
       <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
         <div className="w-full flex items-center gap-3">
           <Icon name="geolocation" height={48} width={48} />
-          <div className="flex flex-1 flex-col text-center">
-            <span className="text-base block truncate max-w-64">{city}?</span>
+          <div className="flex flex-1 flex-col min-w-0">
+            <span className="text-base block truncate">{city}?</span>
             <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
           </div>
           <ShowButton onClick={onConfirm} />
@@ -74,16 +74,20 @@ const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =>
   const { t } = useTranslation();
 
   return (
-    <div className="flex md:hidden justify-center  fixed bottom-6 left-3 right-3 z-50">
-      <div className="w-full max-w-max rounded-full flex gap-3 bg-surface p-3">
-        <div className="w-full flex items-center gap-3">
-          <Icon name="geolocation" height={48} width={48} />
-          <div className="flex flex-1 flex-col items-center">
-            <span className="text-base block truncate max-w-64">{city}?</span>
-            <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
+    <div className="flex sm:hidden justify-center  fixed bottom-3 left-3 right-3 z-20">
+      <div className="w-full max-w-full rounded-4xl flex gap-3 bg-surface p-3">
+        <div className="w-full flex flex-col items-center gap-3 justify-evenly">
+          <div className="flex flex-1 items-center gap-3 w-full">
+            <Icon name="geolocation" height={48} width={48} />
+            <div className="flex flex-1 flex-col min-w-0">
+              <span className="text-base block truncate">{city}?</span>
+              <p className="text-sm text-secondary text-balance">{t("fast_location.ask")}</p>
+            </div>
+            <CloseButton onClick={onDismiss} />
           </div>
-          <ShowButton onClick={onConfirm} />
-          <CloseButton onClick={onDismiss} />
+          <div className="flex flex-1 items-center gap-3 w-full">
+            <ShowButton onClick={onConfirm} />
+          </div>
         </div>
       </div>
     </div>
