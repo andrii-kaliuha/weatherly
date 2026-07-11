@@ -20,8 +20,10 @@ export const FastLocationNotifier = observer(() => {
 
   return (
     <Portal>
-      <Desktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
-      <Mobile city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
+      <div className="flex justify-center fixed bottom-3 left-3 right-3 z-20">
+        <Desktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
+        <Mobile city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
+      </div>
     </Portal>
   );
 });
@@ -43,7 +45,7 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="h-12 w-12 rounded-full bg-black text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
+      className="h-12 w-12 rounded-full bg-primary text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
     >
       <Icon name="close" height={24} width={24} />
     </button>
@@ -54,18 +56,14 @@ const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =
   const { t } = useTranslation();
 
   return (
-    <div className="hidden sm:flex justify-center fixed bottom-3 left-3 right-3 z-20">
-      <div className="max-w-max rounded-full bg-surface p-3">
-        <div className="w-full flex items-center gap-3">
-          <Icon name="geolocation" height={48} width={48} />
-          <div className="flex flex-1 flex-col min-w-0">
-            <span className="text-base block truncate">{city}?</span>
-            <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
-          </div>
-          <ShowButton onClick={onConfirm} />
-          <CloseButton onClick={onDismiss} />
-        </div>
+    <div className="hidden sm:flex items-center gap-3 w-full max-w-max rounded-full bg-surface p-3">
+      <Icon name="geolocation" height={48} width={48} />
+      <div className="flex flex-1 flex-col min-w-0">
+        <span className="text-base block truncate">{city}?</span>
+        <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
       </div>
+      <ShowButton onClick={onConfirm} />
+      <CloseButton onClick={onDismiss} />
     </div>
   );
 };
@@ -74,18 +72,16 @@ const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =>
   const { t } = useTranslation();
 
   return (
-    <div className="flex sm:hidden justify-center fixed bottom-3 left-3 right-3 z-20">
-      <div className="w-full max-w-full rounded-4xl flex flex-col gap-3 bg-surface p-3">
-        <div className="w-full flex items-center gap-3">
-          <Icon name="geolocation" height={48} width={48} />
-          <div className="flex flex-1 flex-col min-w-0">
-            <span className="text-base block truncate">{city}?</span>
-            <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
-          </div>
-          <CloseButton onClick={onDismiss} />
+    <div className="flex sm:hidden flex-col gap-3 w-full rounded-4xl bg-surface p-3">
+      <div className="w-full flex items-center gap-3">
+        <Icon name="geolocation" height={48} width={48} />
+        <div className="flex flex-1 flex-col min-w-0">
+          <span className="text-base block truncate">{city}?</span>
+          <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
         </div>
-        <ShowButton onClick={onConfirm} />
+        <CloseButton onClick={onDismiss} />
       </div>
+      <ShowButton onClick={onConfirm} />
     </div>
   );
 };
