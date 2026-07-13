@@ -21,6 +21,10 @@ export const getErrorKey = (error: unknown): string => {
 };
 
 class RequestStore {
+  forecast: WeatherResponse | null = null;
+  airQuality: AirPollutionResponse | null = null;
+  local_names: Record<string, string> | null = null;
+
   fastLocation: { local_names: { uk: string; en: string }; lat: number; lon: number } | null = null;
   startScreen: boolean = true;
   loading: boolean = false;
@@ -71,6 +75,10 @@ class RequestStore {
     astronomyStore.updateAstronomy(forecast, settings.format);
     airQualityStore.updateAirQuality(airQuality, local_names, settings.language);
     weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings.language, settings.temperatureUnit);
+
+    this.forecast = forecast;
+    this.airQuality = airQuality;
+    this.local_names = local_names;
   }
 
   async initFastLocation() {
@@ -94,7 +102,7 @@ class RequestStore {
 
     runInAction(() => {
       this.setLoading(true);
-      this.fastLocation = null;
+      this.dismissFastLocation();
       this.clearError();
     });
 
@@ -137,8 +145,8 @@ class RequestStore {
   async fetchForecastByLocation(settings: SettingsState) {
     runInAction(() => {
       this.setLoading(true);
+      this.dismissFastLocation();
       this.clearError();
-      this.fastLocation = null;
     });
 
     try {
