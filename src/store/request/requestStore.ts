@@ -74,10 +74,7 @@ class RequestStore {
   }
 
   async initFastLocation() {
-    if (locationStore.getLocationByCache()) {
-      console.log("IP підказка скасована: є координати в кеші");
-      return;
-    }
+    if (locationStore.getLocationByCache()) return;
 
     try {
       const { latitude, longitude } = await locationStore.getLocationByIP();
@@ -86,10 +83,8 @@ class RequestStore {
       runInAction(() => {
         this.fastLocation = { lat: latitude, lon: longitude, local_names: { uk: names?.uk, en: names?.en } };
       });
-
-      console.log("Дані для IP підказки успішно ініціалізовано:", this.fastLocation);
     } catch (error) {
-      console.error("Не вдалося ініціалізувати IP підказку:", error);
+      console.error("Failed to initialize IP fast location:", error);
     }
   }
 
@@ -122,24 +117,18 @@ class RequestStore {
   }
 
   async fetchWeatherByCoords(lat: number, lon: number) {
-    // 1. Спочатку перевіряємо, чи є вже дані для цих координат
     const cached = getWeatherCacheByCoords(lat, lon);
     if (cached) {
-      console.log("Дані з кешу");
       return { local_names: cached.local_names, forecast: cached.forecast, airQuality: cached.airQuality };
     }
 
-    // 2. Якщо в кеші порожньо — робимо запит до сервера
     const [local_names, forecast, airQuality] = await Promise.all([
       geocodingStore.getCityNameByCoordinates(lat, lon),
       this.getWeatherForecast(lat, lon),
       this.getAirQuality(lat, lon),
     ]);
 
-    console.log("Дані з запиту до сервера");
-
-    // 3. ОБОВ'ЯЗКОВО зберігаємо отримані дані в кеш погоди
-    const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0] || "";
+    const cityName = local_names?.en || "Unknown";
     saveWeatherCache({ name: cityName, lat, lon }, forecast, airQuality, local_names);
 
     return { local_names, forecast, airQuality };
@@ -156,7 +145,7 @@ class RequestStore {
       const { latitude, longitude } = await locationStore.getLocationByGPS();
       const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
 
-      const cityName = local_names?.uk || local_names?.en || "Unknown";
+      const cityName = local_names?.en || "Unknown";
       saveGeoCache(latitude, longitude, cityName);
 
       runInAction(() => {
@@ -175,7 +164,6 @@ class RequestStore {
 
     runInAction(() => this.setLoading(true));
     try {
-      // Перевірка кешу за назвою міста
       const cached = getWeatherCacheByCity(city);
       if (cached) {
         saveToSearchHistory(city, cached.city.lat, cached.city.lon);
