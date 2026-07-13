@@ -79,19 +79,24 @@ class RequestStore {
       return;
     }
 
-    const ipData = await locationStore.prefetchByIP();
-    console.log("Дані з IP отримано:", ipData);
+    try {
+      const { latitude, longitude } = await locationStore.getLocationByIP();
+      const names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
 
-    if (ipData) {
       runInAction(() => {
-        this.fastLocation = ipData;
+        this.fastLocation = { lat: latitude, lon: longitude, local_names: { uk: names?.uk, en: names?.en } };
       });
+
+      console.log("Дані для IP підказки успішно ініціалізовано:", this.fastLocation);
+    } catch (error) {
+      console.error("Не вдалося ініціалізувати IP підказку:", error);
     }
   }
 
   async confirmFastLocation(settings: SettingsState) {
     if (this.fastLocation === null) return;
     const { lat, lon } = this.fastLocation;
+
     runInAction(() => {
       this.setLoading(true);
       this.fastLocation = null;
@@ -99,7 +104,12 @@ class RequestStore {
     });
 
     try {
-      await this.fetchWeatherByCoords(lat, lon, settings);
+      const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(lat, lon);
+
+      runInAction(() => {
+        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.clearError();
+      });
     } catch (error) {
       runInAction(() => this.addError(getErrorKey(error)));
     } finally {
@@ -111,6 +121,30 @@ class RequestStore {
     this.fastLocation = null;
   }
 
+  async fetchWeatherByCoords(lat: number, lon: number) {
+    // 1. Спочатку перевіряємо, чи є вже дані для цих координат
+    const cached = getWeatherCacheByCoords(lat, lon);
+    if (cached) {
+      console.log("Дані з кешу");
+      return { local_names: cached.local_names, forecast: cached.forecast, airQuality: cached.airQuality };
+    }
+
+    // 2. Якщо в кеші порожньо — робимо запит до сервера
+    const [local_names, forecast, airQuality] = await Promise.all([
+      geocodingStore.getCityNameByCoordinates(lat, lon),
+      this.getWeatherForecast(lat, lon),
+      this.getAirQuality(lat, lon),
+    ]);
+
+    console.log("Дані з запиту до сервера");
+
+    // 3. ОБОВ'ЯЗКОВО зберігаємо отримані дані в кеш погоди
+    const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0] || "";
+    saveWeatherCache({ name: cityName, lat, lon }, forecast, airQuality, local_names);
+
+    return { local_names, forecast, airQuality };
+  }
+
   async fetchForecastByLocation(settings: SettingsState) {
     runInAction(() => {
       this.setLoading(true);
@@ -120,9 +154,15 @@ class RequestStore {
 
     try {
       const { latitude, longitude } = await locationStore.getLocationByGPS();
-      const local_names = await this.fetchWeatherByCoords(latitude, longitude, settings);
-      const cityName = local_names?.uk || local_names?.en;
+      const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
+
+      const cityName = local_names?.uk || local_names?.en || "Unknown";
       saveGeoCache(latitude, longitude, cityName);
+
+      runInAction(() => {
+        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.clearError();
+      });
     } catch (error) {
       runInAction(() => this.addError(getErrorKey(error)));
     } finally {
@@ -130,43 +170,15 @@ class RequestStore {
     }
   }
 
-  async fetchWeatherByCoords(lat: number, lon: number, settings: SettingsState) {
-    // Перевіряємо кеш по координатах
-    const cached = getWeatherCacheByCoords(lat, lon);
-    if (cached) {
-      runInAction(() => {
-        this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
-        this.clearError();
-      });
-      return cached.local_names;
-    }
-
-    // Кешу немає — запит до API
-    const [local_names, forecast, airQuality] = await Promise.all([
-      geocodingStore.getCityNameByCoordinates(lat, lon),
-      this.getWeatherForecast(lat, lon),
-      this.getAirQuality(lat, lon),
-    ]);
-
-    const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
-    saveWeatherCache({ name: cityName, lat, lon }, forecast, airQuality, local_names);
-
-    runInAction(() => {
-      this.updateForecast(forecast, airQuality, local_names, settings);
-      this.clearError();
-    });
-
-    return local_names;
-  }
-
   async fetchForecastByCityName(city: string, settings: SettingsState) {
     if (!this.validateCity(city)) return;
 
     runInAction(() => this.setLoading(true));
     try {
-      // Перевіряємо кеш по назві
+      // Перевірка кешу за назвою міста
       const cached = getWeatherCacheByCity(city);
       if (cached) {
+        saveToSearchHistory(city, cached.city.lat, cached.city.lon);
         runInAction(() => {
           this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
           this.clearError();
@@ -174,11 +186,9 @@ class RequestStore {
         return;
       }
 
-      // Кешу немає — запит до API
       const { latitude, longitude, local_names } = await geocodingStore.getCityCoordinates(city);
-      const [forecast, airQuality] = await Promise.all([this.getWeatherForecast(latitude, longitude), this.getAirQuality(latitude, longitude)]);
+      const { forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
 
-      saveWeatherCache({ name: city, lat: latitude, lon: longitude }, forecast, airQuality, local_names);
       saveToSearchHistory(city, latitude, longitude);
 
       runInAction(() => {

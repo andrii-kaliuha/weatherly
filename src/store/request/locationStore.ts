@@ -1,28 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { loadGeoCache } from "../../shared/utils/storage/locationCache";
-import geocodingStore from "./geocodingStore";
 
 class LocationStore {
   constructor() {
     makeAutoObservable(this);
-  }
-
-  async prefetchByIP(): Promise<{ lat: number; lon: number; local_names: { uk: string; en: string } } | null> {
-    try {
-      const { latitude, longitude } = await this.getLocationByIP();
-      const names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
-
-      return {
-        lat: latitude,
-        lon: longitude,
-        local_names: {
-          uk: names?.uk || Object.values(names)[0] || "",
-          en: names?.en || Object.values(names)[0] || "",
-        },
-      };
-    } catch {
-      return null;
-    }
   }
 
   async getLocationByGPS(): Promise<{ latitude: number; longitude: number }> {
@@ -59,7 +40,7 @@ class LocationStore {
 
   getLocationByCache(): { latitude: number; longitude: number } | null {
     const cached = loadGeoCache();
-    if (!cached) return null;
+    if (cached === null) return null;
     return { latitude: cached.lat, longitude: cached.lon };
   }
 }
