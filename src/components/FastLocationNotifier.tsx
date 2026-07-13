@@ -59,7 +59,7 @@ const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =
     <div className="hidden sm:flex items-center gap-3 w-full max-w-max rounded-full bg-surface p-3">
       <Icon name="geolocation" height={48} width={48} />
       <div className="flex flex-1 flex-col min-w-0">
-        <span className="text-base block truncate">{city}?</span>
+        <span className="text-base text-primary block truncate">{city}?</span>
         <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
       </div>
       <ShowButton onClick={onConfirm} />
