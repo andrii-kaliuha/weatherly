@@ -16,7 +16,7 @@ export const FastLocationNotifier = observer(() => {
     requestStore.hideStartScreen();
   };
 
-  const handleDismiss = () => (requestStore.fastLocation = null);
+  const handleDismiss = () => requestStore.dismissFastLocation();
 
   return (
     <Portal>

@@ -107,6 +107,10 @@ class RequestStore {
     }
   }
 
+  dismissFastLocation() {
+    this.fastLocation = null;
+  }
+
   async fetchForecastByLocation(settings: SettingsState) {
     runInAction(() => {
       this.setLoading(true);
