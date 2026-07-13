@@ -12,6 +12,7 @@ export const FastLocationNotifier = observer(() => {
   const city = i18n.language === "uk" ? uk : en;
 
   const handleConfirm = () => {
+    if (requestStore.loading === true) return;
     requestStore.confirmFastLocation(settings.settings);
     requestStore.hideStartScreen();
   };

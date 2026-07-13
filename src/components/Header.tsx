@@ -12,11 +12,13 @@ export const Header = observer(() => {
 
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
+    if (requestStore.loading === true) return;
     requestStore.fetchForecastByCityName(cityName, settings.settings);
     requestStore.hideStartScreen();
   };
 
   const searchCityByLocation = () => {
+    if (requestStore.loading === true) return;
     requestStore.fetchForecastByLocation(settings.settings);
     requestStore.hideStartScreen();
   };
