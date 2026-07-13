@@ -26,10 +26,6 @@ class RequestStore {
   loading: boolean = false;
   error: string | null = null;
 
-  forecast: WeatherResponse | null = null;
-  airQuality: AirPollutionResponse | null = null;
-  local_names: Record<string, string> | null = null;
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -135,9 +131,6 @@ class RequestStore {
     const cached = getWeatherCacheByCoords(lat, lon);
     if (cached) {
       runInAction(() => {
-        this.forecast = cached.forecast;
-        this.airQuality = cached.airQuality;
-        this.local_names = cached.local_names;
         this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
         this.clearError();
       });
@@ -152,14 +145,11 @@ class RequestStore {
     ]);
 
     const cityName = local_names?.uk || local_names?.en || Object.values(local_names)[0];
+    saveWeatherCache({ name: cityName, lat, lon }, forecast, airQuality, local_names);
 
     runInAction(() => {
-      this.forecast = forecast;
-      this.airQuality = airQuality;
-      this.local_names = local_names;
       this.updateForecast(forecast, airQuality, local_names, settings);
       this.clearError();
-      saveWeatherCache({ name: cityName, lat, lon }, forecast, airQuality, local_names);
     });
 
     return local_names;
@@ -174,9 +164,6 @@ class RequestStore {
       const cached = getWeatherCacheByCity(city);
       if (cached) {
         runInAction(() => {
-          this.forecast = cached.forecast;
-          this.airQuality = cached.airQuality;
-          this.local_names = cached.local_names;
           this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
           this.clearError();
         });
@@ -187,14 +174,12 @@ class RequestStore {
       const { latitude, longitude, local_names } = await geocodingStore.getCityCoordinates(city);
       const [forecast, airQuality] = await Promise.all([this.getWeatherForecast(latitude, longitude), this.getAirQuality(latitude, longitude)]);
 
+      saveWeatherCache({ name: city, lat: latitude, lon: longitude }, forecast, airQuality, local_names);
+      saveToSearchHistory(city, latitude, longitude);
+
       runInAction(() => {
-        this.forecast = forecast;
-        this.airQuality = airQuality;
-        this.local_names = local_names;
         this.updateForecast(forecast, airQuality, local_names, settings);
         this.clearError();
-        saveWeatherCache({ name: city, lat: latitude, lon: longitude }, forecast, airQuality, local_names);
-        saveToSearchHistory(city, latitude, longitude);
       });
     } catch (error) {
       runInAction(() => this.addError(getErrorKey(error)));
