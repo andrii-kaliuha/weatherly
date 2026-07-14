@@ -8,7 +8,10 @@ import requestStore from "../store/request/requestStore";
 
 export const Header = observer(() => {
   const [cityName, setCity] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation();
+
+  const handleToggleMenu = (state: boolean) => () => setIsMenuOpen(state);
 
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,9 +30,9 @@ export const Header = observer(() => {
     <header className="sticky top-0 z-1 bg-background">
       <nav className="flex items-center justify-between gap-3 p-3">
         <button
-          onClick={() => settings.toggleSideMenu()}
+          onClick={handleToggleMenu(true)}
           aria-label={t("header.open_menu")}
-          aria-expanded={settings.sideMenuOpen}
+          aria-expanded={isMenuOpen}
           aria-controls="side-menu"
           className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent bg-surface text-primary"
         >
@@ -72,7 +75,7 @@ export const Header = observer(() => {
           <p className="hidden md:block">{t("header.geolocation_button")}</p>
         </button>
       </nav>
-      <SideMenu id="side-menu" isOpen={settings.sideMenuOpen} onClose={() => settings.toggleSideMenu()} />
+      <SideMenu id="side-menu" isOpen={isMenuOpen} onClose={handleToggleMenu(false)} />
     </header>
   );
 });
