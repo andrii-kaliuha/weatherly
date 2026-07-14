@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import SettingsStore from "../store/settings";
+import settingsStore from "../store/settingsStore";
 import { useState } from "react";
 import { Icon } from "../shared/ui/Icons";
 import { RadioButton } from "../shared/ui/Buttons";
@@ -17,7 +17,7 @@ import type {
 } from "../shared/types/settings";
 
 export const Settings = observer(() => {
-  const { settings } = SettingsStore;
+  const { settings } = settingsStore;
 
   return (
     <ul className="relative">
@@ -30,7 +30,7 @@ export const Settings = observer(() => {
           { value: "fahrenheit", title: "settings.temperature.fahrenheit" },
           { value: "kelvin", title: "settings.temperature.kelvin" },
         ]}
-        onChange={(value) => SettingsStore.setTemperatureUnit(value as TemperatureUnit)}
+        onChange={(value) => settingsStore.setTemperatureUnit(value as TemperatureUnit)}
       />
       <Setting
         icon="air"
@@ -41,7 +41,7 @@ export const Settings = observer(() => {
           { value: "km_h", title: "settings.wind_speed.km_h" },
           { value: "mph", title: "settings.wind_speed.mph" },
         ]}
-        onChange={(value) => SettingsStore.setWindSpeedUnit(value as WindSpeedUnit)}
+        onChange={(value) => settingsStore.setWindSpeedUnit(value as WindSpeedUnit)}
       />
       <Setting
         icon="speed"
@@ -51,7 +51,7 @@ export const Settings = observer(() => {
           { value: "hPa", title: "settings.pressure.hPa" },
           { value: "mmHg", title: "settings.pressure.mmHg" },
         ]}
-        onChange={(value) => SettingsStore.setPressureUnit(value as PressureUnit)}
+        onChange={(value) => settingsStore.setPressureUnit(value as PressureUnit)}
       />
       <Setting
         icon="translate"
@@ -61,7 +61,7 @@ export const Settings = observer(() => {
           { value: "en", title: "settings.language.en" },
           { value: "uk", title: "settings.language.uk" },
         ]}
-        onChange={(value) => SettingsStore.setLanguage(value as Language)}
+        onChange={(value) => settingsStore.setLanguage(value as Language)}
       />
       <Setting
         icon="dark-mode"
@@ -71,7 +71,7 @@ export const Settings = observer(() => {
           { value: "light", title: "settings.interface_theme.light" },
           { value: "dark", title: "settings.interface_theme.dark" },
         ]}
-        onChange={(value) => SettingsStore.setTheme(value as Theme)}
+        onChange={(value) => settingsStore.setTheme(value as Theme)}
       />
       <Setting
         icon="schedule"
@@ -81,7 +81,7 @@ export const Settings = observer(() => {
           { value: "12_hour", title: "settings.time_format.12_hour" },
           { value: "24_hour", title: "settings.time_format.24_hour" },
         ]}
-        onChange={(value) => SettingsStore.setTimeFormat(value as TimeFormat)}
+        onChange={(value) => settingsStore.setTimeFormat(value as TimeFormat)}
       />
     </ul>
   );

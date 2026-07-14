@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import settings from "../store/settings";
+import settingsStore from "../store/settingsStore";
 import requestStore from "../store/request/requestStore";
 import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ export const FastLocationNotifier = observer(() => {
 
   const handleConfirm = () => {
     if (requestStore.loading === true) return;
-    requestStore.confirmFastLocation(settings.settings);
+    requestStore.confirmFastLocation(settingsStore.settings);
     requestStore.hideStartScreen();
   };
 
