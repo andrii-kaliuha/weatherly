@@ -1,23 +1,25 @@
 const HISTORY_KEY = "weatherly_search_history";
 const MAX_HISTORY = 5;
 
-interface SearchHistoryItem {
-  city: string;
+type LocalNames = Record<string, string>;
+
+type SearchHistoryItem = {
+  id: string;
+  name: string;
+  local_names?: LocalNames;
   lat: number;
   lon: number;
-  timestamp: number;
-}
+};
 
-export function saveToSearchHistory(city: string, lat: number, lon: number): void {
-  const history = loadSearchHistory();
+type SaveHistoryParams = {
+  name: string;
+  lat: number;
+  lon: number;
+  local_names?: LocalNames;
+};
 
-  // Видаляємо дублікат якщо є
-  const filtered = history.filter((item) => item.city.toLowerCase() !== city.toLowerCase());
-
-  // Додаємо новий запис на початок
-  const updated = [{ city, lat, lon, timestamp: Date.now() }, ...filtered].slice(0, MAX_HISTORY);
-
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+export function generateCityId(lat: number, lon: number): string {
+  return `${lat.toFixed(2)}_${lon.toFixed(2)}`;
 }
 
 export function loadSearchHistory(): SearchHistoryItem[] {
@@ -28,6 +30,22 @@ export function loadSearchHistory(): SearchHistoryItem[] {
   } catch {
     return [];
   }
+}
+
+export function saveToSearchHistory({ name, lat, lon, local_names }: SaveHistoryParams): void {
+  const history = loadSearchHistory();
+  const id = generateCityId(lat, lon);
+
+  const filtered = history.filter((item) => item.id !== id);
+  const updated: SearchHistoryItem[] = [{ id, name, lat, lon, local_names }, ...filtered].slice(0, MAX_HISTORY);
+
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+}
+
+export function removeFromSearchHistory(id: string): SearchHistoryItem[] {
+  const updated = loadSearchHistory().filter((item) => item.id !== id);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+  return updated;
 }
 
 export function clearSearchHistory(): void {

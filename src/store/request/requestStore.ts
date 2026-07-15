@@ -174,7 +174,7 @@ class RequestStore {
     try {
       const cached = getWeatherCacheByCity(city);
       if (cached) {
-        saveToSearchHistory(city, cached.city.lat, cached.city.lon);
+        saveToSearchHistory({ name: city, lat: cached.city.lat, lon: cached.city.lon, local_names: cached.local_names });
         runInAction(() => {
           this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
           this.clearError();
@@ -185,7 +185,7 @@ class RequestStore {
       const { latitude, longitude, local_names } = await geocodingStore.getCityCoordinates(city);
       const { forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
 
-      saveToSearchHistory(city, latitude, longitude);
+      saveToSearchHistory({ name: city, lat: latitude, lon: longitude, local_names });
 
       runInAction(() => {
         this.updateForecast(forecast, airQuality, local_names, settings);
