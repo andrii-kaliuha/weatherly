@@ -197,6 +197,28 @@ class RequestStore {
       runInAction(() => this.setLoading(false));
     }
   }
+
+  async fetchForecastByHistory(item: { name: string; lat: number; lon: number }, settings: SettingsState) {
+    runInAction(() => {
+      this.setLoading(true);
+      this.dismissFastLocation();
+      this.clearError();
+    });
+
+    try {
+      const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(item.lat, item.lon);
+      saveToSearchHistory({ name: item.name, lat: item.lat, lon: item.lon, local_names });
+
+      runInAction(() => {
+        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.clearError();
+      });
+    } catch (error) {
+      runInAction(() => this.addError(getErrorKey(error)));
+    } finally {
+      runInAction(() => this.setLoading(false));
+    }
+  }
 }
 
 export default new RequestStore();
