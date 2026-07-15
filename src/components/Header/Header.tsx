@@ -4,6 +4,7 @@ import { SideMenu } from "../SideMenu";
 import { Icon } from "../../shared/ui/Icons";
 import { CitySearchForm } from "./CitySearchForm";
 import { GeolocationButton } from "./GeolocationButton";
+import { SearchContainer } from "./SearchContainer";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,6 +26,7 @@ export const Header = () => {
         </button>
 
         <CitySearchForm />
+        <SearchContainer />
         <GeolocationButton />
       </nav>
 
