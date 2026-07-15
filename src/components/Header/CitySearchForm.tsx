@@ -5,7 +5,7 @@ import { Icon } from "../../shared/ui/Icons";
 import requestStore from "../../store/request/requestStore";
 import settingsStore from "../../store/settingsStore";
 
-export const CitySearchForm = observer(({ color }: { color?: string }) => {
+export const CitySearchForm = observer(() => {
   const [cityName, setCity] = useState("");
   const { t } = useTranslation();
 
@@ -20,9 +20,8 @@ export const CitySearchForm = observer(({ color }: { color?: string }) => {
     <form
       role="search"
       aria-label={t("header.search_form")}
-      className="group relative flex items-center h-12 w-full max-w-74 rounded-full bg-surface text-primary focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
+      className="group relative flex items-center h-12 w-full max-w-74 rounded-full bg-background text-primary focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
       onSubmit={searchCityByName}
-      style={{ background: color }}
     >
       <input
         type="text"

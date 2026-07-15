@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SideMenu } from "../SideMenu";
 import { Icon } from "../../shared/ui/Icons";
-import { CitySearchForm } from "./CitySearchForm";
+import { FakeSearchInput } from "./FakeSearchInput";
 import { GeolocationButton } from "./GeolocationButton";
 import { SearchContainer } from "./SearchContainer";
 
@@ -11,6 +11,7 @@ export const Header = () => {
   const { t } = useTranslation();
 
   const handleToggleMenu = (state: boolean) => () => setIsMenuOpen(state);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-1 bg-background">
@@ -25,8 +26,11 @@ export const Header = () => {
           <Icon name="menu" height={24} width={24} />
         </button>
 
-        <CitySearchForm />
-        <SearchContainer />
+        <div className="relative w-full max-w-74">
+          <FakeSearchInput onOpen={() => setIsOpen(true)} />
+          <SearchContainer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </div>
+
         <GeolocationButton />
       </nav>
 
