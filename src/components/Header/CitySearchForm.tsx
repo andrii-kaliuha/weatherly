@@ -25,8 +25,8 @@ export const CitySearchForm = observer(() => {
     >
       <input
         type="text"
-        aria-label={t("header.search_placeholder")}
-        placeholder={t("header.search_placeholder")}
+        aria-label={t("header.search.placeholder")}
+        placeholder={t("header.search.placeholder")}
         name="searchCity"
         value={cityName}
         onChange={(e) => setCity(e.target.value)}

@@ -23,14 +23,14 @@
     "generic_error": "Помилка отримання прогнозу погоди."
   },
 
-  "current_location": "Місцезнаходження",
-  "search_city": "Пошук міста...",
-
   "header": {
-    "menu_button": "Відкрити меню",
-    "search_form": "Пошук міста",
-    "search_placeholder": "Пошук міста...",
-    "geolocation_button": "Моє місцезнаходження"
+    "open_menu": "Відкрити меню",
+    "close_menu": "Закрити меню",
+    "search": {
+      "placeholder": "Пошук міста...",
+      "history_empty": "Ваша історія пошуку міст порожня"
+    },
+    "current_location": "Моє місцезнаходження"
   },
 
   "fast_location": {

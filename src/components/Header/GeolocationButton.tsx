@@ -20,7 +20,7 @@ export const GeolocationButton = observer(() => {
       className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent text-on-accent bg-accent gap-3"
     >
       <Icon name="my-location" height={24} width={24} />
-      <p className="hidden md:block">{t("header.geolocation_button")}</p>
+      <p className="hidden md:block">{t("header.current_location")}</p>
     </button>
   );
 });
