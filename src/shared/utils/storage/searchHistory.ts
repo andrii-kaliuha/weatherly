@@ -3,7 +3,7 @@ const MAX_HISTORY = 5;
 
 type LocalNames = Record<string, string>;
 
-type SearchHistoryItem = {
+export type SearchHistoryItem = {
   id: string;
   name: string;
   local_names?: LocalNames;
