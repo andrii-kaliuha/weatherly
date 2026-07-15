@@ -7,15 +7,10 @@ export const SearchContainer = observer(() => {
   const history = loadSearchHistory();
 
   return (
-    <div
-      className="fixed left-6/12 -translate-x-6/12 top-0 w-80 bg-surface rounded-b-2xl shadow-[0_10px_30px_-5px_rgba(0,0,0,0.1)] 
-    z-50 flex flex-col"
-    >
-      <div className="p-3">
+    <div className="fixed left-6/12 -translate-x-6/12 top-0 w-80 bg-surface rounded-b-2xl z-50 flex flex-col">
+      <div className="p-3 border-b-2 border-background">
         <CitySearchForm color="var(--color-background)" />
       </div>
-
-      <div className="h-1 bg-background" />
 
       {history.length > 0 && (
         <div className="flex flex-col">
