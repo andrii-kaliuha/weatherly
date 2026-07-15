@@ -1,4 +1,3 @@
-import { observer } from "mobx-react-lite";
 import { Settings } from "./Settings";
 import { Icon, SVG } from "../shared/ui/Icons";
 import ReactFocusLock from "react-focus-lock";
@@ -9,7 +8,7 @@ import { Portal } from "../shared/ui/Portal";
 
 type SideMenuProps = { id: string; isOpen: boolean; onClose: () => void };
 
-export const SideMenu = observer(({ id, isOpen, onClose }: SideMenuProps) => {
+export const SideMenu = ({ id, isOpen, onClose }: SideMenuProps) => {
   const { t } = useTranslation();
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
@@ -21,12 +20,12 @@ export const SideMenu = observer(({ id, isOpen, onClose }: SideMenuProps) => {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
     };
     if (isOpen) document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [onClose]);
 
   if (!isOpen) return null;
 
@@ -55,7 +54,7 @@ export const SideMenu = observer(({ id, isOpen, onClose }: SideMenuProps) => {
       </div>
     </Portal>
   );
-});
+};
 
 const Button = ({ icon, label, style = "", onClick }: ButtonProps) => {
   const { t } = useTranslation();

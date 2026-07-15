@@ -4,7 +4,6 @@ import requestStore from "./request/requestStore";
 import type { SettingsState, TemperatureUnit, WindSpeedUnit, PressureUnit, Language, Theme, TimeFormat } from "../shared/types/settings";
 
 class SettingsStore {
-  sideMenuOpen: boolean = false;
   settings: SettingsState = {
     temperatureUnit: "celsius",
     windSpeedUnit: "m_s",
@@ -16,10 +15,6 @@ class SettingsStore {
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  toggleSideMenu() {
-    this.sideMenuOpen = !this.sideMenuOpen;
   }
 
   loadSettings() {

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import settings from "../store/settings";
+import settingsStore from "../store/settingsStore";
 import requestStore from "../store/request/requestStore";
 import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ export const FastLocationNotifier = observer(() => {
 
   const handleConfirm = () => {
     if (requestStore.loading === true) return;
-    requestStore.confirmFastLocation(settings.settings);
+    requestStore.confirmFastLocation(settingsStore.settings);
     requestStore.hideStartScreen();
   };
 
@@ -77,7 +77,7 @@ const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =>
       <div className="w-full flex items-center gap-3">
         <Icon name="geolocation" height={48} width={48} />
         <div className="flex flex-1 flex-col min-w-0">
-          <span className="text-base block truncate">{city}?</span>
+          <span className="text-base text-primary block truncate">{city}?</span>
           <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
         </div>
         <CloseButton onClick={onDismiss} />

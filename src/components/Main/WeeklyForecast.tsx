@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import "./WeeklyForecast.css";
 import { SVG } from "../../shared/ui/Icons";
-import settings from "../../store/settings";
+import settingsStore from "../../store/settingsStore";
 import type { WeeklyForecastState } from "../../shared/types/store";
 
 type WeeklyForecastList = {
@@ -11,9 +11,9 @@ type WeeklyForecastList = {
 
 export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastList) => {
   const { t } = useTranslation();
-  const unitAria = `weather.units.${settings.settings.temperatureUnit}.aria`;
-  const unitShort = `weather.units.${settings.settings.temperatureUnit}.short`;
-  const theme = settings.settings.theme;
+  const unitAria = `weather.units.${settingsStore.settings.temperatureUnit}.aria`;
+  const unitShort = `weather.units.${settingsStore.settings.temperatureUnit}.short`;
+  const theme = settingsStore.settings.theme;
 
   return (
     <section className="bg-surface text-primary rounded-3xl weekly-forecast-section">

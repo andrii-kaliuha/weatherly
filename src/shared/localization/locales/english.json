@@ -24,23 +24,15 @@
   },
 
   "current_location": "Current Location",
-  "search_city": "Search city...",
 
   "header": {
     "open_menu": "Open menu",
     "close_menu": "Close menu",
-    "search_form": "City search",
-    "search_placeholder": "Search city...",
-    "geolocation_button": "Current Location"
-  },
-
-  "gpsRefinement": {
-    "description": "GPS detected a more precise location. Update the forecast?",
-    "actions": {
-      "update": "Update",
-      "notNow": "Not now",
-      "neverAsk": "Never ask again"
-    }
+    "search": {
+      "placeholder": "Search city...",
+      "history_empty": "Your city search history is empty"
+    },
+    "current_location": "Current Location"
   },
 
   "fast_location": {

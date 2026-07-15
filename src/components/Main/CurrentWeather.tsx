@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { currentWeatherStore } from "../../store/forecast/currentWeatherStore";
 import { Icon, SVG } from "../../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
-import settings from "../../store/settings";
+import settingsStore from "../../store/settingsStore";
 import { useHorizontalScroll } from "../../shared/hooks/useHorizontalScroll";
 
 export const CurrentWeather = observer(() => {
@@ -32,18 +32,18 @@ export const CurrentWeather = observer(() => {
 
 const CurrentTemperature = observer(() => {
   const { t } = useTranslation();
-  const theme = settings.settings.theme;
+  const theme = settingsStore.settings.theme;
   const { сurrentWeather } = currentWeatherStore;
   if (!сurrentWeather) return null;
 
   const tempRange = t("weather.current.temp_range", {
     maxTemp: сurrentWeather.maxTemp,
     minTemp: сurrentWeather.minTemp,
-    unit: t(`weather.units.${settings.settings.temperatureUnit}.short`),
+    unit: t(`weather.units.${settingsStore.settings.temperatureUnit}.short`),
   });
 
-  const unitShort = t(`weather.units.${settings.settings.temperatureUnit}.short`);
-  const unitLong = t(`weather.units.${settings.settings.temperatureUnit}.long`);
+  const unitShort = t(`weather.units.${settingsStore.settings.temperatureUnit}.short`);
+  const unitLong = t(`weather.units.${settingsStore.settings.temperatureUnit}.long`);
 
   const currentTemp = `${сurrentWeather.temperature}${unitLong}`;
 
@@ -71,7 +71,7 @@ const HourlyForecast = observer(() => {
   const { hourlyForecast } = currentWeatherStore;
   const listRef = useHorizontalScroll();
   const { t } = useTranslation();
-  const theme = settings.settings.theme;
+  const theme = settingsStore.settings.theme;
 
   return (
     <ul

@@ -1,8 +1,8 @@
-import { Header } from "./components/Header.tsx";
+import { Header } from "./components/Header/Header.tsx";
 import { Main } from "./components/Main/Main.tsx";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import settingStore from "../src/store/settings.ts";
+import settingStore from "./store/settingsStore.ts";
 import requestStore from "./store/request/requestStore.ts";
 
 export const App = observer(() => {
