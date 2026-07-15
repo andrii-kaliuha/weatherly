@@ -35,7 +35,7 @@ export const SearchContainer = ({ isOpen, onClose }: SearchContainerProps) => {
       <div
         ref={containerRef}
         onBlur={handleBlur}
-        className="fixed sm:absolute top-0 left-0 sm:-top-3 sm:-left-3 w-80 bg-surface rounded-b-2xl z-50 flex flex-col outline-none"
+        className="fixed sm:absolute top-0 left-0 sm:-top-3 sm:-left-3 w-full sm:w-80 bg-surface rounded-b-2xl z-50 flex flex-col outline-none"
         tabIndex={-1}
         onKeyDown={(e) => {
           if (e.key === "Escape") onClose();
