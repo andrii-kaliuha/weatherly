@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "api/og.tsx": {
+      "runtime": "edge"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/og",
+      "dest": "/api/og.tsx"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
