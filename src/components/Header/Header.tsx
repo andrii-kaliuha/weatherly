@@ -14,7 +14,7 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-1 bg-background">
+    <header className="sticky top-0 z-50 bg-background">
       <nav className="flex items-center justify-between gap-3 p-3">
         <button
           onClick={handleToggleMenu(true)}
