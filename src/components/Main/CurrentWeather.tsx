@@ -7,13 +7,13 @@ import { useHorizontalScroll } from "../../shared/hooks/useHorizontalScroll";
 
 export const CurrentWeather = observer(() => {
   const { t } = useTranslation();
-  const { сurrentWeather } = currentWeatherStore;
-  if (!сurrentWeather) return null;
+  const { currentWeather } = currentWeatherStore;
+  if (!currentWeather) return null;
 
   const subtitle = t("weather.current.subtitle", {
-    city: сurrentWeather.cityName,
-    weekday: сurrentWeather.weekday,
-    date: сurrentWeather.date,
+    city: currentWeather.cityName,
+    weekday: currentWeather.weekday,
+    date: currentWeather.date,
   });
 
   return (
@@ -23,7 +23,7 @@ export const CurrentWeather = observer(() => {
         <p>{subtitle}</p>
       </div>
       <CurrentTemperature />
-      <span>{t(`weather_descriptions.${сurrentWeather.description}.description`)}</span>
+      <span>{t(`weather_descriptions.${currentWeather.description}.description`)}</span>
       <HourlyForecast />
       <WeatherConditions />
     </section>
@@ -33,34 +33,34 @@ export const CurrentWeather = observer(() => {
 const CurrentTemperature = observer(() => {
   const { t } = useTranslation();
   const theme = settingsStore.settings.theme;
-  const { сurrentWeather } = currentWeatherStore;
-  if (!сurrentWeather) return null;
+  const { currentWeather } = currentWeatherStore;
+  if (!currentWeather) return null;
 
   const tempRange = t("weather.current.temp_range", {
-    maxTemp: сurrentWeather.maxTemp,
-    minTemp: сurrentWeather.minTemp,
+    maxTemp: currentWeather.maxTemp,
+    minTemp: currentWeather.minTemp,
     unit: t(`weather.units.${settingsStore.settings.temperatureUnit}.short`),
   });
 
   const unitShort = t(`weather.units.${settingsStore.settings.temperatureUnit}.short`);
   const unitLong = t(`weather.units.${settingsStore.settings.temperatureUnit}.long`);
 
-  const currentTemp = `${сurrentWeather.temperature}${unitLong}`;
+  const currentTemp = `${currentWeather.temperature}${unitLong}`;
 
   return (
     <div className="flex flex-col gap-3 w-max">
       <div className="flex items-center gap-3">
         <strong className="text-6xl leading-none">{currentTemp}</strong>
-        <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${сurrentWeather.icon}.svg`} width={64} height={64} />
+        <SVG source={`/weather-icons/${theme === "dark" ? "dark" : "light"}/${currentWeather.icon}.svg`} width={64} height={64} />
       </div>
 
       <div className="flex gap-3 justify-between">
         <span aria-hidden="true">
-          {сurrentWeather.maxTemp}
-          {unitShort} / {сurrentWeather.minTemp}
+          {currentWeather.maxTemp}
+          {unitShort} / {currentWeather.minTemp}
           {unitShort}
         </span>
-        <span>{t(`weather_descriptions.${сurrentWeather.description}.summary`)}</span>
+        <span>{t(`weather_descriptions.${currentWeather.description}.summary`)}</span>
         <span className="sr-only">{tempRange}</span>
       </div>
     </div>
@@ -82,7 +82,7 @@ const HourlyForecast = observer(() => {
       focus-visible:outline-offset-2 scroll-smooth focus-visible:outline-accent"
     >
       {hourlyForecast.map((item) => (
-        <li key={item.dateISO} className="flex flex-col items-center justify-between gap-3 min-w-12 flex-shrink-0 relative">
+        <li key={item.dateISO} className="flex flex-col items-center justify-between gap-3 min-w-12 shrink-0 relative">
           <time dateTime={item.dateISO} aria-hidden="true" className="text-sm font-medium">
             {item.time}
           </time>

@@ -38,7 +38,7 @@ const Circle = ({ color, aqi }: CircleProps) => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 flex-shrink-0"
+      className="flex flex-col items-center justify-center border-4 rounded-full h-24 w-24 shrink-0"
       style={{ borderColor: color }}
       role="img"
       aria-label={t("air_quality.index", { aqi })}

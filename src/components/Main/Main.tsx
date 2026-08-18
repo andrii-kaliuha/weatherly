@@ -7,8 +7,6 @@ import { observer } from "mobx-react-lite";
 import requestStore from "../../store/request/requestStore";
 import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
-// import { WeatherPreview } from "../Preview";
-
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
   const { weeklyForecast } = weeklyForecastStore;
@@ -25,7 +23,6 @@ export const Main = observer(() => {
         <AirQuality />
         <WeeklyForecast weeklyForecastList={weeklyForecast} />
       </main>
-      {/* <WeatherPreview /> */}
     </>
   );
 });

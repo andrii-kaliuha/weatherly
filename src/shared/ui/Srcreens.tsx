@@ -37,7 +37,7 @@ export const LoadingScreen = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-app bg-background text-center">
-      <div className="mb-[var(--height-header)]">
+      <div className="mb-[--height-header]">
         <div aria-hidden="true" className="relative w-48 h-32  overflow-hidden flex items-end justify-center">
           <div className="w-40 h-32 absolute top-0">
             <Lottie animationData={loadingAnimation} loop={true} autoplay={true} />

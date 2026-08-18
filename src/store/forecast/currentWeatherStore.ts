@@ -1,12 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import type { SettingsState } from "../../shared/types/settings";
 import type { WeatherResponse } from "../../shared/types/api";
-import type { СurrentWeatherState, HourlyForecastState, WeatherConditionsState } from "../../shared/types/store";
+import type { CurrentWeatherState, HourlyForecastState, WeatherConditionsState } from "../../shared/types/store";
 import { convertPressure, convertTemperature, convertWindSpeed, formatTime } from "../../shared/utils/converters";
 import { findDescriptionById } from "../../shared/utils/weatherDescriptions";
 
 class CurrentWeatherStore {
-  сurrentWeather: СurrentWeatherState | null = null;
+  currentWeather: CurrentWeatherState | null = null;
   hourlyForecast: HourlyForecastState[] = [];
   weatherConditions: WeatherConditionsState[] = [];
 
@@ -20,7 +20,7 @@ class CurrentWeatherStore {
     const currentWeatherInfo = current?.weather?.[0];
 
     if (!current || !firstDaily || !currentWeatherInfo) {
-      this.сurrentWeather = null;
+      this.currentWeather = null;
       this.hourlyForecast = [];
       this.weatherConditions = [];
       return;
@@ -28,7 +28,7 @@ class CurrentWeatherStore {
 
     const { pressureUnit, temperatureUnit, windSpeedUnit } = settings;
 
-    this.сurrentWeather = {
+    this.currentWeather = {
       cityName: local_names[settings.language] || local_names.en || "",
       date: new Date(current.dt * 1000).toLocaleDateString(settings.language, { day: "numeric", month: "long" }),
       weekday: new Date(current.dt * 1000).toLocaleDateString(settings.language, { weekday: "long" }),

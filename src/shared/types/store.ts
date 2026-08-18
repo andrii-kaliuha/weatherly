@@ -1,4 +1,4 @@
-export type СurrentWeatherState = {
+export type CurrentWeatherState = {
   cityName: string;
   date: string;
   weekday: string;
