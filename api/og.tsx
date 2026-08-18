@@ -1,5 +1,9 @@
 import { ImageResponse } from "@vercel/og";
 
+export const config = {
+  runtime: "edge",
+};
+
 export default function handler(req: Request) {
   const { searchParams } = new URL(req.url);
   const theme = searchParams.get("theme") || "light";
