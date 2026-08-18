@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/og.tsx": {
+      "runtime": "edge"
+    }
+  },
   "routes": [
     {
       "src": "/api/og",
