@@ -31,13 +31,13 @@ export const SideMenu = ({ id, isOpen, onClose }: SideMenuProps) => {
 
   return (
     <Portal>
-      <div className="fixed inset-0 bg-black/50 z-[100]" onClick={onClose}>
+      <div className="fixed inset-0 bg-black/50 z-3" onClick={onClose}>
         <ReactFocusLock disabled={!isOpen} returnFocus>
           <aside
             id={id}
             role="dialog"
             aria-modal={true}
-            className="fixed top-0 left-0 z-50 bg-background text-primary sm:w-80 w-full h-screen shadow-xl border-r-2 border-surface"
+            className="fixed top-0 left-0 bg-background text-primary sm:w-80 w-full h-screen shadow-xl border-r-2 border-surface"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative flex items-center justify-between p-6">

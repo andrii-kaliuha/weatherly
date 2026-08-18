@@ -30,12 +30,12 @@ export const SearchContainer = ({ isOpen, onClose }: SearchContainerProps) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black/20" onClick={onClose} />
+      <div className="fixed inset-0 z-2 bg-black/20" onClick={onClose} />
 
       <div
         ref={containerRef}
         onBlur={handleBlur}
-        className="fixed sm:absolute top-0 left-0 sm:-top-3 sm:-left-3 w-full sm:w-80 bg-surface rounded-b-2xl z-50 flex flex-col outline-none"
+        className="fixed sm:absolute top-0 left-0 sm:-top-3 sm:-left-3 w-full sm:w-80 bg-surface rounded-b-2xl z-3 flex flex-col outline-none"
         tabIndex={-1}
         onKeyDown={(e) => {
           if (e.key === "Escape") onClose();

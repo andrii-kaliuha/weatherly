@@ -21,7 +21,7 @@ export const FastLocationNotifier = observer(() => {
 
   return (
     <Portal>
-      <div className="flex justify-center fixed bottom-3 left-3 right-3 z-20">
+      <div className="flex justify-center fixed bottom-3 left-3 right-3 z-1">
         <Desktop city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
         <Mobile city={city} onConfirm={handleConfirm} onDismiss={handleDismiss} />
       </div>
