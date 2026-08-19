@@ -2,7 +2,7 @@ import { CurrentWeather } from "./CurrentWeather";
 import { AirQuality } from "./AirQuality";
 import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
-import { StartScreen, LoadingScreen, ErrorScreen } from "../../shared/ui/Srcreens";
+import { HomePage, LoadingPage, ErrorPage } from "../../shared/ui/Srcreens";
 import { observer } from "mobx-react-lite";
 import requestStore from "../../store/request/requestStore";
 import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
@@ -11,9 +11,9 @@ export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
   const { weeklyForecast } = weeklyForecastStore;
 
-  if (startScreen === true) return <StartScreen />;
-  if (loading) return <LoadingScreen />;
-  if (error) return <ErrorScreen errorCode={error} />;
+  if (startScreen === true) return <HomePage />;
+  if (loading) return <LoadingPage />;
+  if (error) return <ErrorPage errorCode={error} />;
 
   return (
     <>

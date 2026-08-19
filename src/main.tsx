@@ -4,9 +4,7 @@ import { configure } from "mobx";
 import "./index.css";
 import { App } from "./App.tsx";
 
-configure({
-  enforceActions: "always",
-});
+configure({ enforceActions: "always" });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

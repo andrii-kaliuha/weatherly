@@ -1,6 +1,8 @@
 {
-  "start_screen_title": "Find <0>weather</0> in your city",
-  "start_screen_subtitle": "Enter a city name or use your geolocation",
+  "home": {
+    "title": "Find <0>weather</0> in your city",
+    "subtitle": "Enter a city name or use your geolocation"
+  },
   "loading": "Loading...",
 
   "errors": {
@@ -22,8 +24,6 @@
     "air_quality_error": "Error retrieving air quality data. Please try again later.",
     "generic_error": "Error retrieving weather forecast."
   },
-
-  "current_location": "Current Location",
 
   "header": {
     "open_menu": "Open menu",

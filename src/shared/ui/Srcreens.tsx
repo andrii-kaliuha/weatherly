@@ -10,7 +10,7 @@ import defaultErrorAnimation from "../../assets/lottie/default-error.json";
 import geolocationAnimation from "../../assets/lottie/geolocation-error.json";
 import { FastLocationNotifier } from "../../components/FastLocationNotifier";
 
-export const StartScreen = () => {
+export const HomePage = () => {
   const { t } = useTranslation();
 
   return (
@@ -22,17 +22,17 @@ export const StartScreen = () => {
       </div>
 
       <h1 className="text-2xl md:text-3xl font-medium text-balance">
-        <Trans i18nKey="start_screen_title" components={[<span className="text-accent" />]} />
+        <Trans i18nKey="home.title" components={[<span className="text-accent" />]} />
       </h1>
 
-      <p className="text-lg opacity-55">{t("start_screen_subtitle")}</p>
+      <p className="text-lg opacity-55">{t("home.subtitle")}</p>
 
       <FastLocationNotifier />
     </div>
   );
 };
 
-export const LoadingScreen = () => {
+export const LoadingPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -66,7 +66,7 @@ const errorAnimationMap: Record<string, any> = {
   geolocation_generic_error: geolocationAnimation,
 };
 
-export const ErrorScreen = observer(({ errorCode }: { errorCode: string }) => {
+export const ErrorPage = observer(({ errorCode }: { errorCode: string }) => {
   const { t } = useTranslation();
   const currentAnimation = errorAnimationMap[errorCode] || defaultErrorAnimation;
 
