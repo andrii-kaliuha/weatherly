@@ -1,11 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { formatTime } from "../../shared/utils/converters";
-import { WeatherResponse } from "../../shared/types/api";
-import { TimeFormat } from "../../shared/types/settings";
 import { AstronomyState } from "../../shared/types/store";
+import requestStore from "../request/requestStore";
+import settingsStore from "../settingsStore";
 
-const getMoonPhase = (moonPhase: number | null): string => {
-  if (moonPhase === null) return "astronomy.moon_phases.undefined";
+const getMoonPhase = (moonPhase: number | undefined): string => {
+  if (moonPhase === undefined) return "astronomy.moon_phases.undefined";
 
   switch (true) {
     case moonPhase <= 0.03:
@@ -30,25 +30,21 @@ const getMoonPhase = (moonPhase: number | null): string => {
 };
 
 class AstronomyStore {
-  astronomy: AstronomyState | null = null;
-
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateAstronomy(data: WeatherResponse, format: TimeFormat) {
-    const daily = data?.daily?.[0];
+  get astronomy(): AstronomyState | null {
+    const daily = requestStore.forecast?.daily?.[0];
+    const timeFormat = settingsStore.settings.timeFormat;
 
-    if (!daily) {
-      this.astronomy = null;
-      return;
-    }
+    if (!daily) return null;
 
-    this.astronomy = {
-      sunrise: formatTime(daily.sunrise, format),
-      sunset: formatTime(daily.sunset, format),
-      moonrise: formatTime(daily.moonrise, format),
-      moonset: formatTime(daily.moonset, format),
+    return {
+      sunrise: formatTime(daily.sunrise, timeFormat),
+      sunset: formatTime(daily.sunset, timeFormat),
+      moonrise: formatTime(daily.moonrise, timeFormat),
+      moonset: formatTime(daily.moonset, timeFormat),
       moonPhase: getMoonPhase(daily.moon_phase),
       durationDay: new Date((daily.sunset - daily.sunrise) * 1000).toISOString().slice(11, 19),
     };

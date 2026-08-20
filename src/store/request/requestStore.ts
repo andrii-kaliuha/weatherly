@@ -1,11 +1,4 @@
 import { makeAutoObservable, runInAction } from "mobx";
-
-import { currentWeatherStore } from "../forecast/currentWeatherStore";
-import { astronomyStore } from "../forecast/astronomyStore";
-import { airQualityStore } from "../forecast/airQualityStore";
-import { weeklyForecastStore } from "../forecast/weeklyForecastStore";
-
-import { SettingsState } from "../../shared/types/settings";
 import { cityValidation } from "../../shared/utils/cityValidation";
 import { saveGeoCache } from "../../shared/utils/storage/locationCache";
 import { saveToSearchHistory } from "../../shared/utils/storage/searchHistory";
@@ -70,12 +63,7 @@ class RequestStore {
     return res.json();
   }
 
-  updateForecast(forecast: WeatherResponse, airQuality: AirPollutionResponse, local_names: Record<string, string>, settings: SettingsState) {
-    currentWeatherStore.updateCurrentWeather(forecast, local_names, settings);
-    astronomyStore.updateAstronomy(forecast, settings.format);
-    airQualityStore.updateAirQuality(airQuality, local_names, settings.language);
-    weeklyForecastStore.updateWeeklyForecast(forecast.daily, settings.language, settings.temperatureUnit);
-
+  updateForecast(forecast: WeatherResponse, airQuality: AirPollutionResponse, local_names: Record<string, string>) {
     this.forecast = forecast;
     this.airQuality = airQuality;
     this.local_names = local_names;
@@ -96,7 +84,7 @@ class RequestStore {
     }
   }
 
-  async confirmFastLocation(settings: SettingsState) {
+  async confirmFastLocation() {
     if (this.fastLocation === null) return;
     const { lat, lon } = this.fastLocation;
 
@@ -110,7 +98,7 @@ class RequestStore {
       const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(lat, lon);
 
       runInAction(() => {
-        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.updateForecast(forecast, airQuality, local_names);
         this.clearError();
       });
     } catch (error) {
@@ -142,7 +130,7 @@ class RequestStore {
     return { local_names, forecast, airQuality };
   }
 
-  async fetchForecastByLocation(settings: SettingsState) {
+  async fetchForecastByLocation() {
     runInAction(() => {
       this.setLoading(true);
       this.dismissFastLocation();
@@ -157,7 +145,7 @@ class RequestStore {
       saveGeoCache(latitude, longitude, cityName);
 
       runInAction(() => {
-        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.updateForecast(forecast, airQuality, local_names);
         this.clearError();
       });
     } catch (error) {
@@ -167,7 +155,7 @@ class RequestStore {
     }
   }
 
-  async fetchForecastByCityName(city: string, settings: SettingsState) {
+  async fetchForecastByCityName(city: string) {
     if (!this.validateCity(city)) return;
 
     runInAction(() => this.setLoading(true));
@@ -176,7 +164,7 @@ class RequestStore {
       if (cached) {
         saveToSearchHistory({ name: city, lat: cached.city.lat, lon: cached.city.lon, local_names: cached.local_names });
         runInAction(() => {
-          this.updateForecast(cached.forecast, cached.airQuality, cached.local_names, settings);
+          this.updateForecast(cached.forecast, cached.airQuality, cached.local_names);
           this.clearError();
         });
         return;
@@ -188,7 +176,7 @@ class RequestStore {
       saveToSearchHistory({ name: city, lat: latitude, lon: longitude, local_names });
 
       runInAction(() => {
-        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.updateForecast(forecast, airQuality, local_names);
         this.clearError();
       });
     } catch (error) {
@@ -198,7 +186,7 @@ class RequestStore {
     }
   }
 
-  async fetchForecastByHistory(item: { name: string; lat: number; lon: number }, settings: SettingsState) {
+  async fetchForecastByHistory(item: { name: string; lat: number; lon: number }) {
     runInAction(() => {
       this.setLoading(true);
       this.dismissFastLocation();
@@ -210,7 +198,7 @@ class RequestStore {
       saveToSearchHistory({ name: item.name, lat: item.lat, lon: item.lon, local_names });
 
       runInAction(() => {
-        this.updateForecast(forecast, airQuality, local_names, settings);
+        this.updateForecast(forecast, airQuality, local_names);
         this.clearError();
       });
     } catch (error) {

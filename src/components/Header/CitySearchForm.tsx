@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { Icon } from "../../shared/ui/Icons";
 import requestStore from "../../store/request/requestStore";
-import settingsStore from "../../store/settingsStore";
 
 export const CitySearchForm = observer(() => {
   const [cityName, setCity] = useState("");
@@ -12,7 +11,7 @@ export const CitySearchForm = observer(() => {
   const searchCityByName = (e: React.FormEvent) => {
     e.preventDefault();
     if (requestStore.loading === true || !cityName.trim()) return;
-    requestStore.fetchForecastByCityName(cityName, settingsStore.settings);
+    requestStore.fetchForecastByCityName(cityName);
     requestStore.hideStartScreen();
   };
 

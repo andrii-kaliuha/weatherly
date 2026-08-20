@@ -76,7 +76,7 @@ export const Settings = observer(() => {
       <Setting
         icon="schedule"
         title="time_format"
-        value={settings.format}
+        value={settings.timeFormat}
         options={[
           { value: "12_hour", title: "settings.time_format.12_hour" },
           { value: "24_hour", title: "settings.time_format.24_hour" },

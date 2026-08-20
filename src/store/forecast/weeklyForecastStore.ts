@@ -1,32 +1,30 @@
 import { makeAutoObservable } from "mobx";
-import { Daily } from "../../shared/types/api";
-import { Language, TemperatureUnit } from "../../shared/types/settings";
 import { convertTemperature } from "../../shared/utils/converters";
 import { WeeklyForecastState } from "../../shared/types/store";
 import { findDescriptionById } from "../../shared/utils/weatherDescriptions";
+import requestStore from "../request/requestStore";
+import settingsStore from "../settingsStore";
 
 class WeeklyForecastStore {
-  weeklyForecast: WeeklyForecastState[] = [];
-
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateWeeklyForecast(data: Daily[], language: Language, temperatureUnit: TemperatureUnit) {
-    if (data.length === 0) {
-      this.weeklyForecast = [];
-      return;
-    }
+  get weeklyForecast(): WeeklyForecastState[] {
+    const weeklyForecast = requestStore.forecast?.daily;
+    const { language, temperatureUnit } = settingsStore.settings;
 
-    this.weeklyForecast = data.slice(0, 7).map((day: Daily) => {
-      const descriptionData = findDescriptionById(day.weather[0].description);
+    if (!weeklyForecast || weeklyForecast.length === 0) return [];
+
+    return weeklyForecast.slice(0, 7).map((day) => {
+      const description = findDescriptionById(day.weather[0].description);
 
       return {
         dateISO: new Date(day.dt * 1000).toISOString(),
         date: new Date(day.dt * 1000).toLocaleString(language, { day: "numeric", month: "long" }),
         weekday: new Date(day.dt * 1000).toLocaleString(language, { weekday: "long" }),
         icon: day.weather[0].icon,
-        description: descriptionData ? descriptionData : day.weather[0].description,
+        description: description ? description : day.weather[0].description,
         maxTemp: convertTemperature(day.temp.max, temperatureUnit),
         minTemp: convertTemperature(day.temp.min, temperatureUnit),
       };

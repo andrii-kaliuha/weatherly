@@ -11,7 +11,7 @@ export type SettingsState = {
   pressureUnit: PressureUnit;
   language: Language;
   theme: Theme;
-  format: TimeFormat;
+  timeFormat: TimeFormat;
 };
 
 export type SettingOption = { title: string; value: string };

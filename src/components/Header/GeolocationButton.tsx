@@ -2,14 +2,13 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { Icon } from "../../shared/ui/Icons";
 import requestStore from "../../store/request/requestStore";
-import settingsStore from "../../store/settingsStore";
 
 export const GeolocationButton = observer(() => {
   const { t } = useTranslation();
 
   const searchCityByLocation = () => {
     if (requestStore.loading === true) return;
-    requestStore.fetchForecastByLocation(settingsStore.settings);
+    requestStore.fetchForecastByLocation();
     requestStore.hideStartScreen();
   };
 

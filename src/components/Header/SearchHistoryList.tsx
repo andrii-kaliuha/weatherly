@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { Icon } from "../../shared/ui/Icons";
 import type { SearchHistoryItem } from "../../shared/utils/storage/searchHistory";
 import requestStore from "../../store/request/requestStore";
-import settingsStore from "../../store/settingsStore";
 
 type SearchHistoryListProps = {
   history: SearchHistoryItem[];
@@ -14,7 +13,7 @@ export const SearchHistoryList = ({ history, onDelete }: SearchHistoryListProps)
   const getDisplayName = (item: SearchHistoryItem): string => item.local_names?.[i18n.language] ?? item.name;
 
   const handleSearch = (item: SearchHistoryItem) => {
-    requestStore.fetchForecastByHistory(item, settingsStore.settings);
+    requestStore.fetchForecastByHistory(item);
     requestStore.hideStartScreen();
   };
 

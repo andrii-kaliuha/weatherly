@@ -170,6 +170,10 @@
     "index": "Air Quality Index is {{aqi}}",
     "pollutant": "{{name}}: {{value}} micrograms per cubic meter",
     "levels": {
+      "unknown": {
+        "title": "Unknown",
+        "description": "Air quality data is not available."
+      },
       "good": {
         "title": "Good air",
         "description": "The air is clean and the level of pollution is minimal or does not pose any health risk. It is safe for most people."
