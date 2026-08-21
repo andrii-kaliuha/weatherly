@@ -1,11 +1,11 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { cityValidation } from "../../shared/utils/cityValidation";
-import { saveGeoCache } from "../../services/storage/locationCache";
-import { saveToSearchHistory } from "../../services/storage/searchHistory";
-import { getCityCoordinates, getCityNameByCoordinates } from "../../services/geocoding";
-import { getLocationByCache, getLocationByGPS, getLocationByIP } from "../../services/location";
-import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../../services/storage/weatherCache";
-import { AirPollutionResponse, WeatherResponse } from "../../shared/types/api";
+import { cityValidation } from "../shared/utils/cityValidation";
+import { saveGeoCache } from "../services/storage/locationCache";
+import { saveToSearchHistory } from "../services/storage/searchHistory";
+import { getCityCoordinates, getCityNameByCoordinates } from "../services/geocoding";
+import { getLocationByCache, getLocationByGPS, getLocationByIP } from "../services/location";
+import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../services/storage/weatherCache";
+import { AirPollutionResponse, WeatherResponse } from "../shared/types/api";
 
 export const getErrorKey = (error: unknown): string => {
   if (error instanceof TypeError) return "failed_to_fetch";

@@ -4,7 +4,7 @@ import { Astronomy } from "./Astronomy";
 import { WeeklyForecast } from "./WeeklyForecast";
 import { HomePage, LoadingPage, ErrorPage } from "../../shared/ui/Srcreens";
 import { observer } from "mobx-react-lite";
-import requestStore from "../../store/request/requestStore";
+import requestStore from "../../store/requestStore";
 import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
 export const Main = observer(() => {

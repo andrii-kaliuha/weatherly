@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { formatTime } from "../../shared/utils/converters";
 import { AstronomyState } from "../../shared/types/store";
-import requestStore from "../request/requestStore";
+import requestStore from "../requestStore";
 import settingsStore from "../settingsStore";
 
 const getMoonPhase = (moonPhase: number | undefined): string => {

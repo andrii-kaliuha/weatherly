@@ -2,7 +2,7 @@ import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { Icon } from "../../shared/ui/Icons";
-import requestStore from "../../store/request/requestStore";
+import requestStore from "../../store/requestStore";
 
 export const CitySearchForm = observer(() => {
   const [cityName, setCity] = useState("");

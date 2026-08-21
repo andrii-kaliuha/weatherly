@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import type { CurrentWeatherState, HourlyForecastState, WeatherConditionsState } from "../../shared/types/store";
 import { convertPressure, convertTemperature, convertWindSpeed, formatTime } from "../../shared/utils/converters";
 import { findDescriptionById } from "../../shared/utils/weatherDescriptions";
-import requestStore from "../request/requestStore";
+import requestStore from "../requestStore";
 import settingsStore from "../settingsStore";
 
 class CurrentWeatherStore {

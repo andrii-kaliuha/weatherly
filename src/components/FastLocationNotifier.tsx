@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import requestStore from "../store/request/requestStore";
+import requestStore from "../store/requestStore";
 import { Icon } from "../shared/ui/Icons";
 import { useTranslation } from "react-i18next";
 import { Portal } from "../shared/ui/Portal";

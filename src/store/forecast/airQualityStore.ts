@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { AirQualityState } from "../../shared/types/store";
-import requestStore from "../request/requestStore";
+import requestStore from "../requestStore";
 import settingsStore from "../settingsStore";
 
 const airQualityLevels = [

@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { convertTemperature } from "../../shared/utils/converters";
 import { WeeklyForecastState } from "../../shared/types/store";
 import { findDescriptionById } from "../../shared/utils/weatherDescriptions";
-import requestStore from "../request/requestStore";
+import requestStore from "../requestStore";
 import settingsStore from "../settingsStore";
 
 class WeeklyForecastStore {

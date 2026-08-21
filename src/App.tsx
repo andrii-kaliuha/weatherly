@@ -3,7 +3,7 @@ import { Main } from "./components/Main/Main.tsx";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import settingStore from "./store/settingsStore.ts";
-import requestStore from "./store/request/requestStore.ts";
+import requestStore from "./store/requestStore.ts";
 
 export const App = observer(() => {
   useEffect(() => {
