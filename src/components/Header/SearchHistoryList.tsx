@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Icon } from "../../shared/ui/Icons";
-import type { SearchHistoryItem } from "../../shared/utils/storage/searchHistory";
+import type { SearchHistoryItem } from "../../services/storage/searchHistory";
 import requestStore from "../../store/request/requestStore";
 
 type SearchHistoryListProps = {

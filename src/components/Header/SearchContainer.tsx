@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { loadSearchHistory, removeFromSearchHistory } from "../../shared/utils/storage/searchHistory";
+import { loadSearchHistory, removeFromSearchHistory } from "../../services/storage/searchHistory";
 import { CitySearchForm } from "./CitySearchForm";
 import { SearchHistoryList } from "./SearchHistoryList";
 import { useTranslation } from "react-i18next";

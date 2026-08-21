@@ -1,4 +1,4 @@
-import { AirPollutionResponse, WeatherResponse } from "../../types/api";
+import { AirPollutionResponse, WeatherResponse } from "../../shared/types/api";
 
 const WEATHER_CACHE_KEY = "weather_cache";
 const WEATHER_CACHE_TTL = 10 * 60 * 1000; // 10 minutes

@@ -1,4 +1,4 @@
-import { loadGeoCache } from "../shared/utils/storage/locationCache";
+import { loadGeoCache } from "./storage/locationCache";
 
 export interface Coordinates {
   latitude: number;
