@@ -3,7 +3,7 @@ import { cityValidation } from "../../shared/utils/cityValidation";
 import { saveGeoCache } from "../../shared/utils/storage/locationCache";
 import { saveToSearchHistory } from "../../shared/utils/storage/searchHistory";
 import { getCityCoordinates, getCityNameByCoordinates } from "../../services/geocoding";
-import locationStore from "./locationStore";
+import { getLocationByCache, getLocationByGPS, getLocationByIP } from "../../services/location";
 import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../../shared/utils/storage/weatherCache";
 import { AirPollutionResponse, WeatherResponse } from "../../shared/types/api";
 
@@ -70,10 +70,10 @@ class RequestStore {
   }
 
   async initFastLocation() {
-    if (locationStore.getLocationByCache()) return;
+    if (getLocationByCache()) return;
 
     try {
-      const { latitude, longitude } = await locationStore.getLocationByIP();
+      const { latitude, longitude } = await getLocationByIP();
       const names = await getCityNameByCoordinates(latitude, longitude);
 
       runInAction(() => {
@@ -138,7 +138,7 @@ class RequestStore {
     });
 
     try {
-      const { latitude, longitude } = await locationStore.getLocationByGPS();
+      const { latitude, longitude } = await getLocationByGPS();
       const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
 
       const cityName = local_names?.en || "Unknown";
