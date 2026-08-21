@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { cityValidation } from "../../shared/utils/cityValidation";
 import { saveGeoCache } from "../../shared/utils/storage/locationCache";
 import { saveToSearchHistory } from "../../shared/utils/storage/searchHistory";
-import geocodingStore from "./geocodingStore";
+import { getCityCoordinates, getCityNameByCoordinates } from "../../services/geocoding";
 import locationStore from "./locationStore";
 import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../../shared/utils/storage/weatherCache";
 import { AirPollutionResponse, WeatherResponse } from "../../shared/types/api";
@@ -74,7 +74,7 @@ class RequestStore {
 
     try {
       const { latitude, longitude } = await locationStore.getLocationByIP();
-      const names = await geocodingStore.getCityNameByCoordinates(latitude, longitude);
+      const names = await getCityNameByCoordinates(latitude, longitude);
 
       runInAction(() => {
         this.fastLocation = { lat: latitude, lon: longitude, local_names: { uk: names?.uk, en: names?.en } };
@@ -119,7 +119,7 @@ class RequestStore {
     }
 
     const [local_names, forecast, airQuality] = await Promise.all([
-      geocodingStore.getCityNameByCoordinates(lat, lon),
+      getCityNameByCoordinates(lat, lon),
       this.getWeatherForecast(lat, lon),
       this.getAirQuality(lat, lon),
     ]);
@@ -170,7 +170,7 @@ class RequestStore {
         return;
       }
 
-      const { latitude, longitude, local_names } = await geocodingStore.getCityCoordinates(city);
+      const { latitude, longitude, local_names } = await getCityCoordinates(city);
       const { forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
 
       saveToSearchHistory({ name: city, lat: latitude, lon: longitude, local_names });
