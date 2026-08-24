@@ -5,11 +5,9 @@ import { WeeklyForecast } from "./WeeklyForecast";
 import { HomePage, LoadingPage, ErrorPage } from "../../shared/ui/Srcreens";
 import { observer } from "mobx-react-lite";
 import requestStore from "../../store/requestStore";
-import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
 export const Main = observer(() => {
   const { startScreen, loading, error } = requestStore;
-  const { weeklyForecast } = weeklyForecastStore;
 
   if (startScreen === true) return <HomePage />;
   if (loading) return <LoadingPage />;
@@ -21,7 +19,7 @@ export const Main = observer(() => {
         <CurrentWeather />
         <Astronomy />
         <AirQuality />
-        <WeeklyForecast weeklyForecastList={weeklyForecast} />
+        <WeeklyForecast />
       </main>
     </>
   );

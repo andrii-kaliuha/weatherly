@@ -4,13 +4,11 @@ import "./WeeklyForecast.css";
 import { SVG } from "../../shared/ui/Icons";
 import settingsStore from "../../store/settingsStore";
 import type { WeeklyForecastState } from "../../shared/types/store";
+import { weeklyForecastStore } from "../../store/forecast/weeklyForecastStore";
 
-type WeeklyForecastList = {
-  weeklyForecastList: WeeklyForecastState[];
-};
-
-export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastList) => {
+export const WeeklyForecast = observer(() => {
   const { t } = useTranslation();
+  const { weeklyForecast } = weeklyForecastStore;
   const unitAria = `weather.units.${settingsStore.settings.temperatureUnit}.aria`;
   const unitShort = `weather.units.${settingsStore.settings.temperatureUnit}.short`;
   const theme = settingsStore.settings.theme;
@@ -20,7 +18,7 @@ export const WeeklyForecast = observer(({ weeklyForecastList }: WeeklyForecastLi
       <h2 className="px-6 pt-6 pb-3 leading-none">{t("weather.weekly.title")}</h2>
 
       <ul className="weekly-forecast-list">
-        {weeklyForecastList.map((day: WeeklyForecastState) => {
+        {weeklyForecast.map((day: WeeklyForecastState) => {
           const dayDescription = t(`weather_descriptions.${day.description}.summary`);
           const fullDayDescription = t("weather.weekly.day_description", {
             date: day.date,
