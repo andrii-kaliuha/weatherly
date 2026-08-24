@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { cityValidation } from "../shared/utils/cityValidation";
 import { saveGeoCache } from "../services/storage/locationCache";
-import { saveToSearchHistory } from "../services/storage/searchHistory";
+import { searchHistoryStore } from "./searchHistoryStore";
 import { getCityCoordinates, getCityNameByCoordinates } from "../services/geocoding";
 import { getLocationByCache, getLocationByGPS, getLocationByIP } from "../services/location";
 import { getWeatherCacheByCity, getWeatherCacheByCoords, saveWeatherCache } from "../services/storage/weatherCache";
@@ -162,7 +162,7 @@ class RequestStore {
     try {
       const cached = getWeatherCacheByCity(city);
       if (cached) {
-        saveToSearchHistory({ name: city, lat: cached.city.lat, lon: cached.city.lon, local_names: cached.local_names });
+        searchHistoryStore.addHistoryItem({ name: city, lat: cached.city.lat, lon: cached.city.lon, local_names: cached.local_names });
         runInAction(() => {
           this.updateForecast(cached.forecast, cached.airQuality, cached.local_names);
           this.clearError();
@@ -172,8 +172,7 @@ class RequestStore {
 
       const { latitude, longitude, local_names } = await getCityCoordinates(city);
       const { forecast, airQuality } = await this.fetchWeatherByCoords(latitude, longitude);
-
-      saveToSearchHistory({ name: city, lat: latitude, lon: longitude, local_names });
+      searchHistoryStore.addHistoryItem({ name: city, lat: latitude, lon: longitude, local_names });
 
       runInAction(() => {
         this.updateForecast(forecast, airQuality, local_names);
@@ -195,7 +194,7 @@ class RequestStore {
 
     try {
       const { local_names, forecast, airQuality } = await this.fetchWeatherByCoords(item.lat, item.lon);
-      saveToSearchHistory({ name: item.name, lat: item.lat, lon: item.lon, local_names });
+      searchHistoryStore.addHistoryItem({ name: item.name, lat: item.lat, lon: item.lon, local_names });
 
       runInAction(() => {
         this.updateForecast(forecast, airQuality, local_names);

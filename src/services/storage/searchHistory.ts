@@ -32,7 +32,7 @@ export function loadSearchHistory(): SearchHistoryItem[] {
   }
 }
 
-export function saveToSearchHistory({ name, lat, lon, local_names }: SaveHistoryParams): void {
+export function saveToSearchHistory({ name, lat, lon, local_names }: SaveHistoryParams): SearchHistoryItem[] {
   const history = loadSearchHistory();
   const id = generateCityId(lat, lon);
 
@@ -40,6 +40,8 @@ export function saveToSearchHistory({ name, lat, lon, local_names }: SaveHistory
   const updated: SearchHistoryItem[] = [{ id, name, lat, lon, local_names }, ...filtered].slice(0, MAX_HISTORY);
 
   localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+
+  return updated;
 }
 
 export function removeFromSearchHistory(id: string): SearchHistoryItem[] {

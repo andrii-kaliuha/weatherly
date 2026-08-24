@@ -1,19 +1,18 @@
-import { useState, useRef, useEffect } from "react";
-import { loadSearchHistory, removeFromSearchHistory } from "../../services/storage/searchHistory";
+import { useRef, useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import { CitySearchForm } from "./CitySearchForm";
 import { SearchHistoryList } from "./SearchHistoryList";
 import { useTranslation } from "react-i18next";
+import { searchHistoryStore } from "../../store/searchHistoryStore";
 
 type SearchContainerProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export const SearchContainer = ({ isOpen, onClose }: SearchContainerProps) => {
-  const [history, setHistory] = useState(() => loadSearchHistory());
+export const SearchContainer = observer(({ isOpen, onClose }: SearchContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleDelete = (id: string) => setHistory(removeFromSearchHistory(id));
+  const { history, removeHistoryItem } = searchHistoryStore;
 
   useEffect(() => {
     if (isOpen) {
@@ -27,6 +26,8 @@ export const SearchContainer = ({ isOpen, onClose }: SearchContainerProps) => {
   const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
     if (containerRef.current && !containerRef.current.contains(e.relatedTarget)) onClose();
   };
+
+  const handleDelete = (id: string) => removeHistoryItem(id);
 
   return (
     <>
@@ -51,7 +52,7 @@ export const SearchContainer = ({ isOpen, onClose }: SearchContainerProps) => {
       </div>
     </>
   );
-};
+});
 
 const EmptyHistory = () => {
   const { t } = useTranslation();
