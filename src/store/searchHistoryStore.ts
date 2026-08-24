@@ -1,5 +1,11 @@
 import { makeAutoObservable } from "mobx";
-import { loadSearchHistory, saveToSearchHistory, removeFromSearchHistory, SearchHistoryItem } from "../services/storage/searchHistory";
+import {
+  loadSearchHistory,
+  saveToSearchHistory,
+  removeFromSearchHistory,
+  type SearchHistoryItem,
+  type SaveHistoryParams,
+} from "../services/storage/searchHistory";
 
 class SearchHistoryStore {
   history: SearchHistoryItem[] = [];
@@ -9,13 +15,13 @@ class SearchHistoryStore {
     this.history = loadSearchHistory();
   }
 
-  addHistoryItem(item: Omit<SearchHistoryItem, "id">) {
+  addHistoryItem = (item: SaveHistoryParams) => {
     this.history = saveToSearchHistory(item);
-  }
+  };
 
-  removeHistoryItem(id: string) {
+  removeHistoryItem = (id: string) => {
     this.history = removeFromSearchHistory(id);
-  }
+  };
 }
 
 export const searchHistoryStore = new SearchHistoryStore();
