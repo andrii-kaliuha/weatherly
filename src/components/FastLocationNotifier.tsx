@@ -52,16 +52,29 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
+const Text = ({ city }: { city: string }) => {
   const { t } = useTranslation();
+  const cityName = `${city}?`;
 
+  return (
+    <div className="flex flex-1 flex-col min-w-0">
+      <span className="sr-only">{t("fast_location.aria", { city })}</span>
+
+      <span aria-hidden="true" className="text-base text-primary block truncate">
+        {cityName}
+      </span>
+      <p aria-hidden="true" className="text-sm text-secondary">
+        {t("fast_location.ask")}
+      </p>
+    </div>
+  );
+};
+
+const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
   return (
     <div className="hidden sm:flex items-center gap-3 w-full max-w-max rounded-full bg-surface p-3">
       <Icon name="geolocation" height={48} width={48} />
-      <div className="flex flex-1 flex-col min-w-0">
-        <span className="text-base text-primary block truncate">{city}?</span>
-        <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
-      </div>
+      <Text city={city} />
       <ShowButton onClick={onConfirm} />
       <CloseButton onClick={onDismiss} />
     </div>
@@ -69,16 +82,11 @@ const Desktop = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () =
 };
 
 const Mobile = ({ city, onConfirm, onDismiss }: { city: string; onConfirm: () => void; onDismiss: () => void }) => {
-  const { t } = useTranslation();
-
   return (
     <div className="flex sm:hidden flex-col gap-3 w-full rounded-4xl bg-surface p-3">
       <div className="w-full flex items-center gap-3">
         <Icon name="geolocation" height={48} width={48} />
-        <div className="flex flex-1 flex-col min-w-0">
-          <span className="text-base text-primary block truncate">{city}?</span>
-          <p className="text-sm text-secondary">{t("fast_location.ask")}</p>
-        </div>
+        <Text city={city} />
         <CloseButton onClick={onDismiss} />
       </div>
       <ShowButton onClick={onConfirm} />

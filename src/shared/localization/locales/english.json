@@ -37,7 +37,8 @@
 
   "fast_location": {
     "ask": "Show forecast?",
-    "show": "Show"
+    "show": "Show",
+    "aria": "Show forecast for {{city}}?"
   },
 
   "weather": {
