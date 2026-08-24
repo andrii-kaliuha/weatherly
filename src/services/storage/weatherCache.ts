@@ -34,7 +34,6 @@ function isExpired(item: WeatherCacheItem): boolean {
   return Date.now() - item.timestamp > WEATHER_CACHE_TTL;
 }
 
-// Округлення координат для порівняння (~1км)
 function roundCoord(n: number): number {
   return parseFloat(n.toFixed(2));
 }
@@ -60,11 +59,7 @@ export function saveWeatherCache(
   local_names: Record<string, string>,
 ): void {
   const cache = loadCache();
-
-  // Видаляємо старий запис якщо є (по координатах)
   const filtered = cache.filter((c) => roundCoord(c.city.lat) !== roundCoord(city.lat) || roundCoord(c.city.lon) !== roundCoord(city.lon));
-
-  // Додаємо свіжий на початок, обрізаємо до MAX
   const updated: WeatherCacheItem[] = [{ city, forecast, airQuality, local_names, timestamp: Date.now() }, ...filtered].slice(
     0,
     MAX_CACHED_CITIES,
