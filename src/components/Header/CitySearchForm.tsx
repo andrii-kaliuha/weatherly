@@ -19,7 +19,8 @@ export const CitySearchForm = observer(() => {
     <form
       role="search"
       aria-label={t("header.search.placeholder")}
-      className="group relative flex items-center h-12 w-full max-w-full sm:max-w-74 rounded-full bg-background text-primary focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
+      className="group relative flex items-center h-12 w-full max-w-full sm:max-w-74 rounded-full bg-background text-primary 
+      focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
       onSubmit={searchCityByName}
     >
       <input

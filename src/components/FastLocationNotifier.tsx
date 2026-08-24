@@ -34,7 +34,8 @@ const ShowButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="h-12 min-w-full sm:min-w-32 rounded-4xl bg-accent text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
+      className="h-12 min-w-full sm:min-w-32 rounded-4xl bg-accent text-on-accent flex justify-center items-center hover:opacity-80 
+      cursor-pointer focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
     >
       {t("fast_location.show")}
     </button>
@@ -45,7 +46,8 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="h-12 w-12 rounded-full bg-primary text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer"
+      className="h-12 w-12 rounded-full bg-primary text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer
+      focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2"
     >
       <Icon name="close" height={24} width={24} />
     </button>

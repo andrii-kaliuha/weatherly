@@ -28,7 +28,7 @@ export const SearchHistoryList = ({ history, onDelete }: SearchHistoryListProps)
         <li
           key={item.id}
           className="group/item flex items-center justify-between pl-6 pr-3 py-2 hover:bg-background cursor-pointer
-                 text-gray-900 transition-colors text-base font-medium last:rounded-b-2xl"
+          text-primary text-base font-medium last:rounded-b-2xl focus-within:bg-background"
           onClick={() => handleSearch(item)}
         >
           <span className="text-primary truncate pr-4">{getDisplayName(item)}</span>
@@ -37,7 +37,7 @@ export const SearchHistoryList = ({ history, onDelete }: SearchHistoryListProps)
             type="button"
             aria-label={t("search.remove_history_item", "Видалити")}
             className="flex items-center justify-center p-1 rounded-full bg-transparent text-primary hover:bg-primary
-            hover:text-on-accent transition-all outline-none"
+            hover:text-on-accent focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
             onClick={(e) => handleDelete(e, item.id)}
           >
             <Icon name="close" height={20} width={20} />

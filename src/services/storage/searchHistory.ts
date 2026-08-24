@@ -11,7 +11,7 @@ export type SearchHistoryItem = {
   lon: number;
 };
 
-type SaveHistoryParams = {
+export type SaveHistoryParams = {
   name: string;
   lat: number;
   lon: number;
