@@ -4,6 +4,7 @@ import { CitySearchForm } from "./CitySearchForm";
 import { SearchHistoryList } from "./SearchHistoryList";
 import { useTranslation } from "react-i18next";
 import { searchHistoryStore } from "../../store/searchHistoryStore";
+import { useKeyboardNavigation } from "../../shared/hooks/useKeyboardNavigation";
 
 type SearchContainerProps = {
   isOpen: boolean;
@@ -13,6 +14,8 @@ type SearchContainerProps = {
 export const SearchContainer = observer(({ isOpen, onClose }: SearchContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { history, removeHistoryItem } = searchHistoryStore;
+
+  useKeyboardNavigation(containerRef, isOpen);
 
   useEffect(() => {
     if (isOpen) {
