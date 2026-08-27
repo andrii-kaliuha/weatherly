@@ -17,7 +17,7 @@ export const GeolocationButton = observer(() => {
       onClick={searchCityByLocation}
       aria-label={t("header.current_location")}
       className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent text-on-accent bg-accent gap-3
-      focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
+      focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
     >
       <Icon name="my-location" height={24} width={24} />
       <p className="hidden md:block">{t("header.current_location")}</p>

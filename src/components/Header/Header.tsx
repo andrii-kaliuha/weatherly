@@ -22,7 +22,7 @@ export const Header = () => {
           aria-expanded={isMenuOpen}
           aria-controls="side-menu"
           className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent bg-surface text-primary
-          focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2"
+          focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
         >
           <Icon name="menu" height={24} width={24} />
         </button>
