@@ -15,6 +15,7 @@ import type {
   TimeFormat,
   WindSpeedUnit,
 } from "../shared/types/settings";
+import ReactFocusLock from "react-focus-lock";
 
 export const Settings = observer(() => {
   const { settings } = settingsStore;
@@ -115,22 +116,24 @@ const SettingSelect = observer(({ title, value, options, onClose, onChange }: Se
   const { t } = useTranslation();
 
   return (
-    <div className="absolute top-0 left-0 z-3 flex flex-col gap-3 bg-background w-full h-full">
-      <button className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full" onClick={onClose}>
-        <Icon name="chevron-left" width={24} height={24} />
-        {t(`settings.${title}.title`)}
-      </button>
+    <ReactFocusLock>
+      <div className="absolute top-0 left-0 z-3 flex flex-col gap-3 bg-background w-full h-full">
+        <button className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full" onClick={onClose}>
+          <Icon name="chevron-left" width={24} height={24} />
+          {t(`settings.${title}.title`)}
+        </button>
 
-      <div className="flex flex-col gap-3 px-6">
-        {options.map((option: SettingOption) => {
-          return (
-            <label key={option.value} className="group flex items-center gap-3 cursor-pointer">
-              <RadioButton checked={value === option.value} onChange={() => onChange(option.value)} />
-              <span>{t(option.title)}</span>
-            </label>
-          );
-        })}
+        <div className="flex flex-col gap-3 px-6">
+          {options.map((option: SettingOption) => {
+            return (
+              <label key={option.value} className="group flex items-center gap-3 cursor-pointer">
+                <RadioButton checked={value === option.value} onChange={() => onChange(option.value)} />
+                <span>{t(option.title)}</span>
+              </label>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </ReactFocusLock>
   );
 });
