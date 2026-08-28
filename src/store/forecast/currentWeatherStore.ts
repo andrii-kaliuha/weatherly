@@ -23,7 +23,7 @@ class CurrentWeatherStore {
     const description = findDescriptionById(currentWeatherInfo.description);
 
     return {
-      cityName: localNames[language] || localNames.en || "",
+      cityName: localNames?.[language] ?? localNames?.["en"] ?? "Unknown",
       date: new Date(current.dt * 1000).toLocaleDateString(language, { day: "numeric", month: "long" }),
       weekday: new Date(current.dt * 1000).toLocaleDateString(language, { weekday: "long" }),
       temperature: convertTemperature(current.temp, temperatureUnit),

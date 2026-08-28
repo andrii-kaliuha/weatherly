@@ -26,7 +26,7 @@ class AirQualityStore {
     const currentLevel = airQualityLevels.find((item) => item.aqi === rawAirData.main.aqi) ?? airQualityLevels[0];
 
     return {
-      cityName: localNames[currentLang] ?? "Unknown",
+      cityName: localNames?.[currentLang] ?? localNames?.["en"] ?? "Unknown",
       aqi: rawAirData.main.aqi,
       color: currentLevel.color,
       title: currentLevel.title,
