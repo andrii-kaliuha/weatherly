@@ -63,8 +63,8 @@ const Button = ({ icon, label, style = "", onClick }: ButtonProps) => {
     <button
       onClick={onClick}
       aria-label={t("header.close_menu")}
-      className={`flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-transparent ${style}
-      focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2`}
+      className={`flex justify-center items-center p-3 rounded-3xl cursor-pointer border-transparent outline-none ${style}
+      focus-visible:bg-surface`}
     >
       <Icon name={icon} height={24} width={24} />
       {label && <p className="hidden md:block">{label}</p>}

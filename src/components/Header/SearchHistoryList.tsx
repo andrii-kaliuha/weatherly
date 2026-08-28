@@ -41,7 +41,7 @@ export const SearchHistoryList = ({ history, onDelete }: SearchHistoryListProps)
           <button
             type="button"
             aria-label={t("search.remove_history_item")}
-            className="absolute right-4 flex items-center justify-center p-1 rounded-full bg-transparent text-primary
+            className="absolute right-4 flex items-center justify-center p-1 rounded-full bg-transparent text-primary outline-none
             hover:bg-primary hover:text-on-accent focus-visible:bg-primary focus-visible:text-on-accent cursor-pointer"
             onClick={(e) => handleDelete(e, item.id)}
           >

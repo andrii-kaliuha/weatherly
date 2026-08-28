@@ -93,8 +93,11 @@ const Setting = observer(({ icon, title, value, options, onChange }: SettingProp
   const { t } = useTranslation();
 
   return (
-    <li className="flex flex-col justify-between items-center hover:bg-surface">
-      <button className="flex justify-between items-center px-6 py-3 w-full" onClick={() => setIsSelectOpen(true)}>
+    <li className="flex flex-col justify-between items-center">
+      <button
+        className="flex justify-between items-center px-6 py-3 w-full hover:bg-surface focus-visible:bg-surface outline-none"
+        onClick={() => setIsSelectOpen(true)}
+      >
         <div className="flex items-center gap-3">
           <Icon name={icon} width={24} height={24} />
           <div className="text-start text-sm">
@@ -118,7 +121,7 @@ const SettingSelect = observer(({ title, value, options, onClose, onChange }: Se
   return (
     <ReactFocusLock>
       <div className="absolute top-0 left-0 z-3 flex flex-col gap-3 bg-background w-full h-full">
-        <button className="flex items-center gap-3 hover:bg-surface px-6 py-3 w-full" onClick={onClose}>
+        <button className="flex items-center gap-3 hover:bg-surface focus-visible:bg-surface outline-none px-6 py-3 w-full" onClick={onClose}>
           <Icon name="chevron-left" width={24} height={24} />
           {t(`settings.${title}.title`)}
         </button>
