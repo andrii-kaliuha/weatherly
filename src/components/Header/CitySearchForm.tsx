@@ -30,13 +30,13 @@ export const CitySearchForm = observer(() => {
         name="searchCity"
         value={cityName}
         onChange={(e) => setCity(e.target.value)}
-        className="bg-transparent text-primary w-full h-full pl-6 pr-14 outline-none border-none"
+        className="bg-transparent text-primary w-full h-full pl-6 outline-none border-none"
         maxLength={32}
       />
       <button
         type="submit"
         tabIndex={-1}
-        className="flex justify-center items-center p-3 rounded-3xl cursor-pointer border-none outline-none absolute right-1 top-1/2 -translate-y-1/2 bg-transparent"
+        className="flex justify-center items-center rounded-3xl cursor-pointer border-none outline-none absolute right-6 top-1/2 -translate-y-1/2 bg-transparent"
       >
         <Icon name="search" height={24} width={24} color="var(--color-secondary)" />
       </button>
