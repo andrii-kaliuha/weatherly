@@ -30,7 +30,8 @@
     "close_menu": "Close menu",
     "search": {
       "placeholder": "Search city...",
-      "history_empty": "Your city search history is empty"
+      "history_empty": "City search history is empty",
+      "delete": "Delete"
     },
     "current_location": "Current Location"
   },
@@ -38,6 +39,7 @@
   "fast_location": {
     "ask": "Show forecast?",
     "show": "Show",
+    "close": "Close",
     "aria": "Show forecast for {{city}}?"
   },
 

@@ -9,6 +9,7 @@
 
   --color-accent: var(--color-accent);
   --color-on-accent: var(--color-on-accent);
+  --color-backdrop: var(--color-backdrop);
 
   --color-border: var(--color-border);
 
@@ -62,6 +63,8 @@ body > #root {
 
   --color-primary: #1d1c1f;
   --color-secondary: #65676b;
+  --color-backdrop-base: #000000;
+  --color-backdrop: color-mix(in oklab, var(--color-backdrop-base) 50%, transparent);
 
   --color-accent: #a78bfa;
   --color-on-accent: #ffffff;
@@ -80,7 +83,7 @@ body > #root {
   --color-on-accent: #0f0e11;
 }
 
-main {
+.weather-page {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, 1fr);
@@ -92,7 +95,7 @@ main {
 }
 
 @media (min-width: 1024px) {
-  main {
+  .weather-page {
     grid-template-columns: repeat(6, 1fr);
     grid-template-areas:
       "a a b b b b"

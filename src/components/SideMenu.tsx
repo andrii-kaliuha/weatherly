@@ -31,7 +31,7 @@ export const SideMenu = ({ id, isOpen, onClose }: SideMenuProps) => {
 
   return (
     <Portal>
-      <div className="fixed inset-0 bg-black/50 z-3" onClick={onClose}>
+      <div className="fixed inset-0 bg-backdrop z-3" onClick={onClose}>
         <ReactFocusLock disabled={!isOpen} returnFocus>
           <aside
             id={id}

@@ -34,7 +34,7 @@ export const SearchContainer = observer(({ isOpen, onClose }: SearchContainerPro
 
   return (
     <>
-      <div className="fixed inset-0 z-2 bg-black/20" onClick={onClose} />
+      <div className="fixed inset-0 z-2 bg-backdrop" onClick={onClose} />
 
       <div
         ref={containerRef}

@@ -14,7 +14,7 @@ export const HomePage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col justify-center items-center h-app bg-background text-primary text-center px-3">
+    <main className="flex flex-col justify-center items-center h-app bg-background text-primary text-center px-3">
       <div aria-hidden="true" className="relative w-48 h-24 md:w-64 md:h-32 overflow-hidden flex items-end justify-center mb-3">
         <div className="w-full h-48 md:h-64 absolute top-0 [&_path[stroke='rgb(0,29,61)']]:stroke-primary">
           <Lottie animationData={homeAnimation} loop={true} autoplay={true} />
@@ -28,7 +28,7 @@ export const HomePage = () => {
       <p className="text-lg opacity-55">{t("home.subtitle")}</p>
 
       <FastLocationNotifier />
-    </div>
+    </main>
   );
 };
 

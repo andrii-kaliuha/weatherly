@@ -43,9 +43,12 @@ const ShowButton = ({ onClick }: { onClick: () => void }) => {
 };
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => {
+  const { t } = useTranslation();
+
   return (
     <button
       onClick={onClick}
+      aria-label={t("fast_location.close")}
       className="h-12 w-12 rounded-full bg-primary text-on-accent flex justify-center items-center hover:opacity-80 cursor-pointer
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
     >

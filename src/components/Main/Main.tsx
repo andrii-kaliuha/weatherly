@@ -14,13 +14,11 @@ export const Main = observer(() => {
   if (error) return <ErrorPage errorCode={error} />;
 
   return (
-    <>
-      <main className="mx-3 mb-3">
-        <CurrentWeather />
-        <Astronomy />
-        <AirQuality />
-        <WeeklyForecast />
-      </main>
-    </>
+    <main className="weather-page mx-3 mb-3">
+      <CurrentWeather />
+      <Astronomy />
+      <AirQuality />
+      <WeeklyForecast />
+    </main>
   );
 });
