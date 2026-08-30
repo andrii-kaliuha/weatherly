@@ -70,7 +70,24 @@ class RequestStore {
   }
 
   async initFastLocation() {
-    if (getLocationByCache()) return;
+    const cachedGeo = getLocationByCache();
+
+    if (cachedGeo) {
+      try {
+        const names = await getCityNameByCoordinates(cachedGeo.latitude, cachedGeo.longitude);
+
+        runInAction(() => {
+          this.fastLocation = {
+            lat: cachedGeo.latitude,
+            lon: cachedGeo.longitude,
+            local_names: { uk: names?.uk || names?.en || "Невідоме", en: names?.en || "Unknown" },
+          };
+        });
+        return;
+      } catch (error) {
+        console.error("Failed to fetch names for cached GPS location:", error);
+      }
+    }
 
     try {
       const { latitude, longitude } = await getLocationByIP();
