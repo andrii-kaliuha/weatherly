@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // Fallback для розробки (localhost)
+    // Fallback for local development
     return res.json({
       latitude: 50.4501,
       longitude: 30.5234,
